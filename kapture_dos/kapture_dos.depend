@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1519831658 source:/home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/main.c
+	<stdio.h>
+	<stdlib.h>
+
