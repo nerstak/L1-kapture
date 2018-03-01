@@ -1,8 +1,12 @@
 # depslib dependency file v1.0
-1519856023 source:/home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/main.c
+1519940474 source:/home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/main.c
 	<stdio.h>
 	<stdlib.h>
-	"files.h"
+	"files.c"
 
-1519855986 /home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/files.h
+1519927583 /home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/files.h
+
+1519940464 /home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/files.c
+	"files.h"
+	<errno.h>
 
