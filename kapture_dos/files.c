@@ -35,7 +35,7 @@ data_values ** getMap(int nb_map)
             }
             else
             {
-                strcpy(Map[i][j].terrain,".");
+                strcpy(Map[i][j].terrain,"grass");
                 strcpy(Map[i][j].entity,temp);
             }
         }
