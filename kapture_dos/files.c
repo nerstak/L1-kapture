@@ -1,15 +1,15 @@
 #include "files.h"
+#include <string.h>
 #include <errno.h>
 
 data_values ** getMap(int nb_map)
 {
     data_values **Map;
-    int line, row, i, j,temp;
-    char map_path;
-    /*sprintf(&map_path,"maps/map%d.txt",nb_map);
-    printf("%s\n",&map_path);*/
+    int line, row, i, j;
+    char map_path,temp[10];
+    sprintf(&map_path,"maps/map%d.txt",nb_map);
     FILE * map_file = NULL;
-    map_file = fopen("maps/map0.txt","r");
+    map_file = fopen(&map_path,"r");
     if (map_file==NULL)
     {
         printf("NULL");
@@ -21,23 +21,25 @@ data_values ** getMap(int nb_map)
     {
         Map[i]=(data_values *) malloc(row*sizeof(data_values));
     }
+    long bl = ftell(map_file);
     for(i=0;i<line;i++)
     {
         for(j=0;j<row;j++)
         {
-            fscanf(map_file,"%c,",&temp);
-            if (temp!='.' || temp=='+' || temp=='ø')
+            fscanf(map_file,"%[^,]",&temp);//Get chars until comma
+            fseek(map_file,1,SEEK_CUR);
+            if (strcmp(temp,"grass")==0 || strcmp(temp,"tree")==0 || strcmp(temp,"water")==0)
             {
-                Map[i][j].terrain = temp;
-                Map[i][j].entity = ' ';
+                strcpy(Map[i][j].terrain,temp);
+                strcpy(Map[i][j].entity," ");
             }
             else
             {
-                Map[i][j].terrain = '.';
-                Map[i][j].entity = temp;
+                strcpy(Map[i][j].terrain,".");
+                strcpy(Map[i][j].entity,temp);
             }
-            fscanf(map_file,"%\n",NULL); //Jump to the next line
         }
+        fscanf(map_file,"%\n",NULL); //Jump to the next line
     }
     fclose(map_file);
     return Map;

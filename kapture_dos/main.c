@@ -18,14 +18,27 @@ int main()
     Map = getMap(nb_map);
     if (Map!=NULL)
     {
-        for (int i=0;i<8;i++)
+        for (int i=0;i<9;i++)
         {
             for(int j=0;j<8;j++)
             {
-                if(Map[i][j].entity == ' ')
-                    printf("%c ",Map[i][j].terrain);
+                if(Map[i][j].entity[0] == ' ')
+                {
+                    if(strcmp(Map[i][j].terrain,"grass")==0)
+                    {
+                        printf(". ");
+                    }
+                    if(strcmp(Map[i][j].terrain,"water")==0)
+                    {
+                        printf("~ ");
+                    }
+                    if(strcmp(Map[i][j].terrain,"tree")==0)
+                    {
+                        printf("+ ");
+                    }
+                }
                 else
-                    printf("%c ",Map[i][j].entity);
+                    printf("%s ",Map[i][j].entity);
 
             }
             printf("\n");

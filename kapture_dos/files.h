@@ -3,8 +3,8 @@
 
 typedef struct data_values
     {
-        signed char terrain;
-        signed char entity;
+        signed char terrain[10];
+        signed char entity[10];
         signed char team;
     } data_values;
 data_values ** getMap(int nb_map);
