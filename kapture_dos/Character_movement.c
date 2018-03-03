@@ -1,5 +1,6 @@
 #include <stdio.h>              //TODO: replace the Map[][]=="x" to some fucking strcmp()   (and also fix all the struct refferences so they are consistent with Karsten's)
 #include <stdlib.h>
+#include <time.h>
 
 int userinput(){       //WINDOWS VERSION
     int inputed;
@@ -58,7 +59,10 @@ data_values move(int ypos,int xpos,int ydest,int xdest,data_values **Map){   //M
 }
 
 int main() {
+
+
   int inputed,xpos,ypos,xmove,ymove,turnend,select,movend,movepoints,charend,movecost,TEMPWIDTH,TEMPHEIGHT,i,c,XTEMPSPAWN,YTEMPSPAWN;   //all TEMP variables are placeholders for now
+  srand(time(NULL));
     turnend=0;
     while (turnend==0){
 
@@ -128,7 +132,7 @@ int main() {
             if(charend!=1){
                 if(movepoints>=movecost && posexist((xpos+xmove),(ypos+ymove),TEMPWIDTH,TEMPHEIGHT)==1){
                     if(Map[ypos+ymove][xpos+xmove].Entity==' '){
-                        Map=move(ypos,xpos,ypos+ymove,xpos+xmovem,Map)
+                        Map=move(ypos,xpos,ypos+ymove,xpos+xmove,Map)
                         /*
                         Map[ypos+ymove][xpos+xmove].Flag=Map[ypos][xpos].Flag;
                         Map[ypos+ymove][xpos+xmove].Entity=Map[ypos][xpos].Entity;
@@ -168,55 +172,111 @@ int main() {
                                     if(Map[ypos+i]T[xpos+i].Entity!=' ' && Map[ypos+i][xpos+i].Team!=Map[ypos][xpos].Team){ //FIGHT
 
 
-                                        switch(Map[ypos][xpos].Entity) {        //TODO: make all combat, do a different combat if flag carrying
+                                        switch(Map[ypos][xpos].Entity) {        //TODO:Do a different combat if flag carrying
                                         case "S":
-                                            switch(Map[ypos+i][xpos+i].Entity) {
-                                            case "I":
-
-
-                                                break;
-                                            case "T":
-
-                                                break;
-                                            case "F":
-
-                                                break;
+                                            if(Map[ypos+i][xpos+i].Entity=="I" || Map[ypos+i][xpos+i].Entity=="T"){
+                                                    Map=move(ypos,xpos,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                    xpos=XTEMPSPAWN;
+                                                    ypos=YTEMPSPAWN;
                                             }
                                             break;
 
 
                                         case "I":               //Maybe change I to C or something so it's more unique and different to T | TITITITITIITITIT <-- hard to see?
-                                            switch(Map[ypos+i][xpos+i].Entity) {
-                                            case "S":
+                                            if(Map[ypos+i][xpos+i].Flag==0){
+                                                switch(Map[ypos+i][xpos+i].Entity) {
+                                                case "S":
+                                                    Map=move(ypos+i,xpos+i,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                    break;
 
-                                                break;
-                                            case "I":
+                                                case "I":
+                                                    if(rand()%2==0){
+                                                        Map=move(ypos+i,xpos+i,YTEMPSPAWN,XTEMPSPAWN,Map)
+                                                    }
+                                                    else{
+                                                        Map=move(ypos,xpos,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                        xpos=XTEMPSPAWN;
+                                                        ypos=YTEMPSPAWN;
+                                                    }
+                                                    break;
 
-                                                break;
-                                            case "T":
+                                                case "T":
+                                                    Map=move(ypos,xpos,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                    xpos=XTEMPSPAWN;
+                                                    ypos=YTEMPSPAWN;
 
-                                                break;
-                                            case "F":
+                                                    break;
 
-                                                break;
+                                                case "F":
+                                                        Map[ypos+i][xpos+i].Entity=' ';
+                                                        Map[ypos+i][xpos+i].Team=' ';
+                                                        Map[ypos][xpos].Flag=1;
+                                                    break;
+                                                }
+                                            }
+                                            else{
+                                                Map=move(ypos+i,xpos+i,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                Map[ypos+i][xpos+i].Entity="F";
+                                                Map[ypos+i][xpos+i].Team=Map[ypos][xpos].Team;
                                             }
                                             break;
 
 
                                         case "T":
-                                            switch(Map[ypos+i][xpos+i].Entity) {
-                                            case "S":
+                                            if(Map[ypos+i][xpos+i].Flag==0){
+                                                switch(Map[ypos+i][xpos+i].Entity) {
+                                                case "S":
+                                                    Map=move(ypos+i,xpos+i,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                    break;
 
-                                                break;
-                                            case "I":
+                                                case "I":
+                                                    Map=move(ypos+i,xpos+i,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                    break;
 
-                                                break;
-                                            case "T":
+                                                case "T":
+                                                        //Possible program crash when on top or bottom border but like fuck that? (i'll fix it later (probably)) also a bug when troopers are i a position to push each other bak 2 spawn
+                                                        if(Map[ypos][xpos].Team=='Red'){
+                                                            ymove=1
+                                                        }
+                                                        else{
+                                                            ymove=-1
+                                                        }
+                                                        if(Map[ypos+ymove][xpos].Entity==' '){
+                                                            Map=move(ypos,xpos,ypos+ymove,xpos,Map);
+                                                            ypos=ypos+ymove
+                                                        }
+                                                        else{
+                                                            Map=move(ypos,xpos,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                            xpos=XTEMPSPAWN;
+                                                            ypos=YTEMPSPAWN;
+                                                        }
 
-                                                break;
-                                            case "F":
+                                                        if(Map[ypos+i][xpos+i].Team=='Red'){
+                                                            ymove=1
+                                                        }
+                                                        else{
+                                                            ymove=-1
+                                                        }
+                                                        if(Map[ypos+i+ymove][xpos+i].Entity==' '){
+                                                            Map=move(ypos+i,xpos+i,ypos+i+ymove,xpos+i,Map);
+                                                        }
+                                                        else{
+                                                            Map=move(ypos+i,xpos+i,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                        }
 
-                                                break;
+                                                    break;
+
+                                                case "F":
+                                                        Map[ypos+i][xpos+i].Entity=' ';
+                                                        Map[ypos+i][xpos+i].Team=' ';
+                                                        Map[ypos][xpos].Flag=1;
+                                                    break;
+                                                }
+                                            }
+                                            else{
+                                                Map=move(ypos+i,xpos+i,YTEMPSPAWN,XTEMPSPAWN,Map);
+                                                Map[ypos+i][xpos+i].Entity="F";
+                                                Map[ypos+i][xpos+i].Team=Map[ypos][xpos].Team;
                                             }
                                             break;
                                         }
