@@ -11,16 +11,25 @@
 	<string.h>
 	<errno.h>
 
-1520040080 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
+1520105318 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
-	"files.c"
-
-1520040279 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
-	"files.h"
 	<string.h>
 	<errno.h>
+	"game.c"
+	"files.c"
 
-1520039992 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
+1520104796 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
+	"files.h"
+
+1520088594 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
+
+1520081526 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
+	"game.h"
+
+1520083651 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.h
+
+1520081526 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
+	"game.h"
 
