@@ -6,7 +6,7 @@ data_values ** getMap(int nb_map)
 {
     data_values **Map;
     int line, row, i, j;
-    char map_path,temp[10];
+    char map_path,temp[10],entity[10];
     sprintf(&map_path,"maps/map%d.txt",nb_map);
     FILE * map_file = NULL;
     map_file = fopen(&map_path,"r");
@@ -21,7 +21,6 @@ data_values ** getMap(int nb_map)
     {
         Map[i]=(data_values *) malloc(row*sizeof(data_values));
     }
-    long bl = ftell(map_file);
     for(i=0;i<line;i++)
     {
         for(j=0;j<row;j++)
@@ -31,12 +30,20 @@ data_values ** getMap(int nb_map)
             if (strcmp(temp,"grass")==0 || strcmp(temp,"tree")==0 || strcmp(temp,"water")==0)
             {
                 strcpy(Map[i][j].terrain,temp);
-                strcpy(Map[i][j].entity," ");
+                Map[i][j].entity = ' ';
             }
             else
             {
                 strcpy(Map[i][j].terrain,"grass");
-                strcpy(Map[i][j].entity,temp);
+                Map[i][j].entity = temp[0];
+                if (temp[1]=='R')
+                {
+                    strcpy(Map[i][j].team,"red");
+                }
+                else
+                {
+                    strcpy(Map[i][j].team,"blue");
+                }
             }
         }
         fscanf(map_file,"%\n",NULL); //Jump to the next line

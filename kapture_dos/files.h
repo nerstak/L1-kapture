@@ -4,8 +4,8 @@
 typedef struct data_values
     {
         signed char terrain[10]; //name of the terrain
-        signed char entity[10]; //name of the entity
-        signed char team; ://name of team
+        signed char entity; //name of the entity
+        signed char team[4]; //name of team
         int visibility_red;  //+-1 according to entity that can see it, and prompt it if >0
         int visibility_blue;
         int fog; //+1 if red saw it,+2 if blue saw it, 0:none,1:red,2:blue,3:both
