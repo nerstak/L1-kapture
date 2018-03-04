@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "files.h"
 
+/*All functions concerning reading or writing a file, or data saved in RAM*/
+
 data_values ** getMap(int nb_map, data_save *save)
 {
     data_values **Map;
@@ -57,7 +59,7 @@ data_values ** getMap(int nb_map, data_save *save)
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
-                                if (k>=0 && k< (*save).line && l>=0 && l< (*save).column && (Map[k][l].fog!=1 && Map[k][l].fog!=3))
+                                if (posexist(l,k,(*save).column,(*save).line)==1 && (Map[k][l].fog!=1 && Map[k][l].fog!=3))
                                 {
                                     if(Map[k][l].fog==2)
                                         Map[k][l].fog=3;
@@ -78,7 +80,7 @@ data_values ** getMap(int nb_map, data_save *save)
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
-                                if (k>=0 && k< (*save).line && l>=0 && l<= (*save).column && (Map[k][l].fog!=2 && Map[k][l].fog!=3))
+                                if (posexist(l,k,(*save).column,(*save).line)==1 && (Map[k][l].fog!=2 && Map[k][l].fog!=3))
                                 {
                                     if(Map[k][l].fog==1)
                                         Map[k][l].fog=3;

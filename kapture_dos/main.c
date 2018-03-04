@@ -1,18 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <windows.h>
 #include <string.h>
 #include <errno.h>
 #include <conio.h>
+#include <windows.h>
 
 #include "files.h"
 #include "game.h"
-
-void color(int t,int b) //Function to use coloration. First number is text, second background
-{
-    HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(H,b*16+t);
-}
+#include "display.h"
 
 int main()
 {
@@ -33,7 +28,7 @@ int main()
     {
         selection cursor;
         int game = 1; //For the while loop
-        strcpy(save.team,"red"); //Init of the save in the RAM
+        strcpy(save.team,"blue"); //Init of the save in the RAM
         save.turn = 1; //Same
         int turnend=0,pawn=0;
         char key;
@@ -45,6 +40,44 @@ int main()
             do
             {
                 system("cls");
+                for (int i=0;i<save.line;i++) //Getting right position of the cursor, and init the number of movement points
+                {
+                    for(int j=0;j<save.column;j++)
+                    {
+                        if(Map[i][j].entity != 'F' && strcmp(Map[i][j].team,save.team)==0) //Process for cursor, who only work for pawns of the team playing
+                        {
+                            pawn++;
+                            if(cursor.n==-1) //If cursor not set
+                            {
+                                cursor.n=1;
+                                cursor.id=Map[i][j].id;
+                                cursor.x = j;
+                                cursor.y = i;
+                            }
+                            if(pawn==cursor.n) //Changing the position of the cursor
+                            {
+                                cursor.x = j;
+                                cursor.y = i;
+                                cursor.id=Map[i][j].id;
+                            }
+                            if(init_mov_point==1) //We set up the array containing the number of mov's point remaining to each pawn (only when the player change)
+                            {
+                                switch(Map[i][j].entity)
+                                {
+                                    case 'T':
+                                        mov_point[Map[i][j].id]=2;
+                                        break;
+                                    case 'I':
+                                        mov_point[Map[i][j].id]=3;
+                                        break;
+                                    case 'S':
+                                        mov_point[Map[i][j].id]=5;
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
                 for (int i=0;i<save.line;i++) //Display of the map
                 {
                     for(int j=0;j<save.column;j++)
@@ -53,15 +86,15 @@ int main()
                         {
                             if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                             {
-                                color_b = 2;
+                                color_b = 2;//Green
                             }
                             if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
                             {
-                                color_b = 11;
+                                color_b = 11;//Cyan
                             }
                             if(strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0) //Color for zone of drop
                             {
-                                color_b = 14;
+                                color_b = 14;//Yellow
                             }
                         }
                         else //Fog of war
@@ -93,39 +126,8 @@ int main()
                                 {
                                     color(9,color_b);
                                 }
-                                if(Map[i][j].entity != 'F' && strcmp(Map[i][j].team,save.team)==0) //Process for cursor, who only work for pawns of the team playing
-                                {
-                                    pawn++;
-                                    if(cursor.n==-1) //If cursor not set
-                                    {
-                                        cursor.n=1;
-                                        cursor.id=Map[i][j].id;
-                                        cursor.x = j;
-                                        cursor.y = i;
-                                    }
-                                    if(pawn==cursor.n) //Changing the position of the cursor
-                                    {
-                                        cursor.x = j;
-                                        cursor.y = i;
-                                        cursor.id=Map[i][j].id;
-                                        color(15,color_b);
-                                    }
-                                    if(init_mov_point==1) //We set up the array containing the number of mov's point remaining to each pawn
-                                    {
-                                        switch(Map[i][j].entity)
-                                        {
-                                            case 'T':
-                                                mov_point[Map[i][j].id]=2;
-                                                break;
-                                            case 'I':
-                                                mov_point[Map[i][j].id]=3;
-                                                break;
-                                            case 'S':
-                                                mov_point[Map[i][j].id]=5;
-                                                break;
-                                        }
-                                    }
-                                }
+                                if(cursor.id==Map[i][j].id && strcmp(Map[i][j].team,save.team)==0)
+                                    color(15,color_b);
                                 printf("%c",Map[i][j].entity);
                             }
                             else //Fog of war display
@@ -136,6 +138,7 @@ int main()
                         }
 
                     }
+                    interface_game(i,Map,save,cursor,mov_point);
                     color(0,0);
                     printf("\n");
                 }

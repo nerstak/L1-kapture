@@ -4,6 +4,7 @@
 
 #include "files.h"
 
+/*All functions relative to actions directly related to the game*/
 
 char userinput()
 {
@@ -56,14 +57,14 @@ int posexist(int xpos,int ypos,int TEMPWIDTH,int TEMPHEIGHT) //checks if a coord
 {
     if(xpos>=0 && ypos>=0 && xpos<TEMPWIDTH && ypos<TEMPHEIGHT)
     {
-        return 0;
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
-int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save)//Moves a unit (TODO: see if Map works and if it does if its not too laggy)
+int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save)//Moves a unit
 {
-    if(posexist(ydest,xdest,save.line,save.column)!=0 || Map[ydest][xdest].entity!=' ')
+    if(posexist(ydest,xdest,save.line,save.column)!=1 || Map[ydest][xdest].entity!=' ')
         return 1;
     strcpy(Map[ydest][xdest].team,Map[ypos][xpos].team);
     Map[ydest][xdest].entity=Map[ypos][xpos].entity;
@@ -77,44 +78,47 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     {
         for(int l=xdest-1;l<=xdest+1;l++)
         {
-            if (k>=0 && k<save.line && l>=0 && l<save.column && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"red")==0)
+            if (posexist(l,k,save.column,save.line)==1 && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"red")==0)
             {
                 Map[k][l].fog=Map[k][l].fog+1;
             }
-            else if (k>=0 && k<save.line && l>=0 && l<save.column && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"blue")==0)
+            else if (posexist(l,k,save.column,save.line)==1 && Map[k][l].fog!=2 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"blue")==0)
                 Map[k][l].fog=Map[k][l].fog+2;
         }
     }
     return 0;
 }
 
-int point_deduct(int ypos,int xpos,data_values **Map,int *mov_point){
+int point_deduct(int ypos,int xpos,data_values **Map,int *mov_point)
+{
+    return mov_point[Map[ypos][xpos].id]-cost_terrain(ypos,xpos,Map);
+}
+
+int cost_terrain(int ypos,int xpos,data_values **Map)
+{
     int cost;
     switch(Map[ypos][xpos].terrain[0]){
-        case 'g':
-            cost=1;
-            break;
         case 't':
             cost=2;
             break;
         case 'w':
-            switch(Map[xpos][ypos].entity){
+            switch(Map[ypos][xpos].entity)
+            {
                 case 'T':
                     cost=2;
-                    mov_point[Map[ypos][xpos].id]=2;
                     break;
                 case 'I':
                     cost=3;
-                    mov_point[Map[ypos][xpos].id]=3;
                     break;
                 case 'S':
                     cost=5;
-                    mov_point[Map[ypos][xpos].id]=5;
                     break;
             }
             break;
+        default:
+            cost=1;
+            break;
     }
-    cost=mov_point[Map[ypos][xpos].id]-cost;
     return cost;
 }
 
