@@ -1,12 +1,10 @@
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
 
-typedef struct data_save
-    {
-        int line;
-        int column;
-        int turn; //Number of the turn
-        char team[4]; //Color of the team who will play
-    }data_save;
+void move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save);
+
+int posexist(int xpos,int ypos,int TEMPWIDTH,int TEMPHEIGHT);
+
+char userinput();
 
 #endif // GAME_H_INCLUDED

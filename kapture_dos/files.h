@@ -1,16 +1,27 @@
 #ifndef FILES_H_INCLUDED
 #define FILES_H_INCLUDED
 
+#include <string.h>
 typedef struct data_values
     {
         char terrain[15]; //name of the terrain
         char entity; //name of the entity
-        char team[4]; //name of team
+        char team[5]; //name of team
         int visibility_red;  //+-1 according to entity that can see it, and prompt it if >0
         int visibility_blue;
         int fog; //+1 if red saw it,+2 if blue saw it, 0:none,1:red,2:blue,3:both
-        int carrying_flag; //0 if no, 1 if yes
+        char carrying_flag; //r,b,' '
     } data_values;
+
+typedef struct data_save
+    {
+        int line;
+        int column;
+        int turn; //Number of the turn
+        char team[4]; //Color of the team who will play
+        int nb_pawn; //Nb of pawn on each team
+    }data_save;
+
 data_values ** getMap(int nb_map,data_save *save);
 
 

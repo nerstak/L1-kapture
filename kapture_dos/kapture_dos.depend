@@ -1,35 +1,28 @@
 # depslib dependency file v1.0
-1519984281 source:/home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/main.c
-	<stdio.h>
+1520127009 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
 	<stdlib.h>
-	"files.c"
-
-1519979227 /home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/files.h
-
-1519982817 /home/karsten/Documents/Cours/EFREI/L1/Semestre 2/Programmation/kapture/kapture_dos/files.c
-	"files.h"
-	<string.h>
-	<errno.h>
-
-1520105318 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
 	<stdio.h>
-	<stdlib.h>
 	<windows.h>
 	<string.h>
 	<errno.h>
-	"game.c"
-	"files.c"
+	<conio.h>
+	"files.h"
+	"game.h"
+	<unistd.h>
 
-1520104796 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
+1520124443 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
+	<string.h>
+
+1520124816 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.h
+
+1520125902 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
+	<stdlib.h>
+	<stdio.h>
 	"files.h"
 
-1520088594 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
-
-1520081526 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
-	"game.h"
-
-1520083651 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.h
-
-1520081526 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
-	"game.h"
+1520125084 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"files.h"
 

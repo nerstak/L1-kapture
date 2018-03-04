@@ -1,66 +1,9 @@
-#include <stdio.h>              //TODO: replace the Map[][]=="x" to some fucking strcmp()   (and also fix all the struct refferences so they are consistent with Karsten's)
+#include <stdio.h>//TODO: replace the Map[][]=="x" to some fucking strcmp()   (and also fix all the struct refferences so they are consistent with Karsten's)
 #include <stdlib.h>
 #include <time.h>
 
-int userinput(){       //WINDOWS VERSION
-    int inputed;
-    while(1){
-    inputed=getch();
-    switch(inputed) {
-        case 48:
-            return 0;
-            break;
-        case 49:
-            return 1;
-            break;
-        case 50:
-            return 2;
-            break;
-        case 51:
-            return 3;
-            break;
-        case 52:
-            return 4;
-            break;
-        case 53:
-            return 5;
-            break;
-        case 54:
-            return 6;
-            break;
-        case 55:
-            return 7;
-            break;
-        case 56:
-            return 8;
-            break;
-        case 57:
-            return 9;
-            break;
-}
-}
-}
-
-int posexist(int xpos,int ypos,int TEMPWIDTH,int TEMPHEIGHT){   //checks if a coordinate is within the map's borders
-    if(xpos>=0 && ypos>=0 && xpos<TEMPWIDTH && ypos<TEMPHEIGHT){
-        return 1;
-    }
-    return 0;
-}
-
-data_values move(int ypos,int xpos,int ydest,int xdest,data_values **Map){   //Moves a unit (TODO: see if Map works and if it does if its not too laggy)
-    Map[ydest][xdest].Team=Map[ypos][xpos].Team;
-    Map[ydest][xdest].Entity=Map[ypos][xpos].Entity;
-    Map[ydest][xdest].Flag=Map[ypos][xpos].Flag;
-    Map[ypos][xpos].Team=' ';
-    Map[ypos][xpos].Entity=' ';
-    Map[ypos][xpos].Flag=0;
-    return Map;
-}
 
 int main() {
-
-
   int inputed,xpos,ypos,xmove,ymove,turnend,select,movend,movepoints,charend,movecost,TEMPWIDTH,TEMPHEIGHT,i,c,XTEMPSPAWN,YTEMPSPAWN;   //all TEMP variables are placeholders for now
   srand(time(NULL));
     turnend=0;
