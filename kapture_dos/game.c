@@ -77,15 +77,45 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     {
         for(int l=xdest-1;l<=xdest+1;l++)
         {
-            if (k>=0 && k<&save.line && l>=0 && l<&save.column && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"red")==0)
+            if (k>=0 && k<save.line && l>=0 && l<save.column && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"red")==0)
             {
                 Map[k][l].fog=Map[k][l].fog+1;
             }
-            else if (k>=0 && k<&save.line && l>=0 && l<&save.column && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"blue")==0)
+            else if (k>=0 && k<save.line && l>=0 && l<save.column && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"blue")==0)
                 Map[k][l].fog=Map[k][l].fog+2;
         }
     }
     return 0;
+}
+
+int point_deduct(int ypos,int xpos,data_values **Map,int *mov_point){
+    int cost;
+    switch(Map[ypos][xpos].terrain[0]){
+        case 'g':
+            cost=1;
+            break;
+        case 't':
+            cost=2;
+            break;
+        case 'w':
+            switch(Map[xpos][ypos].entity){
+                case 'T':
+                    cost=2;
+                    mov_point[Map[ypos][xpos].id]=2;
+                    break;
+                case 'I':
+                    cost=3;
+                    mov_point[Map[ypos][xpos].id]=3;
+                    break;
+                case 'S':
+                    cost=5;
+                    mov_point[Map[ypos][xpos].id]=5;
+                    break;
+            }
+            break;
+    }
+    cost=mov_point[Map[ypos][xpos].id]-cost;
+    return cost;
 }
 
 int cursor_new_id(int id, data_save save, data_values **Map) //This function is usefull to keep the cursor on the pawn we're moving
