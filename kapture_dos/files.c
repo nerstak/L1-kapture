@@ -15,7 +15,8 @@ data_values ** getMap(int nb_map, data_save *save)
         printf("NULL_");
         return NULL;
     }
-    int line,column;
+    int line,column,id_red,id_blue;
+    id_red=id_blue=0;
     fscanf(map_file,"COLUMN= %d,LINE= %d\n",&column,&line);
     (*save).column = column;
     (*save).line = line;
@@ -48,7 +49,11 @@ data_values ** getMap(int nb_map, data_save *save)
                     {
                         strcpy(Map[i][j].team,"red");
                         if(temp[0]!='F')
+                        {
+                            Map[i][j].id=id_red;
                             nb_pawn_r++;
+                            id_red++;
+                        }
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
@@ -66,7 +71,9 @@ data_values ** getMap(int nb_map, data_save *save)
                         strcpy(Map[i][j].team,"blue");
                         if(temp[0]!='F')
                         {
+                            Map[i][j].id=id_blue;
                             nb_pawn_b++;
+                            id_blue++;
                         }
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)

@@ -8,14 +8,6 @@
 #include "files.h"
 #include "game.h"
 
-
-#include <unistd.h>
-
-void clearScreen()
-{
-  const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
-  write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
-}
 void color(int t,int b) //Function to use coloration. First number is text, second background
 {
     HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
@@ -39,11 +31,6 @@ int main()
     }
     else
     {
-        typedef struct selection{
-            int n;
-            int x;
-            int y;
-        } selection;
         selection cursor;
         int game = 1; //For the while loop
         strcpy(save.team,"red"); //Init of the save in the RAM
@@ -53,7 +40,8 @@ int main()
         do
         {
             cursor.n = cursor.x = cursor.y =-1;
-
+            int *mov_point=(int *)malloc(save.nb_pawn*sizeof(int));
+            int init_mov_point=1;
             do
             {
                 system("cls");
@@ -97,7 +85,6 @@ int main()
                         {
                             if(color_b != 8)
                             {
-                                pawn++;
                                 if(strcmp(Map[i][j].team,"red")==0)
                                 {
                                     color(12,color_b);
@@ -106,17 +93,38 @@ int main()
                                 {
                                     color(9,color_b);
                                 }
-                                if(cursor.n==-1)
+                                if(Map[i][j].entity != 'F' && strcmp(Map[i][j].team,save.team)==0) //Process for cursor, who only work for pawns of the team playing
                                 {
-                                    cursor.n=1;
-                                    cursor.x = j;
-                                    cursor.y = i;
-                                }
-                                if(pawn==cursor.n)
-                                {
-                                    cursor.x = j;
-                                    cursor.y = i;
-                                    color(15,color_b);
+                                    pawn++;
+                                    if(cursor.n==-1) //If cursor not set
+                                    {
+                                        cursor.n=1;
+                                        cursor.id=Map[i][j].id;
+                                        cursor.x = j;
+                                        cursor.y = i;
+                                    }
+                                    if(pawn==cursor.n) //Changing the position of the cursor
+                                    {
+                                        cursor.x = j;
+                                        cursor.y = i;
+                                        cursor.id=Map[i][j].id;
+                                        color(15,color_b);
+                                    }
+                                    if(init_mov_point==1) //We set up the array containing the number of mov's point remaining to each pawn
+                                    {
+                                        switch(Map[i][j].entity)
+                                        {
+                                            case 'T':
+                                                mov_point[Map[i][j].id]=2;
+                                                break;
+                                            case 'I':
+                                                mov_point[Map[i][j].id]=3;
+                                                break;
+                                            case 'S':
+                                                mov_point[Map[i][j].id]=5;
+                                                break;
+                                        }
+                                    }
                                 }
                                 printf("%c",Map[i][j].entity);
                             }
@@ -131,7 +139,7 @@ int main()
                     color(0,0);
                     printf("\n");
                 }
-
+                color(7,0);
                 key = userinput(); //Getting input from user
                 if(key=='0')
                 {
@@ -139,17 +147,77 @@ int main()
                 }
                 else
                 {
-                    if(key=='<')
-                    {
+                    switch(key){
+                    case '<':
                         if(cursor.n!=1)
                             cursor.n--;
-                    }
-                    if(key=='>')
-                    {
+                        break;
+                    case '>':
                         if(cursor.n!=save.nb_pawn)
                             cursor.n++;
+                        break;
+                    case '9':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x+1,Map,save)==0)
+                        {
+                            cursor.y--;
+                            cursor.x++;
+                            cursor.n=cursor_new_id(cursor.id,save,Map);
+                        }
+                        break;
+                    case '8':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x,Map,save)==0)
+                        {
+                            cursor.y--;
+                            cursor.n=cursor_new_id(cursor.id,save,Map);
+                        }
+                        break;
+                    case '7':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x-1,Map,save)==0)
+                        {
+                            cursor.y--;
+                            cursor.x--;
+                            cursor.n=cursor_new_id(cursor.id,save,Map);
+                        }
+                        break;
+                    case '6':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y,cursor.x+1,Map,save)==0)
+                        {
+                            cursor.x++;
+                            cursor.n=cursor_new_id(cursor.id,save,Map);
+                        }
+                        break;
+                    case '4':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y,cursor.x-1,Map,save)==0)
+                        {
+                            cursor.x--;
+                        }
+                        break;
+                    case '3':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x+1,Map,save)==0)
+                        {
+                            cursor.y++;
+                            cursor.x++;
+                            cursor.n=cursor_new_id(cursor.id,save,Map);
+                        }
+                        break;
+                    case '2':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x,Map,save)==0)
+                        {
+                            cursor.y++;
+                            cursor.n=cursor_new_id(cursor.id,save,Map);
+                        }
+                        break;
+                    case '1':
+                        if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x-1,Map,save)==0)
+                        {
+                            cursor.y++;
+                            cursor.x--;
+                            cursor.n=cursor_new_id(cursor.id,save,Map);
+                        }
+                        break;
                     }
                     pawn=0;
+                    init_mov_point=0;
                 }
             }while(turnend==0);
 

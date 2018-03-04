@@ -56,16 +56,20 @@ int posexist(int xpos,int ypos,int TEMPWIDTH,int TEMPHEIGHT) //checks if a coord
 {
     if(xpos>=0 && ypos>=0 && xpos<TEMPWIDTH && ypos<TEMPHEIGHT)
     {
-        return 1;
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
-void move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save)//Moves a unit (TODO: see if Map works and if it does if its not too laggy)
+int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save)//Moves a unit (TODO: see if Map works and if it does if its not too laggy)
 {
+    if(posexist(ydest,xdest,save.line,save.column)!=0 || Map[ydest][xdest].entity!=' ')
+        return 1;
     strcpy(Map[ydest][xdest].team,Map[ypos][xpos].team);
     Map[ydest][xdest].entity=Map[ypos][xpos].entity;
     Map[ydest][xdest].carrying_flag=Map[ypos][xpos].carrying_flag;
+    Map[ydest][xdest].id=Map[ypos][xpos].id;
+    Map[ypos][xpos].id=0;
     strcpy(Map[ypos][xpos].team," ");
     Map[ypos][xpos].entity=' ';
     Map[ypos][xpos].carrying_flag=0;
@@ -81,4 +85,20 @@ void move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save
                 Map[k][l].fog=Map[k][l].fog+2;
         }
     }
+    return 0;
+}
+
+int cursor_new_id(int id, data_save save, data_values **Map) //This function is usefull to keep the cursor on the pawn we're moving
+{
+    int cpt=0;
+    for(int i=0;i<save.line;i++)
+        for(int j=0;j<save.column;j++)
+        {
+            if(Map[i][j].entity != 'F' && strcmp(Map[i][j].team,save.team)==0)
+            {
+                cpt++;
+                if(Map[i][j].id==id)
+                    return cpt;
+            }
+        }
 }

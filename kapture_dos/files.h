@@ -11,6 +11,7 @@ typedef struct data_values
         int visibility_blue;
         int fog; //+1 if red saw it,+2 if blue saw it, 0:none,1:red,2:blue,3:both
         char carrying_flag; //r,b,' '
+        int id; //Id of the pawn
     } data_values;
 
 typedef struct data_save
