@@ -9,9 +9,11 @@ typedef struct selection
     int y;
 } selection;
 
+void visibility_change(char sign,data_values **Map,int y_ori,int x_ori,int y_cell,int x_cell);
+
 int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save);
 
-int posexist(int xpos,int ypos,int TEMPWIDTH,int TEMPHEIGHT);
+int posexist(int ypos,int xpos,int TEMPWIDTH,int TEMPHEIGHT);
 
 char userinput();
 

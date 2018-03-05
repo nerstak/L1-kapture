@@ -3,7 +3,6 @@
 #include <string.h>
 #include <errno.h>
 #include <conio.h>
-#include <windows.h>
 
 #include "files.h"
 #include "game.h"
@@ -28,9 +27,9 @@ int main()
     {
         selection cursor;
         int game = 1; //For the while loop
-        strcpy(save.team,"blue"); //Init of the save in the RAM
+        strcpy(save.team,"red"); //Init of the save in the RAM
         save.turn = 1; //Same
-        int turnend=0,pawn=0;
+        int turnend=0,pawn=0,visibility;
         char key;
         do
         {
@@ -40,7 +39,7 @@ int main()
             do
             {
                 system("cls");
-                for (int i=0;i<save.line;i++) //Getting right position of the cursor, and init the number of movement points
+                for(int i=0;i<save.line;i++) //Getting right position of the cursor, and init the number of movement points
                 {
                     for(int j=0;j<save.column;j++)
                     {
@@ -82,19 +81,23 @@ int main()
                 {
                     for(int j=0;j<save.column;j++)
                     {
+                        if(Map[i][j].visibility_blue>0 && strcmp(save.team,"blue")==0 || Map[i][j].visibility_red>0 && strcmp(save.team,"red")==0)
+                            visibility=1;
+                        else
+                            visibility=0;
                         if(Map[i][j].fog==3 || (Map[i][j].fog==1 && strcmp(save.team,"red")==0) || (Map[i][j].fog==2 && strcmp(save.team,"blue")==0)) //First we set the color of the back
                         {
                             if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                             {
-                                color_b = 2;//Green
+                                color_b = 2+visibility*8;//Green
                             }
                             if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
                             {
-                                color_b = 11;//Cyan
+                                color_b = 3+visibility*8;//Cyan
                             }
                             if(strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0) //Color for zone of drop
                             {
-                                color_b = 14;//Yellow
+                                color_b = 6+visibility*8;//Yellow
                             }
                         }
                         else //Fog of war
@@ -110,7 +113,7 @@ int main()
                             }
                             else if(strcmp(Map[i][j].terrain,"tree")==0)
                             {
-                                color(4,color_b);
+                                color(4+visibility*8,color_b);
                                 printf("+");
                             }
                         }
@@ -128,7 +131,10 @@ int main()
                                 }
                                 if(cursor.id==Map[i][j].id && strcmp(Map[i][j].team,save.team)==0)
                                     color(15,color_b);
-                                printf("%c",Map[i][j].entity);
+                                if(visibility==1)
+                                    printf("%c",Map[i][j].entity);
+                                else
+                                    printf(" ");
                             }
                             else //Fog of war display
                             {
@@ -139,7 +145,7 @@ int main()
 
                     }
                     interface_game(i,Map,save,cursor,mov_point);
-                    color(0,0);
+                    //color(0,0);
                     printf("\n");
                 }
                 color(7,0);

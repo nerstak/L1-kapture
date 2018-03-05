@@ -40,6 +40,10 @@ data_values ** getMap(int nb_map, data_save *save)
                 strcpy(Map[i][j].team," ");
                 if(Map[i][j].fog!=1 && Map[i][j].fog!=2 && Map[i][j].fog!=3)
                     Map[i][j].fog=0;
+                if(Map[i][j].visibility_blue>100)
+                    Map[i][j].visibility_blue=0;
+                if(Map[i][j].visibility_red>100)
+                    Map[i][j].visibility_red=0;
             }
             else
             {
@@ -59,14 +63,38 @@ data_values ** getMap(int nb_map, data_save *save)
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
-                                if (posexist(l,k,(*save).column,(*save).line)==1 && (Map[k][l].fog!=1 && Map[k][l].fog!=3))
+                                if (posexist(k,l,(*save).column,(*save).line)==1)
                                 {
-                                    if(Map[k][l].fog==2)
-                                        Map[k][l].fog=3;
-                                    else
-                                       Map[k][l].fog=1;
+                                    if(Map[k][l].fog!=1 && Map[k][l].fog!=3)
+                                    {
+                                        if(Map[k][l].fog==2)
+                                            Map[k][l].fog=3;
+                                        else
+                                           Map[k][l].fog=1;
+                                    }
+                                    if(Map[k][l].visibility_red>100)
+                                        Map[k][l].visibility_red=0;
+                                    Map[k][l].visibility_red++;
                                 }
                             }
+                        for(int k=i-2;k<=i+2;k=k+2)
+                        {
+                            if (posexist(k,j,(*save).column,(*save).line)==1)
+                            {
+                                if(Map[k][j].visibility_red>100)
+                                    Map[k][j].visibility_red=0;
+                                Map[k][j].visibility_red++;
+                            }
+                        }
+                        for(int l=j-2;l<=j+2;l=l+2)
+                        {
+                            if (posexist(i,l,(*save).column,(*save).line)==1)
+                            {
+                                if(Map[i][l].visibility_red>100)
+                                    Map[i][l].visibility_red=0;
+                                Map[i][l].visibility_red++;
+                            }
+                        }
                     }
                     else if (temp[1]=='B')
                     {
@@ -80,14 +108,38 @@ data_values ** getMap(int nb_map, data_save *save)
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
-                                if (posexist(l,k,(*save).column,(*save).line)==1 && (Map[k][l].fog!=2 && Map[k][l].fog!=3))
+                                if (posexist(k,l,(*save).column,(*save).line)==1)
                                 {
-                                    if(Map[k][l].fog==1)
-                                        Map[k][l].fog=3;
-                                    else
-                                       Map[k][l].fog=2;
+                                    if (Map[k][l].fog!=2 && Map[k][l].fog!=3)
+                                    {
+                                        if(Map[k][l].fog==1)
+                                            Map[k][l].fog=3;
+                                        else
+                                           Map[k][l].fog=2;
+                                    }
+                                    if(Map[k][l].visibility_blue>100)
+                                        Map[k][l].visibility_blue=0;
+                                    Map[k][l].visibility_blue++;
                                 }
                             }
+                        for(int k=i-2;k<=i+2;k=k+4)
+                        {
+                            if (posexist(k,j,(*save).column,(*save).line)==1)
+                            {
+                                if(Map[k][j].visibility_blue>100)
+                                    Map[k][j].visibility_blue=0;
+                                Map[k][j].visibility_blue++;
+                            }
+                        }
+                        for(int l=j-2;l<=j+2;l=l+4)
+                        {
+                            if (posexist(i,l,(*save).column,(*save).line)==1)
+                            {
+                                if(Map[i][l].visibility_blue>100)
+                                    Map[i][l].visibility_blue=0;
+                                Map[i][l].visibility_blue++;
+                            }
+                        }
                     }
                     else
                         Map[i][j].entity = ' ';

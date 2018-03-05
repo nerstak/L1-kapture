@@ -16,11 +16,15 @@ void interface_game(int y,data_values **Map,data_save save,selection cursor, int
 {
     color(8,0);
     printf(" ");
-    if(y==1)
+    if (y==0)
+    {
+        printf("Player: %s  Turn: %d",save.team,save.turn);
+    }
+    else if(y==2)
     {
         printf("Remaining movement points:");
     }
-    else if(y==2)
+    else if(y==3)
     {
         switch(Map[cursor.y][cursor.x].entity)
         {
@@ -36,7 +40,7 @@ void interface_game(int y,data_values **Map,data_save save,selection cursor, int
         }
         printf("%d",mov_pts[cursor.id]);
     }
-    else if(y==3)
+    else if(y==4)
     {
         printf("Cost to leave: %d",cost_terrain(cursor.y,cursor.x,Map));
     }

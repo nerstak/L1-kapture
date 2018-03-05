@@ -53,7 +53,7 @@ char userinput()
     }
 }
 
-int posexist(int xpos,int ypos,int TEMPWIDTH,int TEMPHEIGHT) //checks if a coordinate is within the map's borders
+int posexist(int ypos,int xpos,int TEMPWIDTH,int TEMPHEIGHT) //checks if a coordinate is within the map's borders
 {
     if(xpos>=0 && ypos>=0 && xpos<TEMPWIDTH && ypos<TEMPHEIGHT)
     {
@@ -62,28 +62,92 @@ int posexist(int xpos,int ypos,int TEMPWIDTH,int TEMPHEIGHT) //checks if a coord
     return 0;
 }
 
+void visibility_change(char sign,data_values **Map,int y_ori,int x_ori,int y_cell,int x_cell)
+{
+    if(strcmp(Map[y_ori][x_ori].team,"blue")==0)
+    {
+        if(Map[y_cell][x_cell].visibility_blue>100)
+            Map[y_cell][x_cell].visibility_blue=0;
+        if(sign=='+')
+            Map[y_cell][x_cell].visibility_blue++;
+        else if(sign=='-')
+            Map[y_cell][x_cell].visibility_blue--;
+    }
+    if(strcmp(Map[y_ori][x_ori].team,"red")==0)
+    {
+        if(Map[y_cell][x_cell].visibility_red>100)
+            Map[y_cell][x_cell].visibility_red=0;
+        if(sign=='+')
+            Map[y_cell][x_cell].visibility_red++;
+        else if(sign=='-')
+            Map[y_cell][x_cell].visibility_red--;
+    }
+}
+
 int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save)//Moves a unit
 {
-    if(posexist(ydest,xdest,save.line,save.column)!=1 || Map[ydest][xdest].entity!=' ')
+    if(posexist(ydest,xdest,save.column,save.line)!=1 || Map[ydest][xdest].entity!=' ') //First we check if the movement is possible
         return 1;
-    strcpy(Map[ydest][xdest].team,Map[ypos][xpos].team);
-    Map[ydest][xdest].entity=Map[ypos][xpos].entity;
-    Map[ydest][xdest].carrying_flag=Map[ypos][xpos].carrying_flag;
-    Map[ydest][xdest].id=Map[ypos][xpos].id;
-    Map[ypos][xpos].id=0;
+    for(int k=ypos-1;k<=ypos+1;k++) //Remove the visibility to all cell affected
+    {
+        for(int l=xpos-1;l<=xpos+1;l++)
+        {
+            if(posexist(k,l,save.column,save.line)==1)
+            {
+                visibility_change('-',Map,ypos,xpos,k,l);
+            }
+        }
+    }
+    for(int k=ypos-2;k<=ypos+2;k=k+4)
+    {
+        if (posexist(k,xpos,save.column,save.line)==1)
+        {
+            visibility_change('-',Map,ypos,xpos,k,xpos);
+        }
+    }
+    for(int l=xpos-2;l<=xpos+2;l=l+4)
+    {
+        if (posexist(ypos,l,save.column,save.line)==1)
+        {
+            visibility_change('-',Map,ypos,xpos,ypos,l);
+        }
+    }
+    strcpy(Map[ydest][xdest].team,Map[ypos][xpos].team); //Changing the team attribute
     strcpy(Map[ypos][xpos].team," ");
+    Map[ydest][xdest].entity=Map[ypos][xpos].entity; //Moving the entity
     Map[ypos][xpos].entity=' ';
+    Map[ydest][xdest].carrying_flag=Map[ypos][xpos].carrying_flag; //Moving the carrying flag attribute
     Map[ypos][xpos].carrying_flag=0;
-    for(int k=ydest-1;k<=ydest+1;k++)
+    Map[ydest][xdest].id=Map[ypos][xpos].id; //Moving the id
+    Map[ypos][xpos].id=0;
+    for(int k=ydest-1;k<=ydest+1;k++) //Setting the fog of war and the visibility
     {
         for(int l=xdest-1;l<=xdest+1;l++)
         {
-            if (posexist(l,k,save.column,save.line)==1 && Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"red")==0)
+            if(posexist(k,l,save.column,save.line)==1)
             {
-                Map[k][l].fog=Map[k][l].fog+1;
+                if (Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"red")==0)
+                {
+                    Map[k][l].fog=Map[k][l].fog+1;
+                }
+                else if (Map[k][l].fog!=2 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"blue")==0)
+                    Map[k][l].fog=Map[k][l].fog+2;
+                visibility_change('+',Map,ydest,xdest,k,l);
             }
-            else if (posexist(l,k,save.column,save.line)==1 && Map[k][l].fog!=2 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"blue")==0)
-                Map[k][l].fog=Map[k][l].fog+2;
+        }
+    }
+    for(int k=ydest-2;k<=ydest+2;k=k+4)//Part only for the visibility
+    {
+        if (posexist(k,xdest,save.column,save.line)==1)
+        {
+            visibility_change('+',Map,ydest,xdest,k,xdest);
+        }
+    }
+    for(int l=xdest-2;l<=xdest+2;l=l+4) //Same, part only for the visibility
+    {
+        if (posexist(ydest,l,save.column,save.line)==1)
+        {
+            visibility_change('+',Map,ydest,xdest,ydest,l);
         }
     }
     return 0;
