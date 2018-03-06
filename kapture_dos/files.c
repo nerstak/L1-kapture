@@ -20,16 +20,16 @@ data_values ** getMap(int nb_map, data_save *save)
     int line,column,id_red,id_blue;
     id_red=id_blue=0;
     fscanf(map_file,"COLUMN= %d,LINE= %d\n",&column,&line);
-    (*save).column = column;
-    (*save).line = line;
-    Map=(data_values **) malloc((*save).line*sizeof(data_values *));
+    save->column = column;
+    save->line = line;
+    Map=(data_values **) malloc(save->line*sizeof(data_values *));
     for(i=0;i<(*save).line;i++)
     {
-        Map[i]=(data_values *) malloc((*save).column*sizeof(data_values));
+        Map[i]=(data_values *) malloc(save->column*sizeof(data_values));
     }
-    for(i=0;i<(*save).line;i++)
+    for(i=0;i<save->line;i++)
     {
-        for(j=0;j<(*save).column;j++)
+        for(j=0;j<save->column;j++)
         {
             fscanf(map_file,"%[^,]",&temp);//Get chars until comma
             fseek(map_file,1,SEEK_CUR); //Moving the cursor to the next position
@@ -63,7 +63,7 @@ data_values ** getMap(int nb_map, data_save *save)
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
-                                if (posexist(k,l,(*save).column,(*save).line)==1)
+                                if (posexist(k,l,save->column,save->line)==1)
                                 {
                                     if(Map[k][l].fog!=1 && Map[k][l].fog!=3)
                                     {
@@ -77,18 +77,18 @@ data_values ** getMap(int nb_map, data_save *save)
                                     Map[k][l].visibility_red++;
                                 }
                             }
-                        for(int k=i-2;k<=i+2;k=k+2)
+                        for(int k=i-2;k<=i+2;k=k+4)
                         {
-                            if (posexist(k,j,(*save).column,(*save).line)==1)
+                            if (posexist(k,j,save->column,save->line)==1)
                             {
                                 if(Map[k][j].visibility_red>100)
                                     Map[k][j].visibility_red=0;
                                 Map[k][j].visibility_red++;
                             }
                         }
-                        for(int l=j-2;l<=j+2;l=l+2)
+                        for(int l=j-2;l<=j+2;l=l+4)
                         {
-                            if (posexist(i,l,(*save).column,(*save).line)==1)
+                            if (posexist(i,l,save->column,save->line)==1)
                             {
                                 if(Map[i][l].visibility_red>100)
                                     Map[i][l].visibility_red=0;
@@ -108,7 +108,7 @@ data_values ** getMap(int nb_map, data_save *save)
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
-                                if (posexist(k,l,(*save).column,(*save).line)==1)
+                                if (posexist(k,l,save->column,save->line)==1)
                                 {
                                     if (Map[k][l].fog!=2 && Map[k][l].fog!=3)
                                     {
@@ -124,7 +124,7 @@ data_values ** getMap(int nb_map, data_save *save)
                             }
                         for(int k=i-2;k<=i+2;k=k+4)
                         {
-                            if (posexist(k,j,(*save).column,(*save).line)==1)
+                            if (posexist(k,j,save->column,save->line)==1)
                             {
                                 if(Map[k][j].visibility_blue>100)
                                     Map[k][j].visibility_blue=0;
@@ -133,7 +133,7 @@ data_values ** getMap(int nb_map, data_save *save)
                         }
                         for(int l=j-2;l<=j+2;l=l+4)
                         {
-                            if (posexist(i,l,(*save).column,(*save).line)==1)
+                            if (posexist(i,l,save->column,save->line)==1)
                             {
                                 if(Map[i][l].visibility_blue>100)
                                     Map[i][l].visibility_blue=0;
@@ -153,7 +153,7 @@ data_values ** getMap(int nb_map, data_save *save)
         fscanf(map_file,"%\n",NULL); //Jump to the next line
     }
     if(nb_pawn_b==nb_pawn_r) //Check that both team have same nb of pawns (no matter theirs types)
-        (*save).nb_pawn = nb_pawn_b;
+        save->nb_pawn = nb_pawn_b;
     else
         return NULL;
     fclose(map_file);

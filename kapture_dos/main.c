@@ -29,16 +29,18 @@ int main()
         int game = 1; //For the while loop
         strcpy(save.team,"red"); //Init of the save in the RAM
         save.turn = 1; //Same
-        int turnend=0,pawn=0,visibility;
+        int turnend,pawn=0,visibility;
         char key;
         do
         {
             cursor.n = cursor.x = cursor.y =-1;
             int *mov_point=(int *)malloc(save.nb_pawn*sizeof(int));
             int init_mov_point=1;
+            turnend=0;
             do
             {
                 system("cls");
+                printf("hello \n");
                 for(int i=0;i<save.line;i++) //Getting right position of the cursor, and init the number of movement points
                 {
                     for(int j=0;j<save.column;j++)
@@ -113,7 +115,7 @@ int main()
                             }
                             else if(strcmp(Map[i][j].terrain,"tree")==0)
                             {
-                                color(4+visibility*8,color_b);
+                                color(4,color_b);
                                 printf("+");
                             }
                         }
@@ -145,7 +147,7 @@ int main()
 
                     }
                     interface_game(i,Map,save,cursor,mov_point);
-                    //color(0,0);
+                    color(0,0);
                     printf("\n");
                 }
                 color(7,0);
@@ -255,8 +257,18 @@ int main()
                     init_mov_point=0;
                 }
             }while(turnend==0);
+            if(strcmp(save.team,"red")==0)
+            {
+                strcpy(save.team,"blue");
+            }
+            else if(strcmp(save.team,"blue")==0)
+            {
+                strcpy(save.team,"red");
+                save.turn++;
+            }
+            if(save.turn==100)
+                game=0;
 
-            game = 0;
         }while(game);
     }
     return 0;
