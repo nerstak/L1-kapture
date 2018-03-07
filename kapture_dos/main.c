@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <conio.h>
+//#include <string.h>
+#include <errno.h> //Remove once project finished
+//#include <conio.h>
 
 #include "files.h"
 #include "game.h"
@@ -145,7 +145,7 @@ int main()
                         }
 
                     }
-                    interface_game(i,Map,save,cursor,mov_point);
+                    interface_game(i,Map,&save,&cursor,mov_point);
                     color(0,0);
                     printf("\n");
                 }
@@ -169,84 +169,84 @@ int main()
                         break;
                     case '9':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x+1,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x+1,Map,&save)==0)
                             {
                                 cursor.y--;
                                 cursor.x++;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }
                         break;
                     case '8':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x,Map,&save)==0)
                             {
                                 cursor.y--;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }
                         break;
                     case '7':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x-1,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y-1,cursor.x-1,Map,&save)==0)
                             {
                                 cursor.y--;
                                 cursor.x--;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }
                         break;
                     case '6':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y,cursor.x+1,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y,cursor.x+1,Map,&save)==0)
                             {
                                 cursor.x++;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }
                         break;
                     case '4':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y,cursor.x-1,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y,cursor.x-1,Map,&save)==0)
                             {
                                 cursor.x--;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }
                         break;
                     case '3':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x+1,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x+1,Map,&save)==0)
                             {
                                 cursor.y++;
                                 cursor.x++;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }
                         break;
                     case '2':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x,Map,&save)==0)
                             {
                                 cursor.y++;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }
                         break;
                     case '1':
                         if(cost>=0){
-                            if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x-1,Map,save)==0)
+                            if(move_pawn(cursor.y,cursor.x,cursor.y+1,cursor.x-1,Map,&save)==0)
                             {
                                 cursor.y++;
                                 cursor.x--;
-                                cursor.n=cursor_new_id(cursor.id,save,Map);
+                                cursor.n=cursor_new_id(cursor.id,&save,Map);
                                 mov_point[Map[cursor.y][cursor.x].id]=cost;
                             }
                         }

@@ -12,13 +12,13 @@ void color(int t,int b) //Function to use coloration. First number is text, seco
     SetConsoleTextAttribute(H,b*16+t);
 }
 
-void interface_game(int y,data_values **Map,data_save save,selection cursor, int *mov_pts)
+void interface_game(int y,data_values **Map,data_save *save,selection *cursor, int *mov_pts)
 {
     color(8,0);
     printf(" ");
     if (y==0)
     {
-        printf("Player: %s  Turn: %d",save.team,save.turn);
+        printf("Player: %s  Turn: %d",save->team,save->turn);
     }
     else if(y==2)
     {
@@ -26,7 +26,7 @@ void interface_game(int y,data_values **Map,data_save save,selection cursor, int
     }
     else if(y==3)
     {
-        switch(Map[cursor.y][cursor.x].entity)
+        switch(Map[cursor->y][cursor->x].entity)
         {
         case 'T':
             printf(" Shock Troop: ");
@@ -38,10 +38,10 @@ void interface_game(int y,data_values **Map,data_save save,selection cursor, int
             printf(" Infantryman: ");
             break;
         }
-        printf("%d",mov_pts[cursor.id]);
+        printf("%d",mov_pts[cursor->id]);
     }
     else if(y==4)
     {
-        printf("Cost to leave: %d",cost_terrain(cursor.y,cursor.x,Map));
+        printf("Cost to leave: %d",cost_terrain(cursor->y,cursor->x,Map));
     }
 }

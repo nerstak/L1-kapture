@@ -1,8 +1,9 @@
-#include <stdio.h>//TODO: replace the Map[][]=="x" to some fucking strcmp()   (and also fix all the struct refferences so they are consistent with Karsten's)
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 #include "files.h"
+#include "game.h"
 
 /*All functions relative to actions directly related to the game*/
 
@@ -84,15 +85,15 @@ void visibility_change(char sign,data_values **Map,int y_ori,int x_ori,int y_cel
     }
 }
 
-int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save save)//Moves a unit
+int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save *save)//Moves a unit
 {
-    if(posexist(ydest,xdest,save.column,save.line)!=1 || Map[ydest][xdest].entity!=' ') //First we check if the movement is possible
+    if(posexist(ydest,xdest,save->column,save->line)!=1 || Map[ydest][xdest].entity!=' ') //First we check if the movement is possible
         return 1;
     for(int k=ypos-1;k<=ypos+1;k++) //Remove the visibility to all cell affected
     {
         for(int l=xpos-1;l<=xpos+1;l++)
         {
-            if(posexist(k,l,save.column,save.line)==1)
+            if(posexist(k,l,save->column,save->line)==1)
             {
                 visibility_change('-',Map,ypos,xpos,k,l);
             }
@@ -100,14 +101,14 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     }
     for(int k=ypos-2;k<=ypos+2;k=k+4)
     {
-        if (posexist(k,xpos,save.column,save.line)==1)
+        if (posexist(k,xpos,save->column,save->line)==1)
         {
             visibility_change('-',Map,ypos,xpos,k,xpos);
         }
     }
     for(int l=xpos-2;l<=xpos+2;l=l+4)
     {
-        if (posexist(ypos,l,save.column,save.line)==1)
+        if (posexist(ypos,l,save->column,save->line)==1)
         {
             visibility_change('-',Map,ypos,xpos,ypos,l);
         }
@@ -124,7 +125,7 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     {
         for(int l=xdest-1;l<=xdest+1;l++)
         {
-            if(posexist(k,l,save.column,save.line)==1)
+            if(posexist(k,l,save->column,save->line)==1)
             {
                 if (Map[k][l].fog!=1 && Map[k][l].fog!=3 && strcmp(Map[ydest][xdest].team,"red")==0)
                 {
@@ -138,14 +139,14 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     }
     for(int k=ydest-2;k<=ydest+2;k=k+4)//Part only for the visibility
     {
-        if (posexist(k,xdest,save.column,save.line)==1)
+        if (posexist(k,xdest,save->column,save->line)==1)
         {
             visibility_change('+',Map,ydest,xdest,k,xdest);
         }
     }
     for(int l=xdest-2;l<=xdest+2;l=l+4) //Same, part only for the visibility
     {
-        if (posexist(ydest,l,save.column,save.line)==1)
+        if (posexist(ydest,l,save->column,save->line)==1)
         {
             visibility_change('+',Map,ydest,xdest,ydest,l);
         }
@@ -186,13 +187,13 @@ int cost_terrain(int ypos,int xpos,data_values **Map)
     return cost;
 }
 
-int cursor_new_id(int id, data_save save, data_values **Map) //This function is usefull to keep the cursor on the pawn we're moving
+int cursor_new_id(int id, data_save *save, data_values **Map) //This function is usefull to keep the cursor on the pawn we're moving
 {
     int cpt=0;
-    for(int i=0;i<save.line;i++)
-        for(int j=0;j<save.column;j++)
+    for(int i=0;i<save->line;i++)
+        for(int j=0;j<save->column;j++)
         {
-            if(Map[i][j].entity != 'F' && strcmp(Map[i][j].team,save.team)==0)
+            if(Map[i][j].entity != 'F' && strcmp(Map[i][j].team,save->team)==0)
             {
                 cpt++;
                 if(Map[i][j].id==id)

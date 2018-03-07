@@ -60,6 +60,10 @@ data_values ** getMap(int nb_map, data_save *save)
                             nb_pawn_r++;
                             id_red++;
                         }
+                        else
+                        {
+                            Map[i][j].id=-1;
+                        }
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
                             {
@@ -104,6 +108,10 @@ data_values ** getMap(int nb_map, data_save *save)
                             Map[i][j].id=id_blue;
                             nb_pawn_b++;
                             id_blue++;
+                        }
+                        else
+                        {
+                            Map[i][j].id=-1;
                         }
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
