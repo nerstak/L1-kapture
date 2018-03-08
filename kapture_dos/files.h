@@ -32,11 +32,18 @@ typedef struct data_check
     }data_check;
 
 data_values ** getMap(int nb_map,data_save *save);
-
 int save_file(data_save *save,data_values **Map,char error[],char save_name[]);
 
 data_values ** loadFile(data_save *save,char error[],char name[]);
 
 int displayDirectory(char directory[]);
+
+typedef struct spawn_coord
+    {
+        int by;
+        int bx;
+        int ry;
+        int rx;
+    } spawn_coord;
 
 #endif // FILES_H_INCLUDED

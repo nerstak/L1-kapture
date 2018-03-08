@@ -12,6 +12,7 @@ int main()
 {
     data_values **Map;
     data_save save;
+    spawn_coord spawn;
     char input_user,error[50],save_name[15];
     strcpy(error," ");
     int nb_map,color_b, game, cost,p;
@@ -135,6 +136,19 @@ int main()
                                     if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                                     {
                                         color_b = 2+visibility*8;//Green
+                                        if(strcmp(Map[i][j].terrain,"spawn_r")==0)
+                                        {
+                                            spawn.ry=i;
+                                            spawn.rx=j;
+                                        }
+                                        else
+                                        {
+                                            if(strcmp(Map[i][j].terrain,"spawn_b")==0)
+                                            {
+                                                spawn.by=i;
+                                                spawn.bx=j;
+                                            }
+                                       }
                                     }
                                     if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
                                     {
@@ -151,7 +165,7 @@ int main()
                                 }
                                 if(Map[i][j].entity == ' ') //Display terrain without entity
                                 {
-                                    if(color_b == 8 || strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"water")==0 || strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0)
+                                    if(color_b == 8 || strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"water")==0 || strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 || strcmp(Map[i][j].terrain,"spawn_r")==0)
                                     {
                                         color(15,color_b);
                                         printf(" ");
