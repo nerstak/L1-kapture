@@ -5,4 +5,6 @@ void color(int t,int b);
 
 void interface_game(int y, data_values **Map, data_save *save, selection *cursor, int *mov_pts);
 
+void rules_display();
+
 #endif // DISPLAY_H_INCLUDED

@@ -1,4 +1,4 @@
-COLUMN=10,LINE=9
+COLUMN=10,LINE=10
 water,FR,grass,grass,grass,water,grass,IR,water,water,
 IB,IR,grass,grass,FB,water,water,water,water,grass,
 grass,grass,grass,grass,grass,water,grass,grass,water,grass,
@@ -7,4 +7,4 @@ grass,grass,grass,SR,grass,grass,grass,grass,grass,grass,
 grass,grass,grass,grass,grass,grass,grass,grass,grass,tree,
 grass,grass,grass,grass,grass,grass,grass,grass,tree,tree,
 TB,check_for_b,TR,grass,grass,grass,tree,tree,tree,SB,
-grass,grass,grass,grass,tree,tree,tree,tree,tree,tree,
+grass,grass,grass,grass,tree,tree,tree,tree,tree,grass,

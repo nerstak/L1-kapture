@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <conio.h>
 
 #include "files.h"
 #include "game.h"
@@ -9,8 +10,9 @@
 
 char userinput()
 {
-    int inputed=getch();
-    switch(inputed)
+    char lol=getch();
+    printf("\nINPUT = '%c'\n",lol);
+    switch(lol)
     {
         case 48:
             return '0'; //Key 0
@@ -42,7 +44,7 @@ char userinput()
         case 57:
             return '9'; //Key 9
             break;
-        default: //Keys up, down, left, right and other
+        case 27: //Keys up, down, left, right and other
             return userinput();
             break;
         case 77:
@@ -50,6 +52,19 @@ char userinput()
             break;
         case 75:
             return '<'; //Key left
+            break;
+        case 113:
+            return 'q';
+            break;
+        case 115:
+            return 's';
+            break;
+        case 32:
+            printf("Space done\n");
+            return ' '; //Key space
+            break;
+        defaut:
+            return userinput();
             break;
     }
 }

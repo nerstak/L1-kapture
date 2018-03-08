@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <dirent.h>
+
 #include "files.h"
 
 /*All functions concerning reading or writing a file, or data saved in RAM*/
@@ -23,7 +25,7 @@ data_values ** getMap(int nb_map, data_save *save)
     save->column = column;
     save->line = line;
     Map=(data_values **) malloc(save->line*sizeof(data_values *));
-    for(i=0;i<(*save).line;i++)
+    for(i=0;i<save->line;i++)
     {
         Map[i]=(data_values *) malloc(save->column*sizeof(data_values));
     }
@@ -166,4 +168,68 @@ data_values ** getMap(int nb_map, data_save *save)
         return NULL;
     fclose(map_file);
     return Map;
+}
+
+int saveFile(data_save *save,data_values **Map,char error[],char name[])
+{
+    FILE * file_save;
+    char save_name[20];
+    sprintf(&save_name,"saves/%s.bin",name);
+    file_save = fopen(save_name , "wb+"); //Create or reset save file
+    if (file_save==NULL)
+    {
+        error="Error during the creation of the save";
+        return 1;
+    }
+    fwrite(save,sizeof(data_save),1,file_save);
+    for(int i=0;i<save->line;i++)
+    {
+        fwrite(Map[i],sizeof(data_values),save->column,file_save);
+    }
+    fclose(file_save);
+    return 0;
+}
+
+data_values ** loadFile(data_save *save,char error[],char name[])
+{
+    FILE * file_save;
+    data_values **Map;
+    char save_name[20];
+    sprintf(&save_name,"saves/%s.bin",name);
+    file_save = fopen(save_name , "rb");
+    if (file_save==NULL)
+    {
+        error="Error during the loading of the save";
+        return 1;
+    }
+    fread(save,sizeof(data_save),1,file_save);
+    Map=(data_values **) malloc(save->line*sizeof(data_values *));
+    for(int i=0;i<save->line;i++)
+    {
+        Map[i]=(data_values *) malloc(save->column*sizeof(data_values));
+        fread(Map[i],sizeof(data_values),save->column,file_save);
+    }
+    fclose(file_save);
+    return Map;
+}
+
+int displayDirectory(char directory[])
+{
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(directory);
+    int i = -1;
+    if(d) //If directory exists
+    {
+        while((dir = readdir(d))!=NULL) //While there is unlisted files, it lists files
+        {
+            if(dir->d_name[0]!='.')
+            {
+                i++;
+                printf("N%d: %s\n",i, dir->d_name);
+            }
+        }
+    closedir(d);
+    }
+    return i;
 }
