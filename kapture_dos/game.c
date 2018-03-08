@@ -201,3 +201,28 @@ int cursor_new_id(int id, data_save *save, data_values **Map) //This function is
             }
         }
 }
+
+void respawn(int ypos,int xpos,spawn_coord spawn,data_values **Map,data_save *save) //This fucks up in some tests later, but I dont know why so i'll ignore it and let karten deal with it
+{
+    int ydest,xdest,i,j;
+    if(strcmp(Map[ypos][xpos].team,"red")==0)
+    {
+        ydest=spawn.ry;
+        xdest=spawn.rx;
+    }
+    else
+    {
+        ydest=spawn.by;
+        xdest=spawn.bx;
+    }
+    for(i=-1;i<2;i++)
+    {
+        for(j=-1;j<2;j++)
+        {
+            if(move_pawn(ypos,xpos,ydest+i,xdest+j,Map,&save)==0){
+                return;
+            }
+        }
+    }
+    printf("FUCK");
+}

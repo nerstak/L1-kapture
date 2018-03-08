@@ -25,5 +25,12 @@ typedef struct data_save
 
 data_values ** getMap(int nb_map,data_save *save);
 
+typedef struct spawn_coord
+    {
+        int by;
+        int bx;
+        int ry;
+        int rx;
+    } spawn_coord;
 
 #endif // FILES_H_INCLUDED

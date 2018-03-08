@@ -23,4 +23,6 @@ int cost_terrain(int ypos,int xpos,data_values **Map);
 
 int cursor_new_id(int id, data_save *save, data_values **Map);
 
+void respawn(int ypos,int xpos,spawn_coord spawn,data_values **Map,data_save *save);
+
 #endif // GAME_H_INCLUDED

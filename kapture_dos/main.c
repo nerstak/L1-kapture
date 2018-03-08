@@ -12,6 +12,7 @@ int main()
 {
     data_values **Map;
     data_save save;
+    spawn_coord spawn;
     int nb_map = 0,color_b, game, cost;
     Map = getMap(nb_map,&save);
     /*for(int i=0;i<16;i++) //All colors. Similar color are link by (i+n8)%16 w/n={0,1}
@@ -31,6 +32,8 @@ int main()
         save.turn = 1; //Same
         int turnend,pawn=0,visibility;
         char key;
+
+
         do
         {
             cursor.n = cursor.x = cursor.y =-1;
@@ -39,7 +42,7 @@ int main()
             turnend=0;
             do
             {
-                system("cls");
+                system("cls")
                 for(int i=0;i<save.line;i++) //Getting right position of the cursor, and init the number of movement points
                 {
                     for(int j=0;j<save.column;j++)
@@ -91,6 +94,19 @@ int main()
                             if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                             {
                                 color_b = 2+visibility*8;//Green
+                                if(strcmp(Map[i][j].terrain,"spawn_r")==0)
+                                {
+                                    spawn.ry=i;
+                                    spawn.rx=j;
+                                }
+                                else
+                                {
+                                    if(strcmp(Map[i][j].terrain,"spawn_b")==0)
+                                    {
+                                        spawn.by=i;
+                                        spawn.bx=j;
+                                    }
+                                }
                             }
                             if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
                             {
@@ -107,7 +123,7 @@ int main()
                         }
                         if(Map[i][j].entity == ' ') //Display terrain without entity
                         {
-                            if(color_b == 8 || strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"water")==0 || strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0)
+                            if(color_b == 8 || strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"water")==0 || strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 || strcmp(Map[i][j].terrain,"spawn_r")==0)
                             {
                                 color(15,color_b);
                                 printf(" ");
@@ -211,6 +227,7 @@ int main()
                         break;
                     case '4':
                         if(cost>=0){
+                            //respawn(cursor.y,cursor.x,spawn,Map,&save);
                             if(move_pawn(cursor.y,cursor.x,cursor.y,cursor.x-1,Map,&save)==0)
                             {
                                 cursor.x--;

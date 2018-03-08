@@ -24,31 +24,30 @@
 	"files.h"
 	"game.h"
 
-1520175157 source:c:\users\theo\documents\github\kapture\kapture_dos\files.c
+1520513600 source:c:\users\theo\documents\github\kapture\kapture_dos\files.c
 	<stdlib.h>
 	<stdio.h>
 	"files.h"
 
-1520175157 c:\users\theo\documents\github\kapture\kapture_dos\files.h
+1520513641 c:\users\theo\documents\github\kapture\kapture_dos\files.h
 	<string.h>
 
-1520179737 source:c:\users\theo\documents\github\kapture\kapture_dos\game.c
+1520515893 source:c:\users\theo\documents\github\kapture\kapture_dos\game.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	"files.h"
-
-1520181115 source:c:\users\theo\documents\github\kapture\kapture_dos\main.c
-	<stdlib.h>
-	<stdio.h>
-	<windows.h>
-	<string.h>
-	<errno.h>
-	<conio.h>
-	"files.h"
 	"game.h"
 
-1520175157 c:\users\theo\documents\github\kapture\kapture_dos\game.h
+1520519092 source:c:\users\theo\documents\github\kapture\kapture_dos\main.c
+	<stdlib.h>
+	<stdio.h>
+	<errno.h>
+	"files.h"
+	"game.h"
+	"display.h"
+
+1520513704 c:\users\theo\documents\github\kapture\kapture_dos\game.h
 
 1520370032 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\display.h
 
@@ -57,4 +56,12 @@
 	"files.h"
 	"game.h"
 	"display.h"
+
+1520508677 source:c:\users\theo\documents\github\kapture\kapture_dos\display.c
+	<windows.h>
+	"files.h"
+	"game.h"
+	"display.h"
+
+1520508677 c:\users\theo\documents\github\kapture\kapture_dos\display.h
 
