@@ -42,7 +42,7 @@ int main()
             turnend=0;
             do
             {
-                system("cls")
+                system("cls");
                 for(int i=0;i<save.line;i++) //Getting right position of the cursor, and init the number of movement points
                 {
                     for(int j=0;j<save.column;j++)
