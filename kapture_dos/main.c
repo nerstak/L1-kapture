@@ -70,7 +70,7 @@ int main()
                 int game = 1; //For the while loop
                 strcpy(save.team,"red"); //Init of the save in the RAM
                 save.turn = 1; //Same
-                int turn,pawn=0,visibility;
+                int turn,visibility;
                 char key;
                 do //Loop while the game ain't finished
                 {
@@ -78,6 +78,7 @@ int main()
                     int *mov_point=(int *)malloc(save.nb_pawn*sizeof(int));
                     int init_mov_point=1;
                     turn=1;
+                    int pawn=0;
                     printf("Init done\n");
                     //Start displaying map
                     do //Loop while the player has not finished to play
@@ -122,6 +123,7 @@ int main()
                                 }
                             }
                         }
+                        init_mov_point=0;
                         printf("Pre-loop done\n");
                         for (int i=0;i<save.line;i++) //Display of the map
                         {
@@ -215,6 +217,7 @@ int main()
                         if(key=='0')
                         {
                             turn=0;
+                            printf("Set 0\n");
                         }
                         else if(key=='q')
                         {
@@ -319,10 +322,12 @@ int main()
                                 break;
                             }
                             pawn=0;
-                            init_mov_point=0;
                         }
-                    }while(turn);
-                    free(mov_point);
+                        printf("Before end of turn\n");
+                    }while(turn!=0);
+                    printf("After end turn\n");
+                    free(mov_point); //That shit is crashing all
+                    printf("Free mov done\n");
                     if(game)
                     {
                         if(strcmp(save.team,"red")==0)
