@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <stdlib.h>
 
 #include "files.h"
 #include "game.h"
@@ -44,4 +45,21 @@ void interface_game(int y,data_values **Map,data_save *save,selection *cursor, i
     {
         printf("Cost to leave: %d",cost_terrain(cursor->y,cursor->x,Map));
     }
+    else if(y==save->line-2)
+    {
+        printf("Press Q to leave game");
+    }
+    else if(y==save->line-1)
+    {
+        printf("Press 0 to end turn");
+    }
+}
+
+void rules_display()
+{
+    system("cls");
+    printf("        RULES\n\n\n");
+    printf("Each team has same number of pawn, and have to put the two flag on his yellow base.\n");
+    printf("ptain ca m'casse les couilles d'ecrire les regles la ");
+    userinput();
 }

@@ -23,7 +23,20 @@ typedef struct data_save
         int nb_pawn; //Nb of pawn on each team
     }data_save;
 
+typedef struct data_check
+    {
+        int spawn_red;
+        int spawn_blue;
+        int drop_red;
+        int drop_blue;
+    }data_check;
+
 data_values ** getMap(int nb_map,data_save *save);
 
+int save_file(data_save *save,data_values **Map,char error[],char save_name[]);
+
+data_values ** loadFile(data_save *save,char error[],char name[]);
+
+int displayDirectory(char directory[]);
 
 #endif // FILES_H_INCLUDED
