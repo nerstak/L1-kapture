@@ -1,26 +1,27 @@
 # depslib dependency file v1.0
-1520546371 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
+1520716408 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
 	<errno.h>
 	<conio.h>
+	<time.h>
 	"files.h"
 	"game.h"
 	"display.h"
 
-1520543652 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
+1520716096 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
 	<string.h>
 
 1520543597 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.h
 
-1520543322 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
+1520716096 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
 	<stdlib.h>
 	<stdio.h>
 	<dirent.h>
 	"files.h"
 
-1520543597 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
+1520716096 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>

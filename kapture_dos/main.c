@@ -72,6 +72,8 @@ int main()
                 spawn.bx=8;
                 spawn.rx=0;
                 selection cursor;
+                int *mov_point;
+                mov_point = (int *) malloc(save.nb_pawn*sizeof(int));
                 int game = 1; //For the while loop
                 strcpy(save.team,"red"); //Init of the save in the RAM
                 save.turn = 1; //Same
@@ -80,7 +82,6 @@ int main()
                 do //Loop while the game ain't finished
                 {
                     cursor.n = cursor.x = cursor.y =-1;
-                    int *mov_point=(int *)malloc(save.nb_pawn*sizeof(int));
                     int init_mov_point=1;
                     turn=1;
                     int pawn=0;
@@ -336,8 +337,6 @@ int main()
                         printf("Before end of turn\n");
                     }while(turn!=0);
                     printf("After end turn\n");
-                    free(mov_point); //That shit is crashing all
-                    printf("Free mov done\n");
                     if(game)
                     {
                         if(strcmp(save.team,"red")==0)
@@ -498,6 +497,7 @@ int main()
                     free(Map[i]);
                 }
                 free(Map);
+                free(mov_point);
             }
         }
     }
