@@ -102,8 +102,14 @@ void visibility_change(char sign,data_values **Map,int y_ori,int x_ori,int y_cel
 
 int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save *save)//Moves a unit
 {
-    if(posexist(ydest,xdest,save->column,save->line)!=1 || Map[ydest][xdest].entity!=' ') //First we check if the movement is possible
+    if(posexist(ydest,xdest,save->column,save->line)!=1)
+    { //First we check if the movement is possible
         return 1;
+    }
+    if(Map[ydest][xdest].entity!=' ')
+    {
+        return 1;
+    }
     for(int k=ypos-1;k<=ypos+1;k++) //Remove the visibility to all cell affected
     {
         for(int l=xpos-1;l<=xpos+1;l++)
@@ -132,8 +138,8 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     strcpy(Map[ypos][xpos].team," ");
     Map[ydest][xdest].entity=Map[ypos][xpos].entity; //Moving the entity
     Map[ypos][xpos].entity=' ';
-    Map[ydest][xdest].carrying_flag=Map[ypos][xpos].carrying_flag; //Moving the carrying flag attribute
-    Map[ypos][xpos].carrying_flag=0;
+    strcpy(Map[ydest][xdest].carrying_flag,Map[ypos][xpos].carrying_flag); //Moving the carrying flag attribute
+    strcpy(Map[ypos][xpos].carrying_flag," ");
     Map[ydest][xdest].id=Map[ypos][xpos].id; //Moving the id
     Map[ypos][xpos].id=0;
     for(int k=ydest-1;k<=ydest+1;k++) //Setting the fog of war and the visibility
@@ -220,6 +226,7 @@ int cursor_new_id(int id, data_save *save, data_values **Map) //This function is
 void respawn(int ypos,int xpos,spawn_coord spawn,data_values **Map,data_save *save) //This fucks up in some tests later, but I dont know why so i'll ignore it and let karten deal with it
 {
     int ydest,xdest,i,j;
+    char flag[6];
     if(strcmp(Map[ypos][xpos].team,"red")==0)
     {
         ydest=spawn.ry;
@@ -230,14 +237,23 @@ void respawn(int ypos,int xpos,spawn_coord spawn,data_values **Map,data_save *sa
         ydest=spawn.by;
         xdest=spawn.bx;
     }
+    strcpy(flag,Map[ypos][xpos].carrying_flag);
+    strcpy(Map[ypos][xpos].carrying_flag," ");
+
     for(i=-1;i<2;i++)
     {
         for(j=-1;j<2;j++)
         {
             if(move_pawn(ypos,xpos,ydest+i,xdest+j,Map,&save)==0){
+                if(strcmp(flag," ")!=0)
+                {
+                    Map[ypos][xpos].entity='F';
+                    strcpy(Map[ypos][xpos].team,flag);
+                }
                 return;
             }
         }
     }
+
     printf("FUCK");
 }

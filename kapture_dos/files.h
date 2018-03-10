@@ -10,7 +10,7 @@ typedef struct data_values
         int visibility_red;  //+-1 according to entity that can see it, and prompt it if >0
         int visibility_blue;
         int fog; //+1 if red saw it,+2 if blue saw it, 0:none,1:red,2:blue,3:both
-        char carrying_flag; //r,b,' '
+        char carrying_flag[6]; //r,b,' '
         int id; //Id of the pawn
     } data_values;
 

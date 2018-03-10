@@ -40,6 +40,7 @@ data_values ** getMap(int nb_map, data_save *save)
                 strcpy(Map[i][j].terrain,temp);
                 Map[i][j].entity = ' ';
                 strcpy(Map[i][j].team," ");
+                strcpy(Map[i][j].carrying_flag," ");
                 if(Map[i][j].fog!=1 && Map[i][j].fog!=2 && Map[i][j].fog!=3)
                     Map[i][j].fog=0;
                 if(Map[i][j].visibility_blue>100)
@@ -53,6 +54,7 @@ data_values ** getMap(int nb_map, data_save *save)
                 if(temp[0]=='F' || temp[0]=='I' || temp[0]=='S' || temp[0]=='T')
                 {
                     Map[i][j].entity = temp[0];
+                    strcpy(Map[i][j].carrying_flag," ");
                     if (temp[1]=='R')
                     {
                         strcpy(Map[i][j].team,"red");

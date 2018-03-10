@@ -3,6 +3,7 @@
 #include <string.h>
 #include <errno.h> //Remove once project finished
 #include <conio.h>
+#include <time.h>
 
 #include "files.h"
 #include "game.h"
@@ -15,7 +16,7 @@ int main()
     spawn_coord spawn;
     char input_user,error[50],save_name[15];
     strcpy(error," ");
-    int nb_map,color_b, game, cost,p;
+    int nb_map,color_b, game, cost,p,i,j,c,d;
     int stay=1; //Var to know when the user want to stop
     while(stay)
     {
@@ -66,6 +67,10 @@ int main()
             }
             else
             {
+                spawn.ry=0;
+                spawn.by=8;
+                spawn.bx=8;
+                spawn.rx=0;
                 selection cursor;
                 int game = 1; //For the while loop
                 strcpy(save.team,"red"); //Init of the save in the RAM
@@ -83,8 +88,9 @@ int main()
                     //Start displaying map
                     do //Loop while the player has not finished to play
                     {
-                        //system("cls");
+                        system("cls");
                         printf("\n\n");
+
                         for(int i=0;i<save.line;i++) //Getting right position of the cursor, and init the number of movement points
                         {
                             for(int j=0;j<save.column;j++)
@@ -123,8 +129,10 @@ int main()
                                 }
                             }
                         }
+
                         init_mov_point=0;
                         printf("Pre-loop done\n");
+
                         for (int i=0;i<save.line;i++) //Display of the map
                         {
                             for(int j=0;j<save.column;j++)
@@ -209,6 +217,8 @@ int main()
                             color(0,0);
                             printf("\n");
                         }
+
+
                         printf("Display done\n");
                         //End of display!
                         color(7,0);
@@ -339,10 +349,128 @@ int main()
                             strcpy(save.team,"red");
                             save.turn++;
                         }
+
+                        //COBAT
+                        for (i=0;i<save.line;i++)
+                        {
+                            for(j=0;j<save.column;j++)
+                            {
+                                Map[i][j].entity;
+                                if(Map[i][j].entity!=' ' && Map[i][j].entity!='F')
+                                {
+
+                                    for(c=-1;c<2;c++)
+                                    {
+                                        for(d=-1;d<2;d++)
+                                        {
+                                            if(posexist(i+c,j+d,save.line,save.column))
+                                            {
+                                                if(Map[i+c][j+d].entity!=' ' && Map[i+c][j+d].entity!=' ' && strcmp(Map[i][j].team,Map[i+c][j+d].team)!=0 && Map[i][j].entity!=' ')
+                                                {
+                                                    if(strcmp(Map[i][j].carrying_flag," ")==0)
+                                                    {
+                                                        switch(Map[i][j].entity)
+                                                        {        //TODO:Do a different combat if flag carrying
+                                                            case 'S':
+                                                                if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T'){
+                                                                        respawn(i,j,spawn,Map,&save);
+                                                                }
+                                                                break;
+
+
+                                                            case 'I':               //Maybe change I to C or something so it's more unique and different to T | TITITITITIITITIT <-- hard to see?
+                                                                if(strcmp(Map[i+c][j+d].carrying_flag," ")==0)
+                                                                {
+                                                                    switch(Map[i+c][j+d].entity)
+                                                                    {
+                                                                        case 'S':
+                                                                            respawn(i+c,j+d,spawn,Map,&save);
+                                                                            break;
+
+                                                                        case 'I':
+                                                                            if(rand()%2==0)
+                                                                            {
+                                                                                respawn(i,j,spawn,Map,&save);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                respawn(i+c,j+d,spawn,Map,&save);
+                                                                            }
+                                                                            break;
+
+                                                                        case 'T':
+                                                                            respawn(i,j,spawn,Map,&save);
+                                                                            break;
+
+                                                                        case 'F':
+                                                                            Map[i+c][j+d].entity=' ';
+                                                                            strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
+                                                                            strcpy(Map[i+c][j+d].team," ");
+                                                                            printf("f");
+                                                                            break;
+                                                                    }
+                                                                }
+                                                                else{
+                                                                    respawn(i+c,j+d,spawn,Map,&save);
+                                                                }
+                                                                break;
+
+                                                            case 'T':
+                                                                if(strcmp(Map[i+c][j+d].carrying_flag," ")==0){
+                                                                    switch(Map[i+c][j+d].entity) {
+                                                                        case 'S':
+                                                                            respawn(i+c,j+d,spawn,Map,&save);
+                                                                            break;
+
+                                                                        case 'I':
+                                                                            respawn(i+c,j+d,spawn,Map,&save);
+                                                                            break;
+
+                                                                        case 'T':
+                                                                            if(move_pawn(i,j,i-c,j-d,Map,&save)==1)
+                                                                            {
+                                                                                respawn(i,j,spawn,Map,&save);
+                                                                            }
+                                                                            if(move_pawn(i+c,j+d,i+c+c,j+d+d,Map,&save)==1)
+                                                                            {
+                                                                                respawn(i+c,j+d,spawn,Map,&save);
+                                                                            }
+
+                                                                            break;
+
+                                                                        case 'F':
+                                                                            Map[i+c][j+d].entity=' ';
+                                                                            strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
+                                                                            strcpy(Map[i+c][j+d].team," ");
+                                                                            break;
+                                                                    }
+                                                                }
+                                                                else{
+                                                                    respawn(i+c,j+d,spawn,Map,&save);
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T')
+                                                        {
+                                                            respawn(i,j,spawn,Map,&save);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        printf("Combatend\n");
                         do //Loop to informe the users to change, and if they want, to save
                         {
                             input_user = ' '; //Reset of the var, because already used before
-                            //system("cls");
+                            system("cls");
                             printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press any key)\n",save.team);
                             printf("\n\n\n        Press 'S' to save");
                             input_user = userinput();
