@@ -372,7 +372,7 @@ int main()
                                                         {        //TODO:Do a different combat if flag carrying
                                                             case 'S':
                                                                 if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T'){
-                                                                        respawn(i,j,spawn,Map,&save);
+                                                                        respawn(i,j,&spawn,Map,&save);
                                                                 }
                                                                 break;
 
@@ -383,22 +383,22 @@ int main()
                                                                     switch(Map[i+c][j+d].entity)
                                                                     {
                                                                         case 'S':
-                                                                            respawn(i+c,j+d,spawn,Map,&save);
+                                                                            respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'I':
                                                                             if(rand()%2==0)
                                                                             {
-                                                                                respawn(i,j,spawn,Map,&save);
+                                                                                respawn(i,j,&spawn,Map,&save);
                                                                             }
                                                                             else
                                                                             {
-                                                                                respawn(i+c,j+d,spawn,Map,&save);
+                                                                                respawn(i+c,j+d,&spawn,Map,&save);
                                                                             }
                                                                             break;
 
                                                                         case 'T':
-                                                                            respawn(i,j,spawn,Map,&save);
+                                                                            respawn(i,j,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'F':
@@ -410,7 +410,7 @@ int main()
                                                                     }
                                                                 }
                                                                 else{
-                                                                    respawn(i+c,j+d,spawn,Map,&save);
+                                                                    respawn(i+c,j+d,&spawn,Map,&save);
                                                                 }
                                                                 break;
 
@@ -418,21 +418,21 @@ int main()
                                                                 if(strcmp(Map[i+c][j+d].carrying_flag," ")==0){
                                                                     switch(Map[i+c][j+d].entity) {
                                                                         case 'S':
-                                                                            respawn(i+c,j+d,spawn,Map,&save);
+                                                                            respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'I':
-                                                                            respawn(i+c,j+d,spawn,Map,&save);
+                                                                            respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'T':
                                                                             if(move_pawn(i,j,i-c,j-d,Map,&save)==1)
                                                                             {
-                                                                                respawn(i,j,spawn,Map,&save);
+                                                                                respawn(i,j,&spawn,Map,&save);
                                                                             }
                                                                             if(move_pawn(i+c,j+d,i+c+c,j+d+d,Map,&save)==1)
                                                                             {
-                                                                                respawn(i+c,j+d,spawn,Map,&save);
+                                                                                respawn(i+c,j+d,&spawn,Map,&save);
                                                                             }
 
                                                                             break;
@@ -445,7 +445,7 @@ int main()
                                                                     }
                                                                 }
                                                                 else{
-                                                                    respawn(i+c,j+d,spawn,Map,&save);
+                                                                    respawn(i+c,j+d,&spawn,Map,&save);
                                                                 }
                                                                 break;
                                                         }
@@ -454,7 +454,7 @@ int main()
                                                     {
                                                         if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T')
                                                         {
-                                                            respawn(i,j,spawn,Map,&save);
+                                                            respawn(i,j,&spawn,Map,&save);
                                                         }
                                                     }
                                                 }

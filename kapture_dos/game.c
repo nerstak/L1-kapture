@@ -223,19 +223,19 @@ int cursor_new_id(int id, data_save *save, data_values **Map) //This function is
         }
 }
 
-void respawn(int ypos,int xpos,spawn_coord spawn,data_values **Map,data_save *save) //This fucks up in some tests later, but I dont know why so i'll ignore it and let karten deal with it
+void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *save) //This fucks up in some tests later, but I dont know why so i'll ignore it and let karten deal with it
 {
     int ydest,xdest,i,j;
     char flag[6];
     if(strcmp(Map[ypos][xpos].team,"red")==0)
     {
-        ydest=spawn.ry;
-        xdest=spawn.rx;
+        ydest=spawn->ry;
+        xdest=spawn->rx;
     }
     else
     {
-        ydest=spawn.by;
-        xdest=spawn.bx;
+        ydest=spawn->by;
+        xdest=spawn->bx;
     }
     strcpy(flag,Map[ypos][xpos].carrying_flag);
     strcpy(Map[ypos][xpos].carrying_flag," ");
@@ -254,6 +254,5 @@ void respawn(int ypos,int xpos,spawn_coord spawn,data_values **Map,data_save *sa
             }
         }
     }
-
     printf("FUCK");
 }

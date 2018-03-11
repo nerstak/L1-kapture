@@ -1,4 +1,4 @@
-COLUMN=10,LINE=10
+COLUMN=10,LINE=9
 water,FR,grass,grass,grass,water,grass,IR,water,water,
 IB,IR,grass,grass,FB,water,water,water,water,grass,
 grass,grass,grass,grass,grass,water,spawn_b,grass,water,grass,
