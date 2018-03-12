@@ -129,6 +129,19 @@ int main()
                                         }
                                     }
                                 }
+                                if (Map[i][j].entity=='F')
+                                {
+                                    if (strcmp(Map[i][j].team,"blue")==0)
+                                    {
+                                        flags.bx=j;
+                                        flags.by=i;
+                                    }
+                                    else if (strcmp(Map[i][j].team,"red")==0)
+                                    {
+                                        flags.rx=j;
+                                        flags.ry=i;
+                                    }
+                                }
                             }
                         }
 
@@ -198,20 +211,10 @@ int main()
                                             if(strcmp(Map[i][j].team,"red")==0)
                                             {
                                                 color(12,color_b);
-                                                if (Map[i][j].entity=='F')
-                                                {
-                                                    flags.rx=j;
-                                                    flags.ry=i;
-                                                }
                                             }
                                             else if(strcmp(Map[i][j].team,"blue")==0)
                                             {
                                                 color(9,color_b);
-                                                if (Map[i][j].entity=='F')
-                                                {
-                                                    flags.bx=j;
-                                                    flags.by=i;
-                                                }
                                             }
                                         }
                                         if(cursor.id==Map[i][j].id && strcmp(Map[i][j].team,save.team)==0)
@@ -230,11 +233,13 @@ int main()
 
                             }
                             interface_game(i,Map,&save,&cursor,mov_point);
-                            color(0,0);
+                            //color(0,0);
                             printf("\n");
                         }
 
-
+                        printf("b'%d,%d'\n",flags.by,flags.bx);
+                        printf("r'%d,%d'\n",flags.ry,flags.rx);
+                        printf("Score:%d\n",save.nb_flag);
                         printf("Display done\n");
                         //End of display!
                         color(7,0);
@@ -511,7 +516,7 @@ int main()
                             j=flags.rx-1;
                             while (flags.rx!=-1 && j<=flags.rx+1)
                             {
-                                if(posexist(i,j,save.column,save.line)==1 && Map[i][j].entity!=' ' && Map[i][j].entity!='S' && strcmp(Map[i][j].carrying_flag," ")==0)
+                                if(posexist(i,j,save.column,save.line)==1 && (Map[i][j].entity=='I' || Map[i][j].entity=='T')&& strcmp(Map[i][j].carrying_flag," ")==0)
                                 {
                                     if(Map[i][j].team[0]!=Map[flags.ry][flags.rx].terrain[10]) //Red team can't take a flag from one of their drop
                                     {
@@ -519,9 +524,9 @@ int main()
                                         strcpy(Map[flags.ry][flags.rx].team," ");
                                         Map[flags.ry][flags.rx].id=NULL;
                                         Map[flags.ry][flags.rx].entity=' ';
-                                        if(strcmp(Map[flags.by][flags.bx].terrain,"check_for_r")==0)
+                                        if(strcmp(Map[flags.ry][flags.rx].terrain,"check_for_r")==0)
                                         {
-                                            save.nb_flag++;
+                                            save.nb_flag--;
                                         }
                                         flags.ry = flags.rx = -1;
                                     }
@@ -536,7 +541,7 @@ int main()
                             j=flags.bx-1;
                             while (flags.bx!=-1 && j<=flags.bx+1)
                             {
-                                if(posexist(i,j,save.column,save.line)==1 && Map[i][j].entity!=' ' && Map[i][j].entity!='S'&& strcmp(Map[i][j].carrying_flag," ")==0)
+                                if(posexist(i,j,save.column,save.line)==1 && (Map[i][j].entity=='I' || Map[i][j].entity=='T')&& strcmp(Map[i][j].carrying_flag," ")==0)
                                 {
                                     if(Map[i][j].team[0]!=Map[flags.by][flags.bx].terrain[10]) //Blue team can't take a flag from one of their drop
                                     {
@@ -549,6 +554,7 @@ int main()
                                             save.nb_flag++;
                                         }
                                         flags.by = flags.bx = -1;
+                                        printf("yo");
                                     }
                                 }
                                 j++;
@@ -559,7 +565,7 @@ int main()
                         do //Loop to informe the users to change, and if they want, to save
                         {
                             input_user = ' '; //Reset of the var, because already used before
-                            system("cls");
+                            //system("cls");
                             printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press any key)\n",save.team);
                             printf("\n\n\n        Press 'S' to save");
                             input_user = userinput();
@@ -580,7 +586,19 @@ int main()
                             }
                         }
                     }
-                    printf("\nDown\n");
+                    system("cls");
+                    if(save.nb_flag==-2)
+                    {
+                        printf("\n\n\n      Congratulations to the blue who won!");
+                        game=0;
+                        system("pause");
+                    }
+                    else if (save.nb_flag==2)
+                    {
+                        printf("\n\n\n      Congratulations to the red who won!");
+                        game=0;
+                        system("pause");
+                    }
                 }while(game); //End of loop while the game ain't finished
                 for(int i=0;i<save.line;i++)
                 {
