@@ -21,9 +21,10 @@ typedef struct data_save
         int turn; //Number of the turn
         char team[4]; //Color of the team who will play
         int nb_pawn; //Nb of pawn on each team
+        int nb_flag; //Positive : RED; Negative: BLUE. When one of them is |2|, team wins
     }data_save;
 
-typedef struct data_check
+typedef struct data_check //Un-used for the moment
     {
         int spawn_red;
         int spawn_blue;
@@ -45,5 +46,13 @@ typedef struct spawn_coord
         int ry;
         int rx;
     } spawn_coord;
+
+typedef struct flag_coord
+    {
+        int by;
+        int bx;
+        int ry;
+        int rx;
+    } flag_coord;
 
 #endif // FILES_H_INCLUDED

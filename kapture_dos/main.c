@@ -71,6 +71,7 @@ int main()
                 spawn.by=8;
                 spawn.bx=8;
                 spawn.rx=0;
+                flag_coord flags;
                 selection cursor;
                 int *mov_point;
                 mov_point = (int *) malloc(save.nb_pawn*sizeof(int));
@@ -152,14 +153,11 @@ int main()
                                             spawn.ry=i;
                                             spawn.rx=j;
                                         }
-                                        else
+                                        else if(strcmp(Map[i][j].terrain,"spawn_b")==0)
                                         {
-                                            if(strcmp(Map[i][j].terrain,"spawn_b")==0)
-                                            {
-                                                spawn.by=i;
-                                                spawn.bx=j;
-                                            }
-                                       }
+                                            spawn.by=i;
+                                            spawn.bx=j;
+                                        }
                                     }
                                     if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
                                     {
@@ -191,13 +189,30 @@ int main()
                                 {
                                     if(color_b != 8)
                                     {
-                                        if(strcmp(Map[i][j].team,"red")==0)
+                                        if(strcmp(Map[i][j].carrying_flag," ")!=0)
                                         {
-                                            color(12,color_b);
+                                            color(13,color_b);
                                         }
-                                        else if(strcmp(Map[i][j].team,"blue")==0)
+                                        else
                                         {
-                                            color(9,color_b);
+                                            if(strcmp(Map[i][j].team,"red")==0)
+                                            {
+                                                color(12,color_b);
+                                                if (Map[i][j].entity=='F')
+                                                {
+                                                    flags.rx=j;
+                                                    flags.ry=i;
+                                                }
+                                            }
+                                            else if(strcmp(Map[i][j].team,"blue")==0)
+                                            {
+                                                color(9,color_b);
+                                                if (Map[i][j].entity=='F')
+                                                {
+                                                    flags.bx=j;
+                                                    flags.by=i;
+                                                }
+                                            }
                                         }
                                         if(cursor.id==Map[i][j].id && strcmp(Map[i][j].team,save.team)==0)
                                             color(15,color_b);
@@ -349,12 +364,34 @@ int main()
                             save.turn++;
                         }
 
-                        //COBAT
+                        //COMBAT and capturing flags
                         for (i=0;i<save.line;i++)
                         {
                             for(j=0;j<save.column;j++)
                             {
-                                Map[i][j].entity;
+                                if(strcmp(Map[i][j].terrain,"check_for_r")==0 && strcmp(Map[i][j].carrying_flag," ")!=0)
+                                {
+                                    char temp[6];
+                                    strcpy(&temp,Map[i][j].carrying_flag);
+                                    respawn(i,j,&spawn,Map,&save);
+                                    strcpy(Map[i][j].team,temp);
+                                    Map[i][j].entity='F';
+                                    save.nb_flag++;
+                                    flags.rx=j;
+                                    flags.ry=i;
+                                }
+                                else if(strcmp(Map[i][j].terrain,"check_for_b")==0 && strcmp(Map[i][j].carrying_flag," ")!=0)
+                                {
+                                    char temp[6];
+                                    strcpy(&temp,Map[i][j].carrying_flag);
+                                    respawn(i,j,&spawn,Map,&save);
+                                    strcpy(Map[i][j].team,temp);
+                                    Map[i][j].entity='F';
+                                    save.nb_flag--;
+                                    flags.bx=j;
+                                    flags.by=i;
+                                }
+
                                 if(Map[i][j].entity!=' ' && Map[i][j].entity!='F')
                                 {
 
@@ -466,6 +503,59 @@ int main()
                         }
 
                         printf("Combatend\n");
+
+                        //Flag capture
+                        i=flags.ry-1;
+                        while (flags.ry!=-1 && i<=flags.ry+1)
+                        {
+                            j=flags.rx-1;
+                            while (flags.rx!=-1 && j<=flags.rx+1)
+                            {
+                                if(posexist(i,j,save.column,save.line)==1 && Map[i][j].entity!=' ' && Map[i][j].entity!='S' && strcmp(Map[i][j].carrying_flag," ")==0)
+                                {
+                                    if(Map[i][j].team[0]!=Map[flags.ry][flags.rx].terrain[10]) //Red team can't take a flag from one of their drop
+                                    {
+                                        strcpy(Map[i][j].carrying_flag,"red");
+                                        strcpy(Map[flags.ry][flags.rx].team," ");
+                                        Map[flags.ry][flags.rx].id=NULL;
+                                        Map[flags.ry][flags.rx].entity=' ';
+                                        if(strcmp(Map[flags.by][flags.bx].terrain,"check_for_r")==0)
+                                        {
+                                            save.nb_flag++;
+                                        }
+                                        flags.ry = flags.rx = -1;
+                                    }
+                                }
+                                j++;
+                            }
+                            i++;
+                        }
+                        i=flags.by-1;
+                        while (flags.by!=-1 && i<=flags.by+1)
+                        {
+                            j=flags.bx-1;
+                            while (flags.bx!=-1 && j<=flags.bx+1)
+                            {
+                                if(posexist(i,j,save.column,save.line)==1 && Map[i][j].entity!=' ' && Map[i][j].entity!='S'&& strcmp(Map[i][j].carrying_flag," ")==0)
+                                {
+                                    if(Map[i][j].team[0]!=Map[flags.by][flags.bx].terrain[10]) //Blue team can't take a flag from one of their drop
+                                    {
+                                        strcpy(Map[i][j].carrying_flag,"blue");
+                                        strcpy(Map[flags.by][flags.bx].team," ");
+                                        Map[flags.by][flags.bx].id=NULL;
+                                        Map[flags.by][flags.bx].entity=' ';
+                                        if(strcmp(Map[flags.by][flags.bx].terrain,"check_for_b")==0)
+                                        {
+                                            save.nb_flag++;
+                                        }
+                                        flags.by = flags.bx = -1;
+                                    }
+                                }
+                                j++;
+                            }
+                            i++;
+                        }
+
                         do //Loop to informe the users to change, and if they want, to save
                         {
                             input_user = ' '; //Reset of the var, because already used before

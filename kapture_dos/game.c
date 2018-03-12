@@ -244,7 +244,7 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
     {
         for(j=-1;j<2;j++)
         {
-            if(move_pawn(ypos,xpos,ydest+i,xdest+j,Map,&save)==0){
+            if(move_pawn(ypos,xpos,ydest+i,xdest+j,Map,save)==0){
                 if(strcmp(flag," ")!=0)
                 {
                     Map[ypos][xpos].entity='F';

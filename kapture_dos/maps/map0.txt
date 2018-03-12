@@ -1,8 +1,8 @@
 COLUMN=10,LINE=9
 water,FR,grass,grass,grass,water,grass,IR,water,water,
-IB,IR,grass,grass,FB,water,water,water,water,grass,
+IB,grass,grass,grass,FB,water,water,water,water,grass,
 grass,grass,grass,grass,grass,water,spawn_b,grass,water,grass,
-tree,grass,grass,grass,water,water,grass,IB,water,grass,
+tree,grass,grass,IR,water,water,grass,IB,water,grass,
 grass,grass,grass,SR,grass,grass,grass,grass,grass,grass,
 grass,grass,grass,grass,grass,grass,grass,grass,grass,tree,
 grass,grass,grass,spawn_r,grass,grass,grass,grass,tree,tree,
