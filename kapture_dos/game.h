@@ -25,4 +25,6 @@ int cursor_new_id(int id, data_save *save, data_values **Map);
 
 void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *save);
 
+void print_pawn(char pawn,char team[6]);
+
 #endif // GAME_H_INCLUDED

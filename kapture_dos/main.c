@@ -370,6 +370,7 @@ int main()
                         }
 
                         //COMBAT and capturing flags
+                        system("cls");
                         for (i=0;i<save.line;i++)
                         {
                             for(j=0;j<save.column;j++)
@@ -406,68 +407,86 @@ int main()
                                         {
                                             if(posexist(i+c,j+d,save.line,save.column))
                                             {
-                                                if(Map[i+c][j+d].entity!=' ' && Map[i+c][j+d].entity!=' ' && strcmp(Map[i][j].team,Map[i+c][j+d].team)!=0 && Map[i][j].entity!=' ')
+                                                if(Map[i+c][j+d].entity!=' ' && (strcmp(Map[i][j].team,Map[i+c][j+d].team)!=0 || Map[i+c][j+d].entity=='F')  && Map[i][j].entity!=' ')
                                                 {
+
                                                     if(strcmp(Map[i][j].carrying_flag," ")==0)
                                                     {
                                                         switch(Map[i][j].entity)
-                                                        {        //TODO:Do a different combat if flag carrying
+                                                        {
                                                             case 'S':
-                                                                if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T'){
+                                                                if((Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T') && strcmp(Map[i+c][j+d].carrying_flag," ")==0){
+                                                                        printf("%s Scout was defeated by",Map[i][j].team);
+                                                                        print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
                                                                         respawn(i,j,&spawn,Map,&save);
                                                                 }
                                                                 break;
 
 
                                                             case 'I':               //Maybe change I to C or something so it's more unique and different to T | TITITITITIITITIT <-- hard to see?
+                                                                printf("%s Infantry ",Map[i][j].team);
                                                                 if(strcmp(Map[i+c][j+d].carrying_flag," ")==0)
                                                                 {
+
                                                                     switch(Map[i+c][j+d].entity)
                                                                     {
                                                                         case 'S':
+                                                                            printf("defeated %s Scout",Map[i+c][j+d].team);
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'I':
                                                                             if(rand()%2==0)
                                                                             {
+                                                                                printf("was defeated by ");
                                                                                 respawn(i,j,&spawn,Map,&save);
                                                                             }
                                                                             else
                                                                             {
+                                                                                printf("defeated ");
                                                                                 respawn(i+c,j+d,&spawn,Map,&save);
                                                                             }
+                                                                            printf("%s Infantry",Map[i+c][j+d].team);
                                                                             break;
 
                                                                         case 'T':
+                                                                            printf("was defeated by %s Trooper",Map[i+c][j+d].team);
                                                                             respawn(i,j,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'F':
+                                                                            printf("grabbed %s FLAG!",Map[i+c][j+d].team);
                                                                             Map[i+c][j+d].entity=' ';
                                                                             strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
                                                                             strcpy(Map[i+c][j+d].team," ");
-                                                                            printf("f");
+                                                                            Map[i+c][j+d].id=NULL;
                                                                             break;
                                                                     }
                                                                 }
                                                                 else{
+                                                                    printf("defeated ");
+                                                                    print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
+                                                                    printf(" and made them drop their flag!");
                                                                     respawn(i+c,j+d,&spawn,Map,&save);
                                                                 }
                                                                 break;
 
                                                             case 'T':
+                                                                printf("%s Trooper ",Map[i][j].team);
                                                                 if(strcmp(Map[i+c][j+d].carrying_flag," ")==0){
                                                                     switch(Map[i+c][j+d].entity) {
                                                                         case 'S':
+                                                                            printf("defeated %s Scout",Map[i+c][j+d].team);
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'I':
+                                                                            printf("defeated %s Infantry",Map[i+c][j+d].team);
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'T':
+                                                                            printf("fought %s Trooper",Map[i+c][j+d].team);
                                                                             if(move_pawn(i,j,i-c,j-d,Map,&save)==1)
                                                                             {
                                                                                 respawn(i,j,&spawn,Map,&save);
@@ -480,13 +499,18 @@ int main()
                                                                             break;
 
                                                                         case 'F':
+                                                                            printf("grabbed %s FLAG!",Map[i+c][j+d].team);
                                                                             Map[i+c][j+d].entity=' ';
                                                                             strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
                                                                             strcpy(Map[i+c][j+d].team," ");
+                                                                            Map[i+c][j+d].id=NULL;
                                                                             break;
                                                                     }
                                                                 }
                                                                 else{
+                                                                    printf("defeated ");
+                                                                    print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
+                                                                    printf(" and made them drop their flag!");
                                                                     respawn(i+c,j+d,&spawn,Map,&save);
                                                                 }
                                                                 break;
@@ -496,9 +520,14 @@ int main()
                                                     {
                                                         if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T')
                                                         {
+                                                            print_pawn(Map[i][j].entity,Map[i][j].team);
+                                                            printf(" was defeated by ");
+                                                            print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
+                                                            printf(" and dropped their flag!");
                                                             respawn(i,j,&spawn,Map,&save);
                                                         }
                                                     }
+                                                    printf("\n");
                                                 }
                                             }
                                         }
@@ -506,8 +535,6 @@ int main()
                                 }
                             }
                         }
-
-                        printf("Combatend\n");
 
                         //Flag capture
                         i=flags.ry-1;
@@ -554,7 +581,6 @@ int main()
                                             save.nb_flag++;
                                         }
                                         flags.by = flags.bx = -1;
-                                        printf("yo");
                                     }
                                 }
                                 j++;

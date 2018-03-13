@@ -256,3 +256,25 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
     }
     printf("FUCK");
 }
+
+void print_pawn(char pawn,char team[6])
+{
+    printf("%s ",team);
+    switch(pawn)
+    {
+        case 'T':
+                printf("Trooper");
+                break;
+            case 'I':
+                printf("Infantry");
+                break;
+            case 'S':
+                printf("Scout");
+                break;
+            case 'F':
+                printf("Flag");
+                break;
+    }
+    return;
+}
+
