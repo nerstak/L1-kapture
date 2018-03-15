@@ -67,7 +67,7 @@ void rules_display()
 
 void pre_display(data_values **Map, data_save *save)
 {
-    int color_b,done=1;
+    int color_b,done=1,previous_x=-1,previous_y=-1,possible;
     char team[6]="red", temp[15], new_entities[5];
     strcpy(&new_entities,"TCI");
     selection cursor;
@@ -75,6 +75,7 @@ void pre_display(data_values **Map, data_save *save)
     do
     {
         system("cls");
+        possible=1;
         for (int i=0;i<save->line;i++) //Display of the map
         {
             for(int j=0;j<save->column;j++)
@@ -97,6 +98,12 @@ void pre_display(data_values **Map, data_save *save)
                     if((cursor.y>save->line-3) || (cursor.y<2) || (cursor.x>save->column-3) || (cursor.x<2))
                     {
                         color_b=12;
+                        possible=0;
+                    }
+                    if(previous_x!=-1 && (cursor.x<=previous_x+2 && cursor.x>=previous_x-2 && cursor.y<=previous_y+2 && cursor.y>=previous_y-2))
+                    {
+                        color_b=12;
+                        possible=0;
                     }
                 }
                 if(Map[i][j].entity == ' ') //Display terrain without entity
@@ -128,6 +135,9 @@ void pre_display(data_values **Map, data_save *save)
             color(0,0);
             printf("\n");
         }
+        color(15,0);
+        printf("Xp:%d,Xc:%d\n",previous_x,cursor.x);
+        printf("Yp:%d,Yc:%d\n",previous_y,cursor.y);
         switch(userinput())
         {
             case '<':
@@ -147,7 +157,7 @@ void pre_display(data_values **Map, data_save *save)
                     cursor.y++;
                 break;
             case ' ':
-                if((cursor.y<=save->line-3) || (cursor.y>=2) || (cursor.x<=save->column-3) || (cursor.x>=2))
+                if(possible)
                 {
                     color(15,0);
                     if(strcmp(team,"blue")==0)
@@ -168,6 +178,7 @@ void pre_display(data_values **Map, data_save *save)
                     {
                         Map[i][j].entity=new_entities[a];
                         Map[i][j].id=a;
+                        int bl=Map[i][j].id;
                         strcpy(Map[i][j].team,team);
                         for(int k=i-1;k<=i+1;k++)
                             for(int l=j-1;l<=j+1;l++)
@@ -213,8 +224,11 @@ void pre_display(data_values **Map, data_save *save)
                         }
                     }
                     strcpy(&team,"blue");
+                    previous_x=cursor.x;
+                    previous_y=cursor.y;
                 }
                 break;
         }
     }while(done);
+    save->nb_pawn=3;
 }

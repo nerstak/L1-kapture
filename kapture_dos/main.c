@@ -112,7 +112,7 @@ int main()
                                     }
                                     if(init_mov_point==1) //We set up the array containing the number of mov's point remaining to each pawn (only when the player change)
                                     {
-                                        printf("%d,%d:%c\n",i,j,Map[i][j].entity);
+                                        printf("%d,%d:%c;%d\n",i,j,Map[i][j].entity,Map[i][j].id);
                                         switch(Map[i][j].entity)
                                         {
                                             case 'T':
