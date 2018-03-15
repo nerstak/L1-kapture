@@ -44,6 +44,7 @@ int main()
             }while (nb_map>p);
             Map = getMap(nb_map,&save);
             pre_display(Map,&save);
+            strcpy(save.team,"red"); //Init of the save in the RAM
             break;
         case '2':
             system("cls");
@@ -73,7 +74,6 @@ int main()
                 int *mov_point;
                 mov_point = (int *) malloc(save.nb_pawn*sizeof(int));
                 int game = 1; //For the while loop
-                strcpy(save.team,"red"); //Init of the save in the RAM
                 save.turn = 1; //Same
                 int turn,visibility;
                 char key;
