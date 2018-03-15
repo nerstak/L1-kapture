@@ -14,6 +14,7 @@ int main()
     data_values **Map;
     data_save save;
     spawn_coord spawn;
+    flag_coord flags;
     char input_user,error[50],save_name[15];
     strcpy(error," ");
     int nb_map,color_b, game, cost,p,i,j,c,d;
@@ -42,6 +43,7 @@ int main()
                 scanf("%d",&nb_map);
             }while (nb_map>p);
             Map = getMap(nb_map,&save);
+            pre_display(Map,&save);
             break;
         case '2':
             system("cls");
@@ -67,11 +69,6 @@ int main()
             }
             else
             {
-                spawn.ry=0;
-                spawn.by=8;
-                spawn.bx=8;
-                spawn.rx=0;
-                flag_coord flags;
                 selection cursor;
                 int *mov_point;
                 mov_point = (int *) malloc(save.nb_pawn*sizeof(int));
@@ -115,6 +112,7 @@ int main()
                                     }
                                     if(init_mov_point==1) //We set up the array containing the number of mov's point remaining to each pawn (only when the player change)
                                     {
+                                        printf("%d,%d:%c\n",i,j,Map[i][j].entity);
                                         switch(Map[i][j].entity)
                                         {
                                             case 'T':
@@ -142,6 +140,16 @@ int main()
                                         flags.ry=i;
                                     }
                                 }
+                                if(init_mov_point==1 && strcmp(Map[i][j].terrain,"spawn_r")==0)
+                                {
+                                    spawn.ry=i;
+                                    spawn.rx=j;
+                                }
+                                else if(init_mov_point==1 && strcmp(Map[i][j].terrain,"spawn_b")==0)
+                                {
+                                    spawn.by=i;
+                                    spawn.bx=j;
+                                }
                             }
                         }
 
@@ -161,17 +169,7 @@ int main()
                                     if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                                     {
                                         color_b = 2+visibility*8;//Green
-                                        if(strcmp(Map[i][j].terrain,"spawn_r")==0)
-                                        {
-                                            spawn.ry=i;
-                                            spawn.rx=j;
-                                        }
-                                        else if(strcmp(Map[i][j].terrain,"spawn_b")==0)
-                                        {
-                                            spawn.by=i;
-                                            spawn.bx=j;
-                                        }
-                                    }
+                                                                            }
                                     if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
                                     {
                                         color_b = 3+visibility*8;//Cyan
@@ -233,7 +231,7 @@ int main()
 
                             }
                             interface_game(i,Map,&save,&cursor,mov_point);
-                            //color(0,0);
+                            color(0,0);
                             printf("\n");
                         }
 

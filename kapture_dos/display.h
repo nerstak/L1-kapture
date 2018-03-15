@@ -7,4 +7,6 @@ void interface_game(int y, data_values **Map, data_save *save, selection *cursor
 
 void rules_display();
 
+void pre_display(data_values **Map, data_save *save);
+
 #endif // DISPLAY_H_INCLUDED

@@ -9,7 +9,7 @@
 data_values ** getMap(int nb_map, data_save *save)
 {
     data_values **Map;
-    int i, j,nb_pawn_b=0,nb_pawn_r=0;
+    int i, j;
     char map_path[30],temp[15];
     sprintf(&map_path,"maps/map%d.txt",nb_map);
     FILE * map_file = NULL;
@@ -19,8 +19,7 @@ data_values ** getMap(int nb_map, data_save *save)
         printf("NULL_");
         return NULL;
     }
-    int line,column,id_red,id_blue;
-    id_red=id_blue=0;
+    int line,column;
     fscanf(map_file,"COLUMN= %d,LINE= %d\n",&column,&line);
     save->column = column;
     save->line = line;
@@ -50,124 +49,11 @@ data_values ** getMap(int nb_map, data_save *save)
             }
             else
             {
-                strcpy(Map[i][j].terrain,"grass");
-                if(temp[0]=='F' || temp[0]=='I' || temp[0]=='S' || temp[0]=='T')
-                {
-                    Map[i][j].entity = temp[0];
-                    strcpy(Map[i][j].carrying_flag," ");
-                    if (temp[1]=='R')
-                    {
-                        strcpy(Map[i][j].team,"red");
-                        if(temp[0]!='F')
-                        {
-                            Map[i][j].id=id_red;
-                            nb_pawn_r++;
-                            id_red++;
-                        }
-                        else
-                        {
-                            Map[i][j].id=-1;
-                        }
-                        for(int k=i-1;k<=i+1;k++)
-                            for(int l=j-1;l<=j+1;l++)
-                            {
-                                if (posexist(k,l,save->column,save->line)==1)
-                                {
-                                    if(Map[k][l].fog!=1 && Map[k][l].fog!=3)
-                                    {
-                                        if(Map[k][l].fog==2)
-                                            Map[k][l].fog=3;
-                                        else
-                                           Map[k][l].fog=1;
-                                    }
-                                    if(Map[k][l].visibility_red>100)
-                                        Map[k][l].visibility_red=0;
-                                    Map[k][l].visibility_red++;
-                                }
-                            }
-                        for(int k=i-2;k<=i+2;k=k+4)
-                        {
-                            if (posexist(k,j,save->column,save->line)==1)
-                            {
-                                if(Map[k][j].visibility_red>100)
-                                    Map[k][j].visibility_red=0;
-                                Map[k][j].visibility_red++;
-                            }
-                        }
-                        for(int l=j-2;l<=j+2;l=l+4)
-                        {
-                            if (posexist(i,l,save->column,save->line)==1)
-                            {
-                                if(Map[i][l].visibility_red>100)
-                                    Map[i][l].visibility_red=0;
-                                Map[i][l].visibility_red++;
-                            }
-                        }
-                    }
-                    else if (temp[1]=='B')
-                    {
-                        strcpy(Map[i][j].team,"blue");
-                        if(temp[0]!='F')
-                        {
-                            Map[i][j].id=id_blue;
-                            nb_pawn_b++;
-                            id_blue++;
-                        }
-                        else
-                        {
-                            Map[i][j].id=-1;
-                        }
-                        for(int k=i-1;k<=i+1;k++)
-                            for(int l=j-1;l<=j+1;l++)
-                            {
-                                if (posexist(k,l,save->column,save->line)==1)
-                                {
-                                    if (Map[k][l].fog!=2 && Map[k][l].fog!=3)
-                                    {
-                                        if(Map[k][l].fog==1)
-                                            Map[k][l].fog=3;
-                                        else
-                                           Map[k][l].fog=2;
-                                    }
-                                    if(Map[k][l].visibility_blue>100)
-                                        Map[k][l].visibility_blue=0;
-                                    Map[k][l].visibility_blue++;
-                                }
-                            }
-                        for(int k=i-2;k<=i+2;k=k+4)
-                        {
-                            if (posexist(k,j,save->column,save->line)==1)
-                            {
-                                if(Map[k][j].visibility_blue>100)
-                                    Map[k][j].visibility_blue=0;
-                                Map[k][j].visibility_blue++;
-                            }
-                        }
-                        for(int l=j-2;l<=j+2;l=l+4)
-                        {
-                            if (posexist(i,l,save->column,save->line)==1)
-                            {
-                                if(Map[i][l].visibility_blue>100)
-                                    Map[i][l].visibility_blue=0;
-                                Map[i][l].visibility_blue++;
-                            }
-                        }
-                    }
-                    else
-                        Map[i][j].entity = ' ';
-                }
-                else
-                {
-                    Map[i][j].entity = ' ';
-                }
+                return NULL;
             }
         }
         fscanf(map_file,"%\n",NULL); //Jump to the next line
     }
-    if(nb_pawn_b==nb_pawn_r) //Check that both team have same nb of pawns (no matter theirs types)
-        save->nb_pawn = nb_pawn_b;
-    else
-        return NULL;
     save->nb_flag=0; //Setting score
     fclose(map_file);
     return Map;

@@ -47,11 +47,17 @@ char userinput()
         case 27: //Keys up, down, left, right and other
             return userinput();
             break;
+        case 72:
+            return '^'; //Key up
+            break;
         case 77:
             return '>'; //Key right
             break;
         case 75:
             return '<'; //Key left
+            break;
+        case 80:
+            return '_'; //Key down
             break;
         case 113:
             return 'q';
@@ -60,7 +66,6 @@ char userinput()
             return 's';
             break;
         case 32:
-            printf("Space done\n");
             return ' '; //Key space
             break;
         defaut:
