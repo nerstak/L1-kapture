@@ -230,7 +230,8 @@ int cursor_new_id(int id, data_save *save, data_values **Map) //This function is
 
 void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *save) //This fucks up in some tests later, but I dont know why so i'll ignore it and let karten deal with it
 {
-    int ydest,xdest,i,j;
+    //printf("spawnstart\n");
+    int ydest,xdest,i,j,h,y,x;
     char flag[6];
     if(strcmp(Map[ypos][xpos].team,"red")==0)
     {
@@ -244,18 +245,34 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
     }
     strcpy(flag,Map[ypos][xpos].carrying_flag);
     strcpy(Map[ypos][xpos].carrying_flag," ");
-
-    for(i=-1;i<2;i++)
+    for(h=1;h<4;h++)
     {
-        for(j=-1;j<2;j++)
+
+        for(i=-1;i<2;i++)
         {
-            if(move_pawn(ypos,xpos,ydest+i,xdest+j,Map,save)==0){
-                if(strcmp(flag," ")!=0)
-                {
-                    Map[ypos][xpos].entity='F';
-                    strcpy(Map[ypos][xpos].team,flag);
+            for(j=-1;j<2;j++)
+            {
+                if(move_pawn(ypos,xpos,ydest+(i*h),xdest+(j*h),Map,save)==0){
+                    if(strcmp(flag," ")!=0)
+                    {
+                        do
+                        {
+                            y=(rand()%3)-1;
+                            x=(rand()%3)-1;
+                            //printf("spawnend %d %d\n",y,x);
+                            if(posexist(ypos+y,xpos+x,save->column,save->line) && Map[ypos][xpos].entity==' ' && (x!=0 || y!=0))
+                            {
+                                Map[ypos+y][xpos+x].entity='F';
+                                strcpy(Map[ypos+y][xpos+x].team,flag);
+                                //printf("spawnend\n");
+                                return;
+                            }
+                        }while(1==1);
+
+                    }
+
+                    return;
                 }
-                return;
             }
         }
     }

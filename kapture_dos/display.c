@@ -69,7 +69,7 @@ void pre_display(data_values **Map, data_save *save)
 {
     int color_b,done=1,previous_x=-1,previous_y=-1,possible;
     char team[6]="red", temp[15], new_entities[5];
-    strcpy(&new_entities,"TCI");
+    strcpy(&new_entities,"TSI");
     selection cursor;
     cursor.x=cursor.y=2;
     do
