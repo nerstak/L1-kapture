@@ -6,7 +6,7 @@
 
 /*All functions concerning reading or writing a file, or data saved in RAM*/
 
-data_values ** getMap(int nb_map, data_save *save)
+data_values ** getMap(int nb_map, data_save *save,char error[])
 {
     data_values **Map;
     int i, j;
@@ -16,7 +16,7 @@ data_values ** getMap(int nb_map, data_save *save)
     map_file = fopen(map_path,"r");
     if (map_file==NULL)
     {
-        printf("NULL_");
+        strcpy(error,"Unable to open the selected file");
         return NULL;
     }
     int line,column;
@@ -40,15 +40,13 @@ data_values ** getMap(int nb_map, data_save *save)
                 Map[i][j].entity = ' ';
                 strcpy(Map[i][j].team," ");
                 strcpy(Map[i][j].carrying_flag," ");
-                if(Map[i][j].fog!=1 && Map[i][j].fog!=2 && Map[i][j].fog!=3)
-                    Map[i][j].fog=0;
-                if(Map[i][j].visibility_blue>100)
-                    Map[i][j].visibility_blue=0;
-                if(Map[i][j].visibility_red>100)
-                    Map[i][j].visibility_red=0;
+                Map[i][j].fog=0;
+                Map[i][j].visibility_blue=0;
+                Map[i][j].visibility_red=0;
             }
             else
             {
+                strcpy(error,"Map corrupted");
                 return NULL;
             }
         }
@@ -67,7 +65,7 @@ int saveFile(data_save *save,data_values **Map,char error[],char name[])
     file_save = fopen(save_name , "wb+"); //Create or reset save file
     if (file_save==NULL)
     {
-        error="Error during the creation of the save";
+        strcpy(error,"Error during the creation of the save");
         return 1;
     }
     fwrite(save,sizeof(data_save),1,file_save);
@@ -88,8 +86,8 @@ data_values ** loadFile(data_save *save,char error[],char name[])
     file_save = fopen(save_name , "rb");
     if (file_save==NULL)
     {
-        error="Error during the loading of the save";
-        return 1;
+        strcpy(error,"Error during the loading of the save");
+        return NULL;
     }
     fread(save,sizeof(data_save),1,file_save);
     Map=(data_values **) malloc(save->line*sizeof(data_values *));

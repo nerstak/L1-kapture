@@ -24,15 +24,8 @@ typedef struct data_save
         int nb_flag; //Positive : RED; Negative: BLUE. When one of them is |2|, team wins
     }data_save;
 
-typedef struct data_check //Un-used for the moment
-    {
-        int spawn_red;
-        int spawn_blue;
-        int drop_red;
-        int drop_blue;
-    }data_check;
+data_values ** getMap(int nb_map,data_save *save,char error[]);
 
-data_values ** getMap(int nb_map,data_save *save);
 int save_file(data_save *save,data_values **Map,char error[],char save_name[]);
 
 data_values ** loadFile(data_save *save,char error[],char name[]);
