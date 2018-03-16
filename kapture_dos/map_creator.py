@@ -10,11 +10,11 @@ big_array=[[] for b in range(line)]
 for i in range(line):
     for j in range(column):
         value=pix[j,i]
-        if value==(0,127,14):
+        if value==(0,255,0):
             big_array[i].append("grass")
-        elif value==(127,51,0):
+        elif value==(150,75,0):
             big_array[i].append("tree")
-        elif value==(0,38,255):
+        elif value==(0,0,255):
             big_array[i].append("water")
         else:
             print("Error at "+str(i)+" "+str(j))

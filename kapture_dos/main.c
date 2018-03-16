@@ -44,7 +44,10 @@ int main()
                 scanf("%d",&nb_map);
             }while (nb_map>p);
             Map = getMap(nb_map,&save);
-            pre_display(Map,&save);
+            if(Map==NULL)
+                printf("Error while loading\n");
+            else
+                pre_display(Map,&save);
             strcpy(save.team,"red"); //Init of the save in the RAM
             break;
         case '2':
@@ -61,7 +64,6 @@ int main()
             stay = 0;
             break;
         }
-
         //Game in itself
         if(input_user=='1' || input_user=='2')
         {
@@ -84,7 +86,6 @@ int main()
                     int init_mov_point=1;
                     turn=1;
                     int pawn=0;
-                    printf("Init done\n");
                     //Start displaying map
                     do //Loop while the player has not finished to play
                     {
@@ -140,10 +141,7 @@ int main()
                                 }
                             }
                         }
-
                         init_mov_point=0;
-                        printf("Pre-loop done\n");
-
                         for (int i=0;i<save.line;i++) //Display of the map
                         {
                             for(int j=0;j<save.column;j++)
@@ -222,16 +220,12 @@ int main()
                             color(0,0);
                             printf("\n");
                         }
-                        printf("Score:%d\n",save.nb_flag);
-                        printf("Display done\n");
                         //End of display!
                         color(7,0);
                         key = userinput(); //Getting input from user
-                        printf("Key got\n");
                         if(key=='0')
                         {
                             turn=0;
-                            printf("Set 0\n");
                         }
                         else if(key=='q')
                         {
@@ -337,9 +331,7 @@ int main()
                             }
                             pawn=0;
                         }
-                        printf("Before end of turn\n");
                     }while(turn!=0);
-                    printf("After end turn\n");
                     if(game)
                     {
                         if(strcmp(save.team,"red")==0)
@@ -534,7 +526,7 @@ int main()
                         do //Loop to informe the users to change, and if they want, to save
                         {
                             input_user = ' '; //Reset of the var, because already used before
-                            //system("cls");
+                            system("cls");
                             printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press any key)\n",save.team);
                             printf("\n\n\n        Press 'S' to save");
                             input_user = userinput();

@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "files.h"
 #include "game.h"
@@ -70,44 +71,51 @@ void pre_display(data_values **Map, data_save *save)
     int color_b,done=1,previous_x=-1,previous_y=-1,possible;
     char team[6]="red", temp[15], new_entities[5];
     strcpy(&new_entities,"TSI");
+    char choice,key_input;
     selection cursor;
     cursor.x=cursor.y=2;
     do
     {
-        system("cls");
-        possible=1;
-        for (int i=0;i<save->line;i++) //Display of the map
+        printf("Do you want to choose the spawn point, or let it be random? (c/r)");
+        scanf("%c",&choice);
+    }while(choice!='r' && choice!='c');
+    do
+    {
+        if (choice=='c')
         {
-            for(int j=0;j<save->column;j++)
+            system("cls");
+            possible=1;
+            for (int i=0;i<save->line;i++) //Display of the map
             {
-                if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
+                for(int j=0;j<save->column;j++)
                 {
-                    color_b = 10;//Green
-                                                        }
-                if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
-                {
-                    color_b = 11;//Cyan
-                }
-                if(strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0) //Color for zone of drop
-                {
-                    color_b = 14;//Yellow
-                }
-                if(i==cursor.y && j==cursor.x)
-                {
-                    color_b=15;
-                    if((cursor.y>save->line-3) || (cursor.y<2) || (cursor.x>save->column-3) || (cursor.x<2))
+                    if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                     {
-                        color_b=12;
-                        possible=0;
-                    }
-                    if(previous_x!=-1 && (cursor.x<=previous_x+2 && cursor.x>=previous_x-2 && cursor.y<=previous_y+2 && cursor.y>=previous_y-2))
+                        color_b = 10;//Green
+                                                            }
+                    if(strcmp(Map[i][j].terrain,"water")==0) //Color blue for water
                     {
-                        color_b=12;
-                        possible=0;
+                        color_b = 11;//Cyan
                     }
-                }
-                if(Map[i][j].entity == ' ') //Display terrain without entity
-                {
+                    if(strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0) //Color for zone of drop
+                    {
+                        color_b = 10;//Green
+                    }
+                    if(i==cursor.y && j==cursor.x)
+                    {
+                        color_b=15;
+                        if((cursor.y>save->line-3) || (cursor.y<2) || (cursor.x>save->column-3) || (cursor.x<2))
+                        {
+                            color_b=12;
+                            possible=0;
+                        }
+                        if(previous_x!=-1 && (cursor.x<=previous_x+2+2 && cursor.x>=previous_x-2-2 && cursor.y<=previous_y+2+2 && cursor.y>=previous_y-2-2))
+                        {
+                            color_b=12;
+                            possible=0;
+                        }
+                    }
+                    
                     if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"water")==0 || strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 || strcmp(Map[i][j].terrain,"spawn_r")==0)
                     {
                         color(15,color_b);
@@ -118,27 +126,51 @@ void pre_display(data_values **Map, data_save *save)
                         color(4,color_b);
                         printf("+");
                     }
+                    
                 }
-                else //Display entity and their terrain
+                color(0,0);
+                printf("\n");
+            }
+            key_input=userinput();
+        }
+        else
+        {
+            if(previous_x==-1)
+            {
+                srand(time(NULL));
+                int band=rand()%4;
+                if(band==0)
+                    cursor.y=2;
+                else if(band==2)
+                    cursor.y=save->line-3;
+                else if(band==1)
+                    cursor.x=2;
+                else if(band==3)
+                    cursor.x=save->column-3;
+                if(band==0 || band==2)
                 {
-                    if(strcmp(Map[i][j].team,"red")==0)
+                    do
                     {
-                        color(12,color_b);
-                    }
-                    else if(strcmp(Map[i][j].team,"blue")==0)
+                        cursor.x=rand()%(save->column-2)+2;
+                    }while(cursor.x<2 || cursor.x>save->column-3);
+                }
+                else if(band==1 || band==3)
+                {
+                    do
                     {
-                        color(9,color_b);
-                    }
-                    printf("%c",Map[i][j].entity);
+                        cursor.y=rand()%(save->line-2)+2;
+                    }while(cursor.y<2 || cursor.y>save->line-3);
                 }
             }
-            color(0,0);
-            printf("\n");
+            else
+            {
+                cursor.x=save->column-previous_x-1;
+                cursor.y=save->line-previous_y-1;
+            }
+
+            key_input=' ';
         }
-        color(15,0);
-        printf("Xp:%d,Xc:%d\n",previous_x,cursor.x);
-        printf("Yp:%d,Yc:%d\n",previous_y,cursor.y);
-        switch(userinput())
+        switch(key_input)
         {
             case '<':
                 if(cursor.x!=0)
@@ -159,17 +191,13 @@ void pre_display(data_values **Map, data_save *save)
             case ' ':
                 if(possible)
                 {
-                    color(15,0);
                     if(strcmp(team,"blue")==0)
                         done=0;
                     sprintf(&temp,"check_for_%c",team[0]); //Generation of checks
                     Map[cursor.y-2][cursor.x-2].entity='F';
                     Map[cursor.y-2][cursor.x-2].id=-1;
                     strcpy(Map[cursor.y-2][cursor.x-2].team,team);
-                    printf("Team flag:%s\n",Map[cursor.y-2][cursor.x-2].team);
                     strcpy(Map[cursor.y-2][cursor.x-2].terrain,temp);
-                    printf("Balise:%s\n",Map[cursor.y-2][cursor.x-2].terrain);
-                    strcpy(Map[cursor.y+2][cursor.x+2].terrain,temp);
                     sprintf(&temp,"spawn_%c",team[0]);
                     strcpy(Map[cursor.y][cursor.x].terrain,temp); //Generation of spawn
 
