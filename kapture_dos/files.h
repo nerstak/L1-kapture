@@ -47,12 +47,4 @@ typedef struct spawn_coord
         int rx;
     } spawn_coord;
 
-typedef struct flag_coord
-    {
-        int by;
-        int bx;
-        int ry;
-        int rx;
-    } flag_coord;
-
 #endif // FILES_H_INCLUDED

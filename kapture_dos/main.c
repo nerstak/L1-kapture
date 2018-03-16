@@ -11,10 +11,10 @@
 
 int main()
 {
+    srand(time(NULL));
     data_values **Map;
     data_save save;
     spawn_coord spawn;
-    flag_coord flags;
     char input_user,error[50],save_name[15];
     strcpy(error," ");
     int nb_map,color_b, game, cost,p,i,j,c,d;
@@ -128,19 +128,6 @@ int main()
                                         }
                                     }
                                 }
-                                if (Map[i][j].entity=='F')
-                                {
-                                    if (strcmp(Map[i][j].team,"blue")==0)
-                                    {
-                                        flags.bx=j;
-                                        flags.by=i;
-                                    }
-                                    else if (strcmp(Map[i][j].team,"red")==0)
-                                    {
-                                        flags.rx=j;
-                                        flags.ry=i;
-                                    }
-                                }
                                 if(init_mov_point==1 && strcmp(Map[i][j].terrain,"spawn_r")==0)
                                 {
                                     spawn.ry=i;
@@ -235,9 +222,6 @@ int main()
                             color(0,0);
                             printf("\n");
                         }
-
-                        printf("b'%d,%d'\n",flags.by,flags.bx);
-                        printf("r'%d,%d'\n",flags.ry,flags.rx);
                         printf("Score:%d\n",save.nb_flag);
                         printf("Display done\n");
                         //End of display!
@@ -374,32 +358,18 @@ int main()
                         {
                             for(j=0;j<save.column;j++)
                             {
-                                if(strcmp(Map[i][j].terrain,"check_for_r")==0 && strcmp(Map[i][j].carrying_flag," ")!=0)
-                                {
-                                    char temp[6];
-                                    strcpy(&temp,Map[i][j].carrying_flag);
-                                    respawn(i,j,&spawn,Map,&save);
-                                    strcpy(Map[i][j].team,temp);
-                                    Map[i][j].entity='F';
-                                    save.nb_flag++;
-                                    flags.rx=j;
-                                    flags.ry=i;
-                                }
-                                else if(strcmp(Map[i][j].terrain,"check_for_b")==0 && strcmp(Map[i][j].carrying_flag," ")!=0)
-                                {
-                                    char temp[6];
-                                    strcpy(&temp,Map[i][j].carrying_flag);
-                                    respawn(i,j,&spawn,Map,&save);
-                                    strcpy(Map[i][j].team,temp);
-                                    Map[i][j].entity='F';
-                                    save.nb_flag--;
-                                    flags.bx=j;
-                                    flags.by=i;
-                                }
 
                                 if(Map[i][j].entity!=' ' && Map[i][j].entity!='F')
                                 {
-
+                                    if(Map[i][j].carrying_flag[0]==Map[i][j].terrain[10] && Map[i][j].carrying_flag[0]==Map[i][j].team[0])
+                                    {
+                                        char tempteam[6];
+                                        strcpy(Map[i][j].carrying_flag," ");
+                                        strcpy(tempteam,Map[i][j].team);
+                                        respawn(i,j,&spawn,Map,&save);
+                                        Map[i][j].entity='F';
+                                        strcpy(Map[i][j].team,tempteam);
+                                    }
                                     for(c=-1;c<2;c++)
                                     {
                                         for(d=-1;d<2;d++)
@@ -423,18 +393,19 @@ int main()
 
 
                                                             case 'I':               //Maybe change I to C or something so it's more unique and different to T | TITITITITIITITIT <-- hard to see?
-                                                                printf("%s Infantry ",Map[i][j].team);
                                                                 if(strcmp(Map[i+c][j+d].carrying_flag," ")==0)
                                                                 {
 
                                                                     switch(Map[i+c][j+d].entity)
                                                                     {
                                                                         case 'S':
+                                                                            printf("%s Infantry ",Map[i][j].team);
                                                                             printf("defeated %s Scout",Map[i+c][j+d].team);
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'I':
+                                                                            printf("%s Infantry ",Map[i][j].team);
                                                                             if(rand()%2==0)
                                                                             {
                                                                                 printf("was defeated by ");
@@ -449,20 +420,26 @@ int main()
                                                                             break;
 
                                                                         case 'T':
+                                                                            printf("%s Infantry ",Map[i][j].team);
                                                                             printf("was defeated by %s Trooper",Map[i+c][j+d].team);
                                                                             respawn(i,j,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'F':
-                                                                            printf("grabbed %s FLAG!",Map[i+c][j+d].team);
-                                                                            Map[i+c][j+d].entity=' ';
-                                                                            strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
-                                                                            strcpy(Map[i+c][j+d].team," ");
-                                                                            Map[i+c][j+d].id=NULL;
+                                                                            if(Map[i+c][j+d].terrain[10]!=Map[i][j].team[0])
+                                                                            {
+                                                                                printf("%s Infantry ",Map[i][j].team);
+                                                                                printf("grabbed %s FLAG!",Map[i+c][j+d].team);
+                                                                                Map[i+c][j+d].entity=' ';
+                                                                                strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
+                                                                                strcpy(Map[i+c][j+d].team," ");
+                                                                                Map[i+c][j+d].id=NULL;
+                                                                            }
                                                                             break;
                                                                     }
                                                                 }
                                                                 else{
+                                                                    printf("%s Infantry ",Map[i][j].team);
                                                                     printf("defeated ");
                                                                     print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
                                                                     printf(" and made them drop their flag!");
@@ -471,20 +448,22 @@ int main()
                                                                 break;
 
                                                             case 'T':
-                                                                printf("%s Trooper ",Map[i][j].team);
                                                                 if(strcmp(Map[i+c][j+d].carrying_flag," ")==0){
                                                                     switch(Map[i+c][j+d].entity) {
                                                                         case 'S':
+                                                                            printf("%s Trooper ",Map[i][j].team);
                                                                             printf("defeated %s Scout",Map[i+c][j+d].team);
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'I':
+                                                                            printf("%s Trooper ",Map[i][j].team);
                                                                             printf("defeated %s Infantry",Map[i+c][j+d].team);
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                             break;
 
                                                                         case 'T':
+                                                                            printf("%s Trooper ",Map[i][j].team);
                                                                             printf("fought %s Trooper",Map[i+c][j+d].team);
                                                                             if(move_pawn(i,j,i-c,j-d,Map,&save)==1)
                                                                             {
@@ -498,15 +477,20 @@ int main()
                                                                             break;
 
                                                                         case 'F':
-                                                                            printf("grabbed %s FLAG!",Map[i+c][j+d].team);
-                                                                            Map[i+c][j+d].entity=' ';
-                                                                            strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
-                                                                            strcpy(Map[i+c][j+d].team," ");
-                                                                            Map[i+c][j+d].id=NULL;
+                                                                            if(Map[i+c][j+d].terrain[10]!=Map[i][j].team[0])
+                                                                            {
+                                                                                printf("%s Trooper ",Map[i][j].team);
+                                                                                printf("grabbed %s FLAG!",Map[i+c][j+d].team);
+                                                                                Map[i+c][j+d].entity=' ';
+                                                                                strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
+                                                                                strcpy(Map[i+c][j+d].team," ");
+                                                                                Map[i+c][j+d].id=NULL;
+                                                                            }
                                                                             break;
                                                                     }
                                                                 }
                                                                 else{
+                                                                    printf("%s Infantry ",Map[i][j].team);
                                                                     printf("defeated ");
                                                                     print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
                                                                     printf(" and made them drop their flag!");
@@ -517,7 +501,18 @@ int main()
                                                     }
                                                     else
                                                     {
-                                                        if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T')
+                                                        if(Map[i+c][j+d].entity=='F' && Map[i+c][j+d].terrain[10]==Map[i][j].team[0])
+                                                        {
+                                                            if(Map[i][j].team[0]='r')
+                                                            {
+                                                                save.nb_flag=2;
+                                                            }
+                                                            else
+                                                            {
+                                                                save.nb_flag=-2;
+                                                            }
+                                                        }
+                                                        else if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T')
                                                         {
                                                             print_pawn(Map[i][j].entity,Map[i][j].team);
                                                             printf(" was defeated by ");
@@ -535,57 +530,6 @@ int main()
                             }
                         }
 
-                        //Flag capture
-                        i=flags.ry-1;
-                        while (flags.ry!=-1 && i<=flags.ry+1)
-                        {
-                            j=flags.rx-1;
-                            while (flags.rx!=-1 && j<=flags.rx+1)
-                            {
-                                if(posexist(i,j,save.column,save.line)==1 && (Map[i][j].entity=='I' || Map[i][j].entity=='T')&& strcmp(Map[i][j].carrying_flag," ")==0)
-                                {
-                                    if(Map[i][j].team[0]!=Map[flags.ry][flags.rx].terrain[10]) //Red team can't take a flag from one of their drop
-                                    {
-                                        strcpy(Map[i][j].carrying_flag,"red");
-                                        strcpy(Map[flags.ry][flags.rx].team," ");
-                                        Map[flags.ry][flags.rx].id=NULL;
-                                        Map[flags.ry][flags.rx].entity=' ';
-                                        if(strcmp(Map[flags.ry][flags.rx].terrain,"check_for_r")==0)
-                                        {
-                                            save.nb_flag--;
-                                        }
-                                        flags.ry = flags.rx = -1;
-                                    }
-                                }
-                                j++;
-                            }
-                            i++;
-                        }
-                        i=flags.by-1;
-                        while (flags.by!=-1 && i<=flags.by+1)
-                        {
-                            j=flags.bx-1;
-                            while (flags.bx!=-1 && j<=flags.bx+1)
-                            {
-                                if(posexist(i,j,save.column,save.line)==1 && (Map[i][j].entity=='I' || Map[i][j].entity=='T')&& strcmp(Map[i][j].carrying_flag," ")==0)
-                                {
-                                    if(Map[i][j].team[0]!=Map[flags.by][flags.bx].terrain[10]) //Blue team can't take a flag from one of their drop
-                                    {
-                                        strcpy(Map[i][j].carrying_flag,"blue");
-                                        strcpy(Map[flags.by][flags.bx].team," ");
-                                        Map[flags.by][flags.bx].id=NULL;
-                                        Map[flags.by][flags.bx].entity=' ';
-                                        if(strcmp(Map[flags.by][flags.bx].terrain,"check_for_b")==0)
-                                        {
-                                            save.nb_flag++;
-                                        }
-                                        flags.by = flags.bx = -1;
-                                    }
-                                }
-                                j++;
-                            }
-                            i++;
-                        }
 
                         do //Loop to informe the users to change, and if they want, to save
                         {
