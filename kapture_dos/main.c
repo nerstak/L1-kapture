@@ -25,6 +25,7 @@ int main()
         do
         {
             system("cls");
+            printf("\n\n\n      Please enlarge the window.\n");
             printf("\n\n\n");
             printf("    1: New Game\n");
             printf("    2: Load Save\n");
