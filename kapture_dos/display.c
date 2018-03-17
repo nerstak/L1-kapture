@@ -14,7 +14,6 @@ void color(int t,int b) //Function to use coloration. First number is text, seco
     SetConsoleTextAttribute(H,b*16+t);
 }
 
-void interface_game(int y,data_values **Map,data_save *save,selection *cursor, int *mov_pts)
 {
     color(8,0);
     printf(" ");
@@ -66,7 +65,6 @@ void rules_display()
     userinput();
 }
 
-void pre_display(data_values **Map, data_save *save)
 {
     int pcount,pdown=0,color_b,done=1,previous_x=-1,previous_y=-1,possible;
     char team[6]="red", temp[15];
@@ -76,8 +74,6 @@ void pre_display(data_values **Map, data_save *save)
     cursor.x=cursor.y=2;
     do
     {
-        printf("Do you want to choose the spawn point, or let it be random? (c/r)");
-        scanf("%c",&choice);
     }while(choice!='r' && choice!='c');
     do
     {
@@ -188,16 +184,11 @@ void pre_display(data_values **Map, data_save *save)
                 if(cursor.y!=save->line-1)
                     cursor.y++;
                 break;
-            case ' ':
                 if(possible)
                 {
                     if(strcmp(team,"blue")==0)
                         done=0;
                     sprintf(&temp,"check_for_%c",team[0]); //Generation of checks
-                    Map[cursor.y-2][cursor.x-2].entity='F';
-                    Map[cursor.y-2][cursor.x-2].id=-1;
-                    strcpy(Map[cursor.y-2][cursor.x-2].team,team);
-                    strcpy(Map[cursor.y-2][cursor.x-2].terrain,temp);
                     sprintf(&temp,"spawn_%c",team[0]);
                     strcpy(Map[cursor.y][cursor.x].terrain,temp); //Generation of spawn
 
