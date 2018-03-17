@@ -8,9 +8,11 @@
 
 /*All functions relative to actions directly related to the game*/
 
-char userinput()//Function to get the key pressed by the user
+char userinput()
 {
-    switch(getch())
+    char lol=getch();
+    printf("\nINPUT = '%c'\n",lol);
+    switch(lol)
     {
         case 48:
             return '0'; //Key 0
@@ -81,10 +83,12 @@ int posexist(int ypos,int xpos,int TEMPWIDTH,int TEMPHEIGHT) //checks if a coord
     return 0;
 }
 
-void visibility_change(char sign,data_values **Map,int y_ori,int x_ori,int y_cell,int x_cell) //Function to change visibility of case
+void visibility_change(char sign,data_values **Map,int y_ori,int x_ori,int y_cell,int x_cell)
 {
     if(strcmp(Map[y_ori][x_ori].team,"blue")==0)
     {
+        if(Map[y_cell][x_cell].visibility_blue>100)
+            Map[y_cell][x_cell].visibility_blue=0;
         if(sign=='+')
             Map[y_cell][x_cell].visibility_blue++;
         else if(sign=='-')
@@ -92,6 +96,8 @@ void visibility_change(char sign,data_values **Map,int y_ori,int x_ori,int y_cel
     }
     if(strcmp(Map[y_ori][x_ori].team,"red")==0)
     {
+        if(Map[y_cell][x_cell].visibility_red>100)
+            Map[y_cell][x_cell].visibility_red=0;
         if(sign=='+')
             Map[y_cell][x_cell].visibility_red++;
         else if(sign=='-')
@@ -174,12 +180,12 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     return 0;
 }
 
-int point_deduct(int ypos,int xpos,data_values **Map,int *mov_point) //Function calculating points remaining after a movement
+int point_deduct(int ypos,int xpos,data_values **Map,int *mov_point)
 {
     return mov_point[Map[ypos][xpos].id]-cost_terrain(ypos,xpos,Map);
 }
 
-int cost_terrain(int ypos,int xpos,data_values **Map)//Function to get the cost for a unit to leave a case
+int cost_terrain(int ypos,int xpos,data_values **Map)
 {
     int cost;
     switch(Map[ypos][xpos].terrain[0]){
@@ -270,6 +276,7 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
             }
         }
     }
+    printf("FUCK");
 }
 
 void print_pawn(char pawn,char team[6])

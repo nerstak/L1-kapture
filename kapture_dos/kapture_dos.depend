@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1521291467 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
+1521208926 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -10,18 +10,18 @@
 	"game.h"
 	"display.h"
 
-1521209322 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
+1521186771 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.h
 	<string.h>
 
 1521055758 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.h
 
-1521291383 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
+1521208976 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\files.c
 	<stdlib.h>
 	<stdio.h>
 	<dirent.h>
 	"files.h"
 
-1521290617 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
+1521186771 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\game.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -61,7 +61,7 @@
 
 1521059683 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\display.h
 
-1521292224 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\display.c
+1521196507 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\display.c
 	<windows.h>
 	<stdlib.h>
 	<time.h>
