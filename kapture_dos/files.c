@@ -10,8 +10,9 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
 {
     data_values **Map;
     int i, j;
-    char map_path[30],temp[15];
-    sprintf(&map_path,"maps/map%d.txt",nb_map);
+    char map_path[30],temp[15],pawns[10],mapname[20];
+    getDirectory("./maps",nb_map,save);
+    sprintf(&map_path,"maps/%s",save->mapname);
     FILE * map_file = NULL;
     map_file = fopen(map_path,"r");
     if (map_file==NULL)
@@ -20,7 +21,7 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
         return NULL;
     }
     int line,column;
-    fscanf(map_file,"COLUMN= %d,LINE= %d\n",&column,&line);
+    fscanf(map_file,"COLUMN= %d,LINE= %d \n",&column,&line);
     save->column = column;
     save->line = line;
     Map=(data_values **) malloc(save->line*sizeof(data_values *));
@@ -28,6 +29,10 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
     {
         Map[i]=(data_values *) malloc(save->column*sizeof(data_values));
     }
+    fscanf(map_file,"%[^,]",&pawns);//Get chars until comma
+    fseek(map_file,1,SEEK_CUR); //Moving the cursor to the next position
+    fscanf(map_file,"%\n",NULL); //Jump to the next line
+    strcpy(save->pawns,pawns);
     for(i=0;i<save->line;i++)
     {
         for(j=0;j<save->column;j++)
@@ -119,4 +124,30 @@ int displayDirectory(char directory[])
     closedir(d);
     }
     return i;
+}
+
+void getDirectory(char directory[],int n,data_save *save)
+{
+    DIR *d;
+    char result[20],please[20];
+    struct dirent *dir;
+    d = opendir(directory);
+    int i = -1;
+    if(d) //If directory exists
+    {
+        while((dir = readdir(d))!=NULL) //While there is unlisted files, it lists files
+        {
+            if(dir->d_name[0]!='.')
+            {
+                i++;
+                if(i==n)
+                {
+                    strcpy(result,dir->d_name);
+                }
+            }
+        }
+    closedir(d);
+    }
+    strcpy(save->mapname,result);
+    return;
 }

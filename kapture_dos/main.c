@@ -518,7 +518,6 @@ int main()
                     do //Loop to informe the users to change, and if they want, to save
                     {
                         input_user = ' '; //Reset of the var, because already used before
-                        system("cls");
                         printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press any key)\n",save.team);
                         printf("\n\n\n        Press 'S' to save");
                         input_user = userinput();

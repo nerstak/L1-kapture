@@ -22,6 +22,8 @@ typedef struct data_save
         char team[4]; //Color of the team who will play
         int nb_pawn; //Nb of pawn on each team
         int nb_flag; //Positive : RED; Negative: BLUE. When one of them is |2|, team wins
+        char pawns[10]; //Pawn config. e.g. 'ISST'
+        char mapname[20]; //I'm sorry
     }data_save;
 
 data_values ** getMap(int nb_map,data_save *save,char error[]);
@@ -31,6 +33,8 @@ int save_file(data_save *save,data_values **Map,char error[],char save_name[]);
 data_values ** loadFile(data_save *save,char error[],char name[]);
 
 int displayDirectory(char directory[]);
+
+void getDirectory(char directory[],int n,data_save *save);
 
 typedef struct spawn_coord
     {

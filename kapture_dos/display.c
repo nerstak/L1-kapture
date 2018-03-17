@@ -68,11 +68,11 @@ void rules_display()
 
 void pre_display(data_values **Map, data_save *save)
 {
-    int color_b,done=1,previous_x=-1,previous_y=-1,possible;
-    char team[6]="red", temp[15], new_entities[5];
-    strcpy(&new_entities,"TSI");
+    int pcount,pdown=0,color_b,done=1,previous_x=-1,previous_y=-1,possible;
+    char team[6]="red", temp[15];
     char choice,key_input;
     selection cursor;
+    pcount=strlen(save->pawns);
     cursor.x=cursor.y=2;
     do
     {
@@ -115,7 +115,7 @@ void pre_display(data_values **Map, data_save *save)
                             possible=0;
                         }
                     }
-                    
+
                     if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"water")==0 || strcmp(Map[i][j].terrain,"check_for_b")==0 || strcmp(Map[i][j].terrain,"check_for_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 || strcmp(Map[i][j].terrain,"spawn_r")==0)
                     {
                         color(15,color_b);
@@ -126,7 +126,7 @@ void pre_display(data_values **Map, data_save *save)
                         color(4,color_b);
                         printf("+");
                     }
-                    
+
                 }
                 color(0,0);
                 printf("\n");
@@ -201,55 +201,60 @@ void pre_display(data_values **Map, data_save *save)
                     sprintf(&temp,"spawn_%c",team[0]);
                     strcpy(Map[cursor.y][cursor.x].terrain,temp); //Generation of spawn
 
-                    int i = cursor.y-1, j = cursor.x-1; //Generation of pawns
-                    for(int a=0;a<3;a++)
+                    int i,j;//Generation of pawns
+
+                    int pdone=0,a=0,b=0;
+                    while(pdone<pcount)
                     {
-                        Map[i][j].entity=new_entities[a];
-                        Map[i][j].id=a;
-                        int bl=Map[i][j].id;
-                        strcpy(Map[i][j].team,team);
-                        for(int k=i-1;k<=i+1;k++)
-                            for(int l=j-1;l<=j+1;l++)
-                            {
-                                if (posexist(k,l,save->column,save->line)==1)
+                            i = cursor.y-1+b;
+                            j = cursor.x-1+a;
+                            Map[i][j].entity=save->pawns[pdone];
+                            Map[i][j].id=pdone;
+                            int bl=Map[i][j].id;
+                            strcpy(Map[i][j].team,team);
+                            for(int k=i-1;k<=i+1;k++)
+                                for(int l=j-1;l<=j+1;l++)
                                 {
-                                    if(strcmp(team,"red")==0 && Map[k][l].fog!=1 && Map[k][l].fog!=3)
+                                    if (posexist(k,l,save->column,save->line)==1)
                                     {
-                                        if(Map[k][l].fog==2)
-                                            Map[k][l].fog=3;
-                                        else
-                                           Map[k][l].fog=1;
+                                        if(strcmp(team,"red")==0 && Map[k][l].fog!=1 && Map[k][l].fog!=3)
+                                        {
+                                            if(Map[k][l].fog==2)
+                                                Map[k][l].fog=3;
+                                            else
+                                               Map[k][l].fog=1;
+                                        }
+                                        if (strcmp(team,"blue")==0 && Map[k][l].fog!=2 && Map[k][l].fog!=3)
+                                        {
+                                            if(Map[k][l].fog==1)
+                                                Map[k][l].fog=3;
+                                            else
+                                               Map[k][l].fog=2;
+                                        }
+                                        visibility_change('+',Map,i,j,k,l);
                                     }
-                                    if (strcmp(team,"blue")==0 && Map[k][l].fog!=2 && Map[k][l].fog!=3)
-                                    {
-                                        if(Map[k][l].fog==1)
-                                            Map[k][l].fog=3;
-                                        else
-                                           Map[k][l].fog=2;
-                                    }
-                                    visibility_change('+',Map,i,j,k,l);
+                                }
+                            for(int k=i-2;k<=i+2;k=k+4)
+                            {
+                                if (posexist(k,j,save->column,save->line)==1)
+                                {
+                                    visibility_change('+',Map,i,j,k,j);
                                 }
                             }
-                        for(int k=i-2;k<=i+2;k=k+4)
-                        {
-                            if (posexist(k,j,save->column,save->line)==1)
+                            for(int l=j-2;l<=j+2;l=l+4)
                             {
-                                visibility_change('+',Map,i,j,k,j);
+                                if (posexist(i,l,save->column,save->line)==1)
+                                {
+                                    visibility_change('+',Map,i,j,i,l);
+                                }
                             }
-                        }
-                        for(int l=j-2;l<=j+2;l=l+4)
-                        {
-                            if (posexist(i,l,save->column,save->line)==1)
+                            pdone++;
+                            a++;
+                            if(a>2)
                             {
-                                visibility_change('+',Map,i,j,i,l);
+                                a-=3;
+                                b++;
                             }
-                        }
-                        j+=2;
-                        if(j>cursor.x+1)
-                        {
-                            j-=3;
-                            i++;
-                        }
                     }
                     strcpy(&team,"blue");
                     previous_x=cursor.x;
@@ -258,5 +263,5 @@ void pre_display(data_values **Map, data_save *save)
                 break;
         }
     }while(done);
-    save->nb_pawn=3;
+    save->nb_pawn=pcount;
 }
