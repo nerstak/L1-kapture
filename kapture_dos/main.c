@@ -40,13 +40,17 @@ int main()
             {
                 system("cls");
                 p=displayDirectory("./maps");
+                printf("Enter the number of the map you want to choose:\n");
                 scanf("%d",&nb_map);
             }while (nb_map>p);
             Map = getMap(nb_map,&save,error);
             if(Map==NULL)
+            {
                 printf("%s\n",error);
+                getch();
+            }
             else
-                pre_display(Map,&save);
+                pre_display(Map,&save); //For spawn points
             strcpy(save.team,"red"); //Init of the save in the RAM
             break;
         case '2':
@@ -56,7 +60,10 @@ int main()
             scanf("%s",&save_name);
             Map=loadFile(&save,error,save_name);
             if(Map==NULL)
+            {
                 printf("%s\n",error);
+                getch();
+            }
             break;
         case '3':
             rules_display();
@@ -518,13 +525,10 @@ int main()
                     do //Loop to informe the users to change, and if they want, to save
                     {
                         input_user = ' '; //Reset of the var, because already used before
-                        system("cls");
                         printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press any key)\n",save.team);
                         printf("\n\n\n        Press 'S' to save");
                         input_user = userinput();
-                        printf("\n Black input received\n");
                     }while(input_user!=' ' && input_user!='s');
-                    printf("Change screen done\n");
                     if(input_user=='s') //Procedure to save
                     {
                         do
@@ -544,13 +548,13 @@ int main()
                 {
                     printf("\n\n\n      Congratulations to the blue who won!");
                     game=0;
-                    system("pause");
+                    getch();
                 }
                 else if (save.nb_flag==2)
                 {
                     printf("\n\n\n      Congratulations to the red who won!");
                     game=0;
-                    system("pause");
+                    getch();
                 }
             }while(game); //End of loop while the game ain't finished
             for(int i=0;i<save.line;i++)

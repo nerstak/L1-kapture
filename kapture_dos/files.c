@@ -21,6 +21,11 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
     }
     int line,column;
     fscanf(map_file,"COLUMN= %d,LINE= %d\n",&column,&line);
+    if(line>=50 || line<=10 || column>=80 || column<=5)
+    {
+        strcpy(error,"Incorrect dimension");
+        return NULL;
+    }
     save->column = column;
     save->line = line;
     Map=(data_values **) malloc(save->line*sizeof(data_values *));
