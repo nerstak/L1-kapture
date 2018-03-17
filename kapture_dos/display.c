@@ -14,7 +14,7 @@ void color(int t,int b) //Function to use coloration. First number is text, seco
     SetConsoleTextAttribute(H,b*16+t);
 }
 
-void interface_game(int y,data_values **Map,data_save *save,selection *cursor, int *mov_pts)
+void interface_game(int y,data_values **Map,data_save *save,selection *cursor, int *mov_pts) //Interface while playing
 {
     color(8,0);
     printf(" ");
@@ -66,18 +66,18 @@ void rules_display()
     userinput();
 }
 
-void pre_display(data_values **Map, data_save *save)
+void pre_display(data_values **Map, data_save *save)//Function to choose the spawns, and the display relative to it
 {
     int pcount,pdown=0,color_b,done=1,previous_x=-1,previous_y=-1,possible;
     char team[6]="red", temp[15];
-    char choice,key_input;
+    char choice=' ',key_input;
     selection cursor;
     pcount=strlen(save->pawns);
     cursor.x=cursor.y=2;
     do
     {
-        printf("Do you want to choose the spawn point, or let it be random? (c/r)");
-        scanf("%c",&choice);
+        printf("Do you want to choose the spawn point, or let it be random? (c/r) ");
+        scanf(" %c",&choice);
     }while(choice!='r' && choice!='c');
     do
     {
@@ -127,6 +127,22 @@ void pre_display(data_values **Map, data_save *save)
                         printf("+");
                     }
 
+}
+                color(15,0);
+                switch(i)
+                {
+                    case 0:
+                        printf(" Currently choosing: %s",team);
+                        break;
+                    case 2:
+                        printf(" Move the cursor with the arrow keys");
+                        break;
+                    case 3:
+                        printf(" When the cursor is white, affirm your choice");
+                        break;
+                    case 5:
+                        printf("  by pressing the space bar");
+                        break;
                 }
                 color(0,0);
                 printf("\n");
@@ -189,15 +205,25 @@ void pre_display(data_values **Map, data_save *save)
                     cursor.y++;
                 break;
             case ' ':
-                if(possible)
+                if(possible) //When the user want to choose its spawn
                 {
                     if(strcmp(team,"blue")==0)
                         done=0;
                     sprintf(&temp,"check_for_%c",team[0]); //Generation of checks
-                    Map[cursor.y-2][cursor.x-2].entity='F';
-                    Map[cursor.y-2][cursor.x-2].id=-1;
-                    strcpy(Map[cursor.y-2][cursor.x-2].team,team);
-                    strcpy(Map[cursor.y-2][cursor.x-2].terrain,temp);
+                    if(strcmp(team,"red")==0)
+                    {
+                        Map[cursor.y-2][cursor.x-2].entity='F';
+                        Map[cursor.y-2][cursor.x-2].id=-1;
+                        strcpy(Map[cursor.y-2][cursor.x-2].team,team);
+                        strcpy(Map[cursor.y-2][cursor.x-2].terrain,temp);
+                    }
+                    else
+                    {
+                        Map[cursor.y+2][cursor.x+2].entity='F';
+                        Map[cursor.y+2][cursor.x+2].id=-1;
+                        strcpy(Map[cursor.y+2][cursor.x+2].team,team);
+                        strcpy(Map[cursor.y+2][cursor.x+2].terrain,temp);
+                    }
                     sprintf(&temp,"spawn_%c",team[0]);
                     strcpy(Map[cursor.y][cursor.x].terrain,temp); //Generation of spawn
 

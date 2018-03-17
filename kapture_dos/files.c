@@ -10,7 +10,7 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
 {
     data_values **Map;
     int i, j;
-    char map_path[30],temp[15],pawns[10],mapname[20];
+    char map_path[30],temp[15],pawns[10],mapname[30];
     getDirectory("./maps",nb_map,save);
     sprintf(&map_path,"maps/%s",save->mapname);
     FILE * map_file = NULL;
@@ -22,6 +22,11 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
     }
     int line,column;
     fscanf(map_file,"COLUMN= %d,LINE= %d \n",&column,&line);
+    if(line>=50 || line<=10 || column>=80 || column<=5)
+    {
+        strcpy(error,"Incorrect dimension");
+        return NULL;
+    }
     save->column = column;
     save->line = line;
     Map=(data_values **) malloc(save->line*sizeof(data_values *));
@@ -129,7 +134,7 @@ int displayDirectory(char directory[])
 void getDirectory(char directory[],int n,data_save *save)
 {
     DIR *d;
-    char result[20],please[20];
+    char result[30],please[30];
     struct dirent *dir;
     d = opendir(directory);
     int i = -1;
