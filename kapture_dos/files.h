@@ -23,7 +23,7 @@ typedef struct data_save
         int nb_pawn; //Nb of pawn on each team
         int nb_flag; //Positive : RED; Negative: BLUE. When one of them is |2|, team wins
         char pawns[10]; //Pawn config. e.g. 'ISST'
-        char mapname[20]; //I'm sorry
+        char mapname[25]; //I'm sorry
     }data_save;
 
 data_values ** getMap(int nb_map,data_save *save,char error[]);

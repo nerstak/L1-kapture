@@ -24,6 +24,7 @@ int main()
         do
         {
             system("cls");
+            color(15,0);
             printf("\n\n\n      Please enlarge the window.\n");
             printf("\n\n\n");
             printf("    1: New Game\n");
@@ -220,7 +221,6 @@ int main()
                         printf("\n");
                     }
                     //End of display!
-                    color(7,0);
                     key = userinput(); //Getting input from user
                     if(key=='0')
                     {
@@ -345,6 +345,7 @@ int main()
 
                     //COMBAT and capturing flags
                     system("cls");
+                    color(15,0);
                     for (i=0;i<save.line;i++)
                     {
                         for(j=0;j<save.column;j++)
@@ -542,19 +543,19 @@ int main()
                             strcpy(error," ");
                         }
                     }
-                }
-                system("cls");
-                if(save.nb_flag==-2)
-                {
-                    printf("\n\n\n      Congratulations to the blue who won!");
-                    game=0;
-                    getch();
-                }
-                else if (save.nb_flag==2)
-                {
-                    printf("\n\n\n      Congratulations to the red who won!");
-                    game=0;
-                    getch();
+                    system("cls");
+                    if(save.nb_flag==-2)
+                    {
+                        printf("\n\n\n      Congratulations to the blue who won!");
+                        game=0;
+                        getch();
+                    }
+                    else if (save.nb_flag==2)
+                    {
+                        printf("\n\n\n      Congratulations to the red who won!");
+                        game=0;
+                        getch();
+                    }
                 }
             }while(game); //End of loop while the game ain't finished
             for(int i=0;i<save.line;i++)

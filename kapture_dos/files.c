@@ -10,7 +10,7 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
 {
     data_values **Map;
     int i, j;
-    char map_path[30],temp[15],pawns[10],mapname[30];
+    char map_path[30],temp[15],pawns[10];
     getDirectory("./maps",nb_map,save);
     sprintf(&map_path,"maps/%s",save->mapname);
     FILE * map_file = NULL;
