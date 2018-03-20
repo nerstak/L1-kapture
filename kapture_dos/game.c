@@ -246,7 +246,9 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
         {
             for(j=-1;j<2;j++)
             {
-                if(move_pawn(ypos,xpos,ydest+(i*h),xdest+(j*h),Map,save)==0){
+                if(move_pawn(ypos,xpos,ydest+(i*h),xdest+(j*h),Map,save)==0)
+                {
+                    Map[ydest+(i*h)][xdest+(j*h)].death=1;
                     if(strcmp(flag," ")!=0)
                     {
                         do
@@ -254,12 +256,11 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
                             y=(rand()%3)-1;
                             x=(rand()%3)-1;
                             //printf("spawnend %d %d\n",y,x);
-                            if(posexist(ypos+y,xpos+x,save->column,save->line) && Map[ypos][xpos].entity==' ' && (x!=0 || y!=0))
+                            if(posexist(ypos+y,xpos+x,save->column,save->line) && Map[ypos+y][xpos+x].entity==' ' && (x!=0 || y!=0))
                             {
                                 Map[ypos+y][xpos+x].entity='F';
                                 strcpy(Map[ypos+y][xpos+x].team,flag);
-                                //printf("spawnend\n");
-                                return;
+                                return 0;
                             }
                         }while(1==1);
 

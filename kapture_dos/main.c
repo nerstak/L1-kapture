@@ -115,17 +115,25 @@ int main()
                                 }
                                 if(init_mov_point==1) //We set up the array containing the number of mov's point remaining to each pawn (only when the player change)
                                 {
-                                    switch(Map[i][j].entity)
+                                    if(Map[i][j].death==0)
                                     {
-                                        case 'T':
-                                            mov_point[Map[i][j].id]=2;
-                                            break;
-                                        case 'I':
-                                            mov_point[Map[i][j].id]=3;
-                                            break;
-                                        case 'S':
-                                            mov_point[Map[i][j].id]=5;
-                                            break;
+                                        switch(Map[i][j].entity)
+                                        {
+                                            case 'T':
+                                                mov_point[Map[i][j].id]=2;
+                                                break;
+                                            case 'I':
+                                                mov_point[Map[i][j].id]=3;
+                                                break;
+                                            case 'S':
+                                                mov_point[Map[i][j].id]=5;
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        mov_point[Map[i][j].id]=0;
+                                        Map[i][j].death--;
                                     }
                                 }
                             }
@@ -201,7 +209,7 @@ int main()
                                             color(9,color_b);
                                         }
                                     }
-                                    if(cursor.id==Map[i][j].id && strcmp(Map[i][j].team,save.team)==0)
+                                    if(cursor.id==Map[i][j].id && Map[i][j].entity!='F' && strcmp(Map[i][j].team,save.team)==0)
                                         color(15,color_b);
                                     if(visibility==1)
                                         printf("%c",Map[i][j].entity);
@@ -335,7 +343,7 @@ int main()
                 {
                     if(strcmp(save.team,"red")==0)
                     {
-                        strcpy(save.team,"blue");
+                        strcpy(save.team,"blue"); //THIS LINE IS CHANGING THE VALUE OF save.nb_pawn FOR NO REASON
                     }
                     else if(strcmp(save.team,"blue")==0)
                     {
@@ -377,7 +385,7 @@ int main()
                                                     {
                                                         case 'S':
                                                             if((Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T') && strcmp(Map[i+c][j+d].carrying_flag," ")==0){
-                                                                    printf("%s Scout was defeated by",Map[i][j].team);
+                                                                    printf("%s Scout was defeated by ",Map[i][j].team);
                                                                     print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
                                                                     respawn(i,j,&spawn,Map,&save);
                                                             }
@@ -400,15 +408,14 @@ int main()
                                                                         printf("%s Infantry ",Map[i][j].team);
                                                                         if(rand()%2==0)
                                                                         {
-                                                                            printf("was defeated by ");
+                                                                            printf("defeated %s Infantry",Map[i][j].team);
                                                                             respawn(i,j,&spawn,Map,&save);
                                                                         }
                                                                         else
                                                                         {
-                                                                            printf("defeated ");
+                                                                            printf("defeated %s Infantry",Map[i+c][j+d].team);
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                         }
-                                                                        printf("%s Infantry",Map[i+c][j+d].team);
                                                                         break;
 
                                                                     case 'T':
@@ -526,7 +533,7 @@ int main()
                     do //Loop to informe the users to change, and if they want, to save
                     {
                         input_user = ' '; //Reset of the var, because already used before
-                        printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press any key)\n",save.team);
+                        printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press the space bar)\n",save.team);
                         printf("\n\n\n        Press 'S' to save");
                         input_user = userinput();
                     }while(input_user!=' ' && input_user!='s');

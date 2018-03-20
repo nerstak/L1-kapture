@@ -12,6 +12,7 @@ typedef struct data_values
         int fog; //+1 if red saw it,+2 if blue saw it, 0:none,1:red,2:blue,3:both
         char carrying_flag[6]; //r,b,' '
         int id; //Id of the pawn
+        int death;
     } data_values;
 
 typedef struct data_save
@@ -19,7 +20,7 @@ typedef struct data_save
         int line;
         int column;
         int turn; //Number of the turn
-        char team[4]; //Color of the team who will play
+        char team[6]; //Color of the team who will play
         int nb_pawn; //Nb of pawn on each team
         int nb_flag; //Positive : RED; Negative: BLUE. When one of them is |2|, team wins
         char pawns[10]; //Pawn config. e.g. 'ISST'

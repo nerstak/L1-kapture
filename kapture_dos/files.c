@@ -53,6 +53,7 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
                 Map[i][j].fog=0;
                 Map[i][j].visibility_blue=0;
                 Map[i][j].visibility_red=0;
+                Map[i][j].death=0;
             }
             else
             {
