@@ -63,7 +63,6 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
         }
         fscanf(map_file,"%\n",NULL); //Jump to the next line
     }
-    save->nb_flag=0; //Setting score
     fclose(map_file);
     return Map;
 }

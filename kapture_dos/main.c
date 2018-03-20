@@ -79,7 +79,7 @@ int main()
             selection cursor;
             int *mov_point;
             mov_point = (int *) malloc(save.nb_pawn*sizeof(int));
-            int game = 1; //For the while loop
+            int game = 1,victory=0; //For the while loop
             save.turn = 1; //Same
             int turn,visibility;
             char key;
@@ -408,7 +408,7 @@ int main()
                                                                         printf("%s Infantry ",Map[i][j].team);
                                                                         if(rand()%2==0)
                                                                         {
-                                                                            printf("defeated %s Infantry",Map[i][j].team);
+                                                                            printf("was defeated by %s Infantry",Map[i+c][j+d].team);
                                                                             respawn(i,j,&spawn,Map,&save);
                                                                         }
                                                                         else
@@ -504,11 +504,11 @@ int main()
                                                     {
                                                         if(Map[i][j].team[0]='r')
                                                         {
-                                                            save.nb_flag=2;
+                                                            victory=1;
                                                         }
                                                         else
                                                         {
-                                                            save.nb_flag=-2;
+                                                            victory=-1;
                                                         }
                                                     }
                                                     else if(Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T')
@@ -551,15 +551,15 @@ int main()
                         }
                     }
                     system("cls");
-                    if(save.nb_flag==-2)
+                    if(victory==-1)
                     {
-                        printf("\n\n\n      Congratulations to the blue who won!");
+                        printf("\n\n\n      Congratulations to blue who won!");
                         game=0;
                         getch();
                     }
-                    else if (save.nb_flag==2)
+                    else if (victory==1)
                     {
-                        printf("\n\n\n      Congratulations to the red who won!");
+                        printf("\n\n\n      Congratulations to red who won!");
                         game=0;
                         getch();
                     }

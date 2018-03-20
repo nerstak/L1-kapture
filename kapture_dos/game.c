@@ -222,10 +222,10 @@ int cursor_new_id(int id, data_save *save, data_values **Map) //This function is
         }
 }
 
-void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *save) //This fucks up in some tests later, but I dont know why so i'll ignore it and let karten deal with it
+void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *save) //function to respawn pawns
 {
     //printf("spawnstart\n");
-    int ydest,xdest,i,j,h,y,x;
+    int ydest,xdest,i,j,h,y,x,end=0;
     char flag[6];
     if(strcmp(Map[ypos][xpos].team,"red")==0)
     {
@@ -260,9 +260,9 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
                             {
                                 Map[ypos+y][xpos+x].entity='F';
                                 strcpy(Map[ypos+y][xpos+x].team,flag);
-                                return 0;
+                                end++;
                             }
-                        }while(1==1);
+                        }while(end==0);
 
                     }
 
@@ -271,7 +271,6 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
             }
         }
     }
-    printf("FUCK");
 }
 
 void print_pawn(char pawn,char team[6])

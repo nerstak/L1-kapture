@@ -12,19 +12,18 @@ typedef struct data_values
         int fog; //+1 if red saw it,+2 if blue saw it, 0:none,1:red,2:blue,3:both
         char carrying_flag[6]; //r,b,' '
         int id; //Id of the pawn
-        int death;
+        int death; //1 if the pawn has died in the last turn
     } data_values;
 
 typedef struct data_save
     {
-        int line;
-        int column;
+        int line; //Width of current map
+        int column; //Height of current map
         int turn; //Number of the turn
         char team[6]; //Color of the team who will play
         int nb_pawn; //Nb of pawn on each team
-        int nb_flag; //Positive : RED; Negative: BLUE. When one of them is |2|, team wins
         char pawns[10]; //Pawn config. e.g. 'ISST'
-        char mapname[25]; //I'm sorry
+        char mapname[25]; //Name of the current map
     }data_save;
 
 data_values ** getMap(int nb_map,data_save *save,char error[]);
