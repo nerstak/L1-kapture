@@ -9,4 +9,5 @@ void rules_display();
 
 void pre_display(data_values **Map, data_save *save);
 
+void deleteWall(char *terrain[15]);
 #endif // DISPLAY_H_INCLUDED

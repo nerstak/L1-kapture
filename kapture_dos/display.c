@@ -89,7 +89,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
             {
                 for(int j=0;j<save->column;j++)
                 {
-                    if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
+                    if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"wall")==0 || strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                     {
                         color_b = 10;//Green
                                                             }
@@ -104,7 +104,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     if(i==cursor.y && j==cursor.x)
                     {
                         color_b=15;
-                        if((cursor.y>save->line-3) || (cursor.y<2) || (cursor.x>save->column-3) || (cursor.x<2))
+                        if((cursor.y>save->line-3) || (cursor.y<2) || (cursor.x>save->column-3) || (cursor.x<2) || strcmp(Map[i][j].terrain,"wall")==0)
                         {
                             color_b=12;
                             possible=0;
@@ -125,6 +125,11 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     {
                         color(4,color_b);
                         printf("+");
+                    }
+                    else if(strcmp(Map[i][j].terrain,"wall")==0)
+                    {
+                        color(8,color_b);
+                        printf("#");
                     }
 
 }
@@ -212,6 +217,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     sprintf(&temp,"check_for_%c",team[0]); //Generation of checks
                     if(strcmp(team,"red")==0)
                     {
+                        deleteWall(Map[cursor.y-2][cursor.x-2].terrain);
                         Map[cursor.y-2][cursor.x-2].entity='F';
                         Map[cursor.y-2][cursor.x-2].id=-1;
                         strcpy(Map[cursor.y-2][cursor.x-2].team,team);
@@ -219,6 +225,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     }
                     else
                     {
+                        deleteWall(Map[cursor.y+2][cursor.x+2].terrain);
                         Map[cursor.y+2][cursor.x+2].entity='F';
                         Map[cursor.y+2][cursor.x+2].id=-1;
                         strcpy(Map[cursor.y+2][cursor.x+2].team,team);
@@ -234,6 +241,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     {
                             i = cursor.y-1+b;
                             j = cursor.x-1+a;
+                            deleteWall(Map[i][j].terrain);
                             Map[i][j].entity=save->pawns[pdone];
                             Map[i][j].id=pdone;
                             int bl=Map[i][j].id;
@@ -290,4 +298,12 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
         }
     }while(done);
     save->nb_pawn=pcount;
+}
+
+void deleteWall(char * terrain[15])
+{
+    if(strcmp(terrain,"wall")==0)
+    {
+        strcpy(terrain,"grass");
+    }
 }

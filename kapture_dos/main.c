@@ -160,7 +160,7 @@ int main()
                                 visibility=0;
                             if(Map[i][j].fog==3 || (Map[i][j].fog==1 && strcmp(save.team,"red")==0) || (Map[i][j].fog==2 && strcmp(save.team,"blue")==0)) //First we set the color of the back
                             {
-                                if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
+                                if(strcmp(Map[i][j].terrain,"grass")==0 || strcmp(Map[i][j].terrain,"tree")==0|| strcmp(Map[i][j].terrain,"wall")==0 || strcmp(Map[i][j].terrain,"spawn_r")==0 || strcmp(Map[i][j].terrain,"spawn_b")==0 ) //Giving the color green for grass and tree
                                 {
                                     color_b = 2+visibility*8;//Green
                                                                         }
@@ -188,6 +188,11 @@ int main()
                                 {
                                     color(4,color_b);
                                     printf("+");
+                                }
+                                else if(strcmp(Map[i][j].terrain,"wall")==0)
+                                {
+                                    color(0,color_b);
+                                    printf("#");
                                 }
                             }
                             else //Display entity and their terrain
@@ -530,7 +535,7 @@ int main()
                     }
 
 
-                    do //Loop to informe the users to change, and if they want, to save
+                    do //Loop to inform the users to change, and if they want, to save
                     {
                         input_user = ' '; //Reset of the var, because already used before
                         printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press the space bar)\n",save.team);

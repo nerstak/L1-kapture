@@ -105,7 +105,7 @@ int move_pawn(int ypos,int xpos,int ydest,int xdest,data_values **Map,data_save 
     { //First we check if the movement is possible
         return 1;
     }
-    if(Map[ydest][xdest].entity!=' ')
+    if(Map[ydest][xdest].entity!=' ' || strcmp(Map[ydest][xdest].terrain,"wall")==0)
     {
         return 1;
     }

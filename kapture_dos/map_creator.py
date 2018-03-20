@@ -15,6 +15,8 @@ for i in range(line):
             big_array[i].append("tree")
         elif value[:3]==(0,0,255):
             big_array[i].append("water")
+		elif value[:3]==(0,0,0):
+            big_array[i].append("wall")
         else:
             print("Error at "+str(i)+" "+str(j))
 			

@@ -44,7 +44,7 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
         {
             fscanf(map_file,"%[^,]",&temp);//Get chars until comma
             fseek(map_file,1,SEEK_CUR); //Moving the cursor to the next position
-            if (strcmp(temp,"grass")==0 || strcmp(temp,"tree")==0 || strcmp(temp,"water")==0 || strcmp(temp,"check_for_b")==0 || strcmp(temp,"check_for_r")==0 || strcmp(temp,"spawn_r")==0 || strcmp(temp,"spawn_b")==0)
+            if (strcmp(temp,"grass")==0 || strcmp(temp,"tree")==0 || strcmp(temp,"water")==0 || strcmp(temp,"wall")==0 || strcmp(temp,"check_for_b")==0 || strcmp(temp,"check_for_r")==0 || strcmp(temp,"spawn_r")==0 || strcmp(temp,"spawn_b")==0)
             {
                 strcpy(Map[i][j].terrain,temp);
                 Map[i][j].entity = ' ';
