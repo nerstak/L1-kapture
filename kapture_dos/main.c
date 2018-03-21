@@ -25,8 +25,10 @@ int main()
         {
             system("cls");
             color(15,0);
-            printf("\n\n\n      Please enlarge the window.\n");
-            printf("\n\n\n");
+            printf("\n\n                 Welcome to:");
+            printf("\n       _   __            _\n      | | / /           | |\n      | |/ /  __ _ _ __ | |_ _   _ _ __ ___\n      |    \\ / _` | '_ \\| __| | | | '__/ _ \\ \n      | |\\  \\ (_| | |_) | |_| |_| | | |  __/\n      \\_| \\_/\\__,_| .__/ \\__|\\__,_|_|  \\___|\n                  | |\n                  |_|");
+            printf("\n\n   Please enlarge the window.\n");
+            printf("\n");
             printf("    1: New Game\n");
             printf("    2: Load Save\n");
             printf("    3: Rules\n");

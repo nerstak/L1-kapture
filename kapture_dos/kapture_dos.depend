@@ -46,7 +46,7 @@
 	"files.h"
 	"game.h"
 
-1521659925 source:c:\users\theo\documents\github\kapture\kapture_dos\main.c
+1521660700 source:c:\users\theo\documents\github\kapture\kapture_dos\main.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -69,7 +69,7 @@
 	"game.h"
 	"display.h"
 
-1521659784 source:c:\users\theo\documents\github\kapture\kapture_dos\display.c
+1521662285 source:c:\users\theo\documents\github\kapture\kapture_dos\display.c
 	<windows.h>
 	<stdlib.h>
 	<time.h>
