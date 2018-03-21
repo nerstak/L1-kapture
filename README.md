@@ -32,4 +32,6 @@ Made for Windows
 - [x] Addition of Wall terrain type
 - [x] Penalization on the defeat of a pawn (by preventing him to move during one turn)
 - [x] Conversion of map (in .png) to a .txt file in __Python__
-- [ ] Errors messages (FINISH THAT)
+- [X] Errors messages
+- [X] Wall
+- [X] New pawn: archer (but still buggy against tank)
