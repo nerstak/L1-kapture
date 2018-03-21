@@ -1,5 +1,5 @@
 COLUMN=23,LINE=23
-SSIIT,
+ITAAA,
 grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,tree,tree,tree,grass,grass,grass,grass,grass,grass,grass,grass,
 grass,grass,grass,grass,tree,tree,grass,grass,grass,grass,grass,grass,tree,grass,grass,grass,grass,tree,grass,grass,grass,grass,grass,
 grass,grass,grass,grass,tree,grass,grass,grass,grass,tree,tree,tree,tree,tree,tree,grass,grass,tree,tree,grass,grass,grass,grass,

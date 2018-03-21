@@ -1,5 +1,5 @@
 COLUMN=19,LINE=19
-IIIT,
+IIITA,
 grass,grass,grass,grass,tree,tree,grass,grass,tree,grass,tree,grass,grass,tree,tree,grass,grass,grass,grass,
 grass,grass,grass,grass,tree,grass,grass,grass,grass,tree,grass,grass,grass,grass,tree,grass,grass,grass,grass,
 grass,grass,grass,grass,grass,grass,grass,wall,grass,wall,grass,wall,grass,grass,grass,grass,grass,grass,grass,

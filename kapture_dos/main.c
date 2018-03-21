@@ -128,6 +128,9 @@ int main()
                                             case 'S':
                                                 mov_point[Map[i][j].id]=5;
                                                 break;
+                                            case 'A':
+                                                mov_point[Map[i][j].id]=4;
+                                                break;
                                         }
                                     }
                                     else
@@ -379,17 +382,80 @@ int main()
                                 {
                                     for(d=-1;d<2;d++)
                                     {
+                                        int archerShot=0;
+                                        if(Map[i][j].entity=='A' && strcmp(Map[i][j].carrying_flag," ")==0)
+                                        {
+                                            if((c*d==0 && c+d!=0) && posexist(i+2*c,j+2*d,save.line,save.column))
+                                            {
+                                                if(Map[i+2*c][j+2*d].entity!='F' && Map[i+2*c][j+2*d].entity!=' ' && strcmp(Map[i][j].team,Map[i+2*c][j+2*d].team)!=0)
+                                                {
+                                                    if(Map[i+2*c][j+2*d].fog==3 || (Map[i+2*c][j+2*d].fog==1 && strcmp(save.team,"red")==0) || (Map[i+2*c][j+2*d].fog==2 && strcmp(save.team,"blue")==0))
+                                                    {
+                                                        archerShot=1;
+                                                    }
+                                                }
+                                            }
+                                        }
                                         if(posexist(i+c,j+d,save.line,save.column))
                                         {
-                                            if(Map[i+c][j+d].entity!=' ' && (strcmp(Map[i][j].team,Map[i+c][j+d].team)!=0 || Map[i+c][j+d].entity=='F')  && Map[i][j].entity!=' ')
+                                            if(Map[i+c][j+d].entity!=' ' && (strcmp(Map[i][j].team,Map[i+c][j+d].team)!=0 || Map[i+c][j+d].entity=='F') || archerShot)
                                             {
 
                                                 if(strcmp(Map[i][j].carrying_flag," ")==0)
                                                 {
                                                     switch(Map[i][j].entity)
                                                     {
+                                                        case 'A':
+                                                            if(archerShot)
+                                                            {
+                                                                printf("%s Archer shot ",Map[i][j].team);
+                                                                print_pawn(Map[i+2*c][j+2*d].entity,Map[i+2*c][j+2*d].team);
+                                                                if(Map[i+2*c][j+2*d].entity=='I' || Map[i+2*c][j+2*d].entity=='S' || Map[i+2*c][j+2*d].entity=='T' && strcmp(Map[i+c][j+d].carrying_flag," ")!=0)
+                                                                {
+                                                                    if(strcmp(Map[i+c][j+d].carrying_flag," ")!=0)
+                                                                    {
+                                                                        printf(" and made them drop their flag!");
+                                                                    }
+                                                                    respawn(i+2*c,j+2*d,&spawn,Map,&save);
+                                                                }
+                                                                else if(Map[i+c][j+d].entity=='T' && strcmp(Map[i+c][j+d].carrying_flag," ")==0)
+                                                                {
+                                                                    if(move_pawn(i+2*c,j+2*d,i+3*c,j+3*d,Map,&save)==1)
+                                                                    {
+                                                                        respawn(i+2*c,j+2*d,&spawn,Map,&save);
+                                                                        printf(" and defeated them");
+                                                                    }
+                                                                    if(move_pawn(i+3*c,j+3*d,i+4*c,j+4*d,Map,&save)==1)
+                                                                    {
+                                                                        respawn(i+3*c,j+3*d,&spawn,Map,&save);
+                                                                        printf(" and defeated them");
+                                                                    }
+                                                                }
+                                                                printf("\n");
+                                                            }
+                                                            if((Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T') && strcmp(Map[i+c][j+d].carrying_flag," ")==0 && strcmp(Map[i][j].team,Map[i+c][j+d].team)!=0)
+                                                            {
+                                                                    printf("%s Archer was defeated by ",Map[i][j].team);
+                                                                    print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
+                                                                    respawn(i,j,&spawn,Map,&save);
+                                                            }
+                                                            else if(Map[i+c][j+d].entity=='F')
+                                                            {
+                                                                if(Map[i+c][j+d].terrain[10]!=Map[i][j].team[0])
+                                                                    {
+                                                                        printf("%s Archer ",Map[i][j].team);
+                                                                        printf("grabbed %s FLAG!",Map[i+c][j+d].team);
+                                                                        Map[i+c][j+d].entity=' ';
+                                                                        strcpy(Map[i][j].carrying_flag,Map[i+c][j+d].team);
+                                                                        strcpy(Map[i+c][j+d].team," ");
+                                                                        Map[i+c][j+d].id=NULL;
+                                                                    }
+                                                            }
+                                                            break;
+
                                                         case 'S':
-                                                            if((Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T') && strcmp(Map[i+c][j+d].carrying_flag," ")==0){
+                                                            if((Map[i+c][j+d].entity=='I' || Map[i+c][j+d].entity=='T') && strcmp(Map[i+c][j+d].carrying_flag," ")==0)
+                                                            {
                                                                     printf("%s Scout was defeated by ",Map[i][j].team);
                                                                     print_pawn(Map[i+c][j+d].entity,Map[i+c][j+d].team);
                                                                     respawn(i,j,&spawn,Map,&save);
@@ -473,7 +539,7 @@ int main()
                                                                         {
                                                                             respawn(i,j,&spawn,Map,&save);
                                                                         }
-                                                                        if(move_pawn(i+c,j+d,i+c+c,j+d+d,Map,&save)==1)
+                                                                        if(move_pawn(i+c,j+d,i+2*c,j+2*d,Map,&save)==1)
                                                                         {
                                                                             respawn(i+c,j+d,&spawn,Map,&save);
                                                                         }

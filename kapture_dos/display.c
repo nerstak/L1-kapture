@@ -39,6 +39,10 @@ void interface_game(int y,data_values **Map,data_save *save,selection *cursor, i
         case 'I':
             printf(" Infantryman: ");
             break;
+        case 'A':
+            printf(" Archer: ");
+            break;
+
         }
         printf("%d",mov_pts[cursor->id]);
     }

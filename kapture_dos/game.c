@@ -198,6 +198,9 @@ int cost_terrain(int ypos,int xpos,data_values **Map)//Function to get the cost 
                 case 'S':
                     cost=5;
                     break;
+                case 'A':
+                    cost=5;
+                    break;
             }
             break;
         default:
@@ -279,17 +282,20 @@ void print_pawn(char pawn,char team[6])
     switch(pawn)
     {
         case 'T':
-                printf("Trooper");
-                break;
-            case 'I':
-                printf("Infantry");
-                break;
-            case 'S':
-                printf("Scout");
-                break;
-            case 'F':
-                printf("Flag");
-                break;
+            printf("Trooper");
+            break;
+        case 'I':
+            printf("Infantry");
+            break;
+        case 'S':
+            printf("Scout");
+            break;
+        case 'F':
+            printf("Flag");
+            break;
+        case 'A':
+            printf("Archer");
+            break;
     }
     return;
 }

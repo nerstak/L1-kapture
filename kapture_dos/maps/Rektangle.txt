@@ -1,5 +1,5 @@
 COLUMN=31,LINE=17
-STTI,
+STTIA,
 grass,grass,grass,grass,grass,grass,grass,grass,water,water,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,water,water,grass,grass,grass,grass,grass,grass,grass,grass,
 grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,tree,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,
 grass,grass,grass,grass,grass,grass,water,grass,grass,grass,grass,grass,grass,grass,tree,tree,tree,grass,grass,grass,grass,grass,grass,grass,water,grass,grass,grass,grass,grass,grass,

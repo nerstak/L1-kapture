@@ -1,5 +1,5 @@
 COLUMN=21,LINE=21
-TIIIS,
+TIIAS,
 water,grass,grass,grass,grass,grass,grass,tree,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,
 water,water,grass,grass,grass,grass,grass,grass,tree,tree,grass,grass,tree,tree,grass,grass,grass,grass,grass,grass,grass,
 water,grass,grass,grass,tree,tree,grass,tree,tree,tree,tree,grass,tree,tree,tree,grass,grass,grass,grass,grass,grass,

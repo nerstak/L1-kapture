@@ -1,5 +1,5 @@
 COLUMN=21,LINE=21
-IIIIT,
+IIIIAT,
 water,water,water,water,water,water,water,water,water,water,water,tree,tree,water,water,water,water,water,water,water,water,
 water,tree,tree,grass,grass,grass,grass,water,water,water,tree,grass,grass,water,water,water,water,water,water,water,water,
 water,water,water,grass,grass,water,water,water,water,water,grass,tree,water,water,water,water,grass,tree,water,water,water,

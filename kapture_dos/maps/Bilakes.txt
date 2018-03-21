@@ -1,5 +1,5 @@
 COLUMN=21,LINE=21
-IITS,
+IITSA,
 tree,grass,grass,water,water,grass,water,water,tree,tree,grass,tree,tree,water,water,grass,water,water,grass,grass,tree,
 tree,tree,grass,water,water,water,water,water,tree,grass,water,grass,tree,water,water,water,water,water,grass,tree,tree,
 tree,tree,grass,grass,water,water,water,water,water,water,water,water,water,water,water,water,water,grass,grass,tree,tree,
