@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1521661699 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
+1521665366 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\main.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -61,7 +61,7 @@
 
 1521654492 c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\display.h
 
-1521662319 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\display.c
+1521665366 source:c:\users\user\documents\cours\efrei\l1\semestre 2\programmation\kapture\kapture_dos\display.c
 	<windows.h>
 	<stdlib.h>
 	<time.h>

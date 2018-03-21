@@ -199,7 +199,7 @@ int cost_terrain(int ypos,int xpos,data_values **Map)//Function to get the cost 
                     cost=5;
                     break;
                 case 'A':
-                    cost=5;
+                    cost=4;
                     break;
             }
             break;
