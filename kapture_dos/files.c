@@ -38,6 +38,12 @@ data_values ** getMap(int nb_map, data_save *save,char error[])
     fseek(map_file,1,SEEK_CUR); //Moving the cursor to the next position
     fscanf(map_file,"%\n",NULL); //Jump to the next line
     strcpy(save->pawns,pawns);
+    for(i=0;i<strlen(pawns);i++)
+        if(pawns[i]!='A' && pawns[i]!='S' && pawns[i]!='I' && pawns[i]!='T')
+        {
+            strcpy(error,"Pawns configuration invalid");
+            return NULL;
+        }
     for(i=0;i<save->line;i++)
     {
         for(j=0;j<save->column;j++)

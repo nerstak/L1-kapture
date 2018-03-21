@@ -294,6 +294,13 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                                 b++;
                             }
                     }
+                    if(choice=='c')
+                    {
+                        system("cls");
+                        color(15,0);
+                        printf("\n\n\n      Placement of the team %s done",team);
+                        getch();
+                    }
                     strcpy(&team,"blue");
                     previous_x=cursor.x;
                     previous_y=cursor.y;
