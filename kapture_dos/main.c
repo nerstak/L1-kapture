@@ -427,7 +427,7 @@ int main()
                                                                         respawn(i+2*c,j+2*d,&spawn,Map,&save);
                                                                         printf(" and defeated them");
                                                                     }
-                                                                    if(move_pawn(i+3*c,j+3*d,i+4*c,j+4*d,Map,&save)==1)
+                                                                    else if(move_pawn(i+3*c,j+3*d,i+4*c,j+4*d,Map,&save)==1)
                                                                     {
                                                                         respawn(i+3*c,j+3*d,&spawn,Map,&save);
                                                                         printf(" and defeated them");
