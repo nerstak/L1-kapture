@@ -420,7 +420,7 @@ int main()
                                                                     }
                                                                     respawn(i+2*c,j+2*d,&spawn,Map,&save);
                                                                 }
-                                                                else if(Map[i+c][j+d].entity=='T' && strcmp(Map[i+c][j+d].carrying_flag," ")==0)
+                                                                else if(Map[i+2*c][j+2*d].entity=='T' && strcmp(Map[i+2*c][j+2*d].carrying_flag," ")==0)
                                                                 {
                                                                     if(move_pawn(i+2*c,j+2*d,i+3*c,j+3*d,Map,&save)==1)
                                                                     {
