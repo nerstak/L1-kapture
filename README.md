@@ -24,10 +24,12 @@ Made for Windows
 - [x] Catching & capturing Flags
 - [x] Fog of war and visibility (fog zone has been widen)
 - [x] Conditions of victory
-### Specifics to our work:
+### Specific to our product:
 - [x] Severals maps (size, field and composition of teams) stored in text files
 - [x] Cursor to select a pawn for movements
 - [x] Movements of pawns through numeric pad
+- [x] Addition of Archer pawn
+- [x] Addition of Wall terrain type
 - [x] Penalization on the defeat of a pawn (by preventing him to move during one turn)
 - [x] Conversion of map (in .png) to a .txt file in __Python__
 - [ ] Errors messages (FINISH THAT)
