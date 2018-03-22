@@ -132,7 +132,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     }
                     else if(strcmp(Map[i][j].terrain,"wall")==0)
                     {
-                        color(8,color_b);
+                        color(0,color_b);
                         printf("#");
                     }
 
@@ -304,6 +304,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     strcpy(&team,"blue");
                     previous_x=cursor.x;
                     previous_y=cursor.y;
+                    cursor.x=cursor.y=2;
                 }
                 break;
         }
