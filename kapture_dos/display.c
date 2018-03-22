@@ -160,7 +160,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
         }
         else
         {
-            if(previous_x==-1)
+            if(previous_x==-1) //Set red spawn in random mode
             {
                 srand(time(NULL));
                 int band=rand()%4;
@@ -187,7 +187,7 @@ void pre_display(data_values **Map, data_save *save)//Function to choose the spa
                     }while(cursor.y<2 || cursor.y>save->line-3);
                 }
             }
-            else
+            else //In random, the position of the 2 spawns are symetric
             {
                 cursor.x=save->column-previous_x-1;
                 cursor.y=save->line-previous_y-1;

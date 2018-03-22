@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <errno.h> //Remove once project finished
 #include <conio.h>
 #include <time.h>
 
@@ -11,7 +10,7 @@
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(NULL)); //Init for random
     data_values **Map;
     data_save save;
     spawn_coord spawn;
@@ -53,7 +52,7 @@ int main()
                 getch();
             }
             else
-                pre_display(Map,&save); //For spawn points
+                pre_display(Map,&save); //Init of the spawns points
             strcpy(save.team,"red"); //Init of the save in the RAM
             break;
         case '2':
@@ -135,7 +134,7 @@ int main()
                                                 break;
                                         }
                                     }
-                                    else
+                                    else //If a pawn died
                                     {
                                         mov_point[Map[i][j].id]=0;
                                         Map[i][j].death--;
@@ -353,7 +352,7 @@ int main()
                 {
                     if(strcmp(save.team,"red")==0)
                     {
-                        strcpy(save.team,"blue"); //THIS LINE IS CHANGING THE VALUE OF save.nb_pawn FOR NO REASON
+                        strcpy(save.team,"blue");
                     }
                     else if(strcmp(save.team,"blue")==0)
                     {
