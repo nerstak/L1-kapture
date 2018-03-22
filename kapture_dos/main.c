@@ -602,13 +602,12 @@ int main()
                     }
 
 
-                    do //Loop to inform the users to change, and if they want, to save
-                    {
-                        input_user = ' '; //Reset of the var, because already used before
-                        printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press the space bar)\n",save.team);
-                        printf("\n\n\n        Press 'S' to save");
-                        input_user = userinput();
-                    }while(input_user!=' ' && input_user!='s');
+                    //To inform the users to change, and if they want, to save
+                    input_user = ' '; //Reset of the var, because already used before
+                    printf("\n\n        OBJECTION. IT IS NOW TIME FOR PLAYER %s TO PLAY.\n\n (if you agreed on every registration term, please press the space bar)\n",save.team);
+                    printf("\n\n\n        Press 'S' to save");
+                    input_user = userinput();
+
                     if(input_user=='s') //Procedure to save
                     {
                         do
