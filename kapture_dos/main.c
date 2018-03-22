@@ -388,7 +388,7 @@ int main()
                                         {
                                             if((c*d==0 && c+d!=0) && posexist(i+2*c,j+2*d,save.line,save.column))
                                             {
-                                                if(Map[i+2*c][j+2*d].entity!='F' && Map[i+2*c][j+2*d].entity!=' ' && strcmp(Map[i][j].team,Map[i+2*c][j+2*d].team)!=0)
+                                                if(Map[i+2*c][j+2*d].entity!='F' && Map[i+2*c][j+2*d].entity!=' ' && strcmp(Map[i][j].team,Map[i+2*c][j+2*d].team)!=0 && strcmp(Map[i+c][j+d].terrain,"wall")!=0)
                                                 {
                                                     if(Map[i+2*c][j+2*d].fog==3 || (Map[i+2*c][j+2*d].fog==1 && strcmp(save.team,"red")==0) || (Map[i+2*c][j+2*d].fog==2 && strcmp(save.team,"blue")==0))
                                                     {
