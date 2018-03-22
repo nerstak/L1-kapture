@@ -6,7 +6,7 @@
 
 /*All functions concerning reading or writing a file, or data saved in RAM*/
 
-data_values ** getMap(int nb_map, data_save *save,char error[])
+data_values ** getMap(int nb_map, data_save *save,char error[]) //Load Map
 {
     data_values **Map;
     int i, j;
@@ -137,7 +137,7 @@ int displayDirectory(char directory[])
     return i;
 }
 
-void getDirectory(char directory[],int n,data_save *save)
+void getDirectory(char directory[],int n,data_save *save) //Get the n-th file name of directory
 {
     DIR *d;
     char result[30],please[30];

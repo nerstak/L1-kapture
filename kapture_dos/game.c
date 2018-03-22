@@ -227,7 +227,6 @@ int cursor_new_id(int id, data_save *save, data_values **Map) //This function is
 
 void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *save) //function to respawn pawns
 {
-    //printf("spawnstart\n");
     int ydest,xdest,i,j,h,y,x,end=0;
     char flag[6];
     if(strcmp(Map[ypos][xpos].team,"red")==0)
@@ -242,7 +241,7 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
     }
     strcpy(flag,Map[ypos][xpos].carrying_flag);
     strcpy(Map[ypos][xpos].carrying_flag," ");
-    for(h=1;h<4;h++)
+    for(h=1;h<4;h++) //Loops to choose an empty cell around the spawn
     {
 
         for(i=-1;i<2;i++)
@@ -258,7 +257,6 @@ void respawn(int ypos,int xpos,spawn_coord *spawn,data_values **Map,data_save *s
                         {
                             y=(rand()%3)-1;
                             x=(rand()%3)-1;
-                            //printf("spawnend %d %d\n",y,x);
                             if(posexist(ypos+y,xpos+x,save->column,save->line) && Map[ypos+y][xpos+x].entity==' ' && (x!=0 || y!=0))
                             {
                                 Map[ypos+y][xpos+x].entity='F';
